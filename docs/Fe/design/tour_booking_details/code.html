@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tour Booking Details</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111518] dark:text-white antialiased">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f0f3f4] dark:border-b-gray-800 bg-white dark:bg-[#101a22] px-10 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#111518] dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+</svg>
+</div>
+<h2 class="text-[#111518] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">AdventureCo</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-[#111518] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-[#111518] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tours</a>
+<a class="text-[#111518] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-[#111518] dark:text-gray-300 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Blog</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<label class="hidden lg:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#617989] dark:text-gray-400 flex border-none bg-[#f0f3f4] dark:bg-gray-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111518] dark:text-white focus:outline-0 focus:ring-0 border-none bg-[#f0f3f4] dark:bg-gray-800 focus:border-none h-full placeholder:text-[#617989] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Search tours..." value=""/>
+</div>
+</label>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-white dark:ring-gray-800 shadow-sm" data-alt="User profile avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCHqUY0bRCBfsIay5C_XVL8untUXgI8MJ4uCbNoA3PpcFPYkCpWTBoqiveShv7GmOzDHWpvaIuFzH7Ke7cURau1_1TccG22TvOc6utoPQgIBY1oyxztt6m8RzyWkHTZjtsNprlacnnvrm0efRKOhmgsVL58GYoMVD2SNAjPOAWSB8Ni3Ew1AiREVVDsNX9_9vqL1iim9sR98TfrWhQWau6lRruNO0IqIGa1OlIXsZX2rxUoDOwJf7Lj0iieW1Tq2Cp8Z98qtXHoamno");'></div>
+</div>
+</header>
+<main class="flex flex-col flex-1 px-4 md:px-10 lg:px-40 py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] w-full mx-auto flex-1 gap-8">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 items-center text-sm">
+<a class="text-[#617989] dark:text-gray-400 font-medium hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-[#617989] dark:text-gray-400">/</span>
+<a class="text-[#617989] dark:text-gray-400 font-medium hover:text-primary transition-colors" href="#">Europe</a>
+<span class="text-[#617989] dark:text-gray-400">/</span>
+<span class="text-[#111518] dark:text-white font-medium">Norway Tours</span>
+</div>
+<!-- Page Heading -->
+<div class="flex flex-col gap-2">
+<h1 class="text-[#111518] dark:text-white text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-[-0.033em]">3-Day Kayaking Adventure in Norway</h1>
+<div class="flex flex-wrap items-center gap-4 text-[#617989] dark:text-gray-400 text-sm md:text-base">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+<span>Geirangerfjord, Norway</span>
+</div>
+<span class="w-1 h-1 rounded-full bg-gray-300"></span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-yellow-500 text-[20px]">star</span>
+<span class="font-bold text-[#111518] dark:text-white">4.9</span>
+<span>(245 reviews)</span>
+</div>
+<span class="w-1 h-1 rounded-full bg-gray-300"></span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[#617989] dark:text-gray-400 text-[20px]">schedule</span>
+<span>3 Days</span>
+</div>
+</div>
+</div>
+<!-- Image Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-3 h-[400px] md:h-[500px] overflow-hidden rounded-xl">
+<div class="col-span-1 md:col-span-2 md:row-span-2 h-full">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover hover:scale-105 transition-transform duration-500 cursor-pointer" data-alt="Kayaker paddling in a serene fjord with mountains in background" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDsttCwmvPyiVRbpHOiS6Q9--D_4Ib-0LllKSEPepcSzY-0p6ZlvT0LE6OKVYg7wowHLfmmNDXLN_yu7WAHnVtdAhPmsr5SZOootg1AtuZR6XCJIuwnNGewVFveOhtMFz9ip-vxv87iDiy__EqCk6Rntk9a_UKXqIeb_DzTpDu7rUklXQwZFUxttF2Wkf7KrKBiP9LhTCLjP1pMYhV8UUkGfd70Ru-4hp79jftZylLERaaVt9MGvBMHS4SsHd0mTn87CbdH2jmaE7uY");'></div>
+</div>
+<div class="col-span-1 md:col-span-1 md:row-span-1 h-full">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover hover:scale-105 transition-transform duration-500 cursor-pointer" data-alt="Aerial view of winding road through mountains" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuChYAs_e-o-Cydr6t4qryUKmSvKeTPU1ndKxE2ms2QwNGQq-VUAZNhnztCVmrPT_lj0NdfG3iOCNmQ3BvCihqWn8MeKFAv8nWMHea8ocMPLYsNtnrRfFHMQbsCT4u_6tN0olIXOHvJvEcg92Tte4hN5gv_XRrrQYCN5gfmfBEZyO-mRRX5_ZIdEE_JebN5EvXZdSOtyGKg8BTMvdVDXV0h4lvm5pPG3TI1jWFR9E98b3xXkcUILCh2eVb_yyi895MgllJqb6fl5fgTD");'></div>
+</div>
+<div class="col-span-1 md:col-span-1 md:row-span-1 h-full">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover hover:scale-105 transition-transform duration-500 cursor-pointer" data-alt="Cozy wooden cabin interior with fireplace" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9yeRxnoRSAD4aE8S5sI5A1HbXtvsY2_WUn-U3thrn1ow3d2jYbSq95Na8sR77lWDnMNg75x6RiBs8zaEdw1em1tWGU30VIc5Ss2iVqHQVJrHS58AMWUS6Kd0-e0ciYqZoQ7f3vdZsYa-4kn5uMl5nVaLLACdPBeNLd7hzLdnvYoRLG13GnhTk4mSfODn9aNCn-xy4iw1AsEo1Oxecoc-k9dn8AcBhd0_3wSKcjVRwtLpHikNSUKhogfhZ3Ydzjl13DlDG3c0B6gpv");'></div>
+</div>
+<div class="col-span-1 md:col-span-1 md:row-span-1 h-full hidden md:block">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover hover:scale-105 transition-transform duration-500 cursor-pointer" data-alt="Group of hikers on a mountain peak looking at view" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDV583P_4iW4IGAbtN2LV7_uSjz1C88Rt9iMKql9wkfjwloY-3SOFOjnLG4Jl036sSoJ-WLJVjf3NQ1eapGVSAmFIZ7PLIIgmwykYC9KM12JBt-6_3UFNX0_oKhuwcYJ6VnSFMrmLslUQGAB4hcS9DMorWAUg1DWdsq3oCx7pa0OywJ1DiDyiH4WycrgVP504PjRuiDfMaoUeWqJlHcA46vILQSVhZ_qZBeGKRSFOpvrmwjeXpGRG_yEo_oo7ZH3geS5TyzPeeULVjV");'></div>
+</div>
+<div class="col-span-1 md:col-span-1 md:row-span-1 h-full relative hidden md:block">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover hover:scale-105 transition-transform duration-500 cursor-pointer" data-alt="Northern lights over a snowy landscape" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCpVHAL21E__-8z0iMlSqvqvXQhqVZtc5E87G2UVEMU6uYyLBUZdx6JOSNGl_DHacDw1X9tH4-VC6_gohX4YrWRVhIeXMY0-ikXzzXvXw5MOyW1NFrjKU7sY3bH6bZZVT5PexuVnTpk2Zrz0AnTXBpJbitDAHsNNnYhH-wVVEAS3xqRJEnCmVghlUEe7zlY8OmxLQyzVOa8S_rrkpV7vjuJE8WPCtfqySmf1vtvEEGQKp0kGJz0L4zUup0ZIvefdysJUOWD8hbB_GQT");'></div>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center cursor-pointer hover:bg-black/50 transition-colors">
+<span class="text-white font-bold text-lg">+ 12 Photos</span>
+</div>
+</div>
+</div>
+<!-- Main Layout: Content + Sidebar -->
+<div class="flex flex-col lg:flex-row gap-10 lg:gap-16 relative">
+<!-- Left Column: Content -->
+<div class="flex-1 flex flex-col gap-10">
+<!-- Highlights -->
+<section>
+<h3 class="text-2xl font-bold text-[#111518] dark:text-white mb-4">Experience Highlights</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-start gap-3 p-4 bg-white dark:bg-[#1a2632] rounded-lg border border-[#f0f3f4] dark:border-gray-800">
+<span class="material-symbols-outlined text-primary mt-0.5">kayaking</span>
+<div>
+<p class="font-bold text-[#111518] dark:text-white">Paddle through fjords</p>
+<p class="text-sm text-[#617989] dark:text-gray-400">Explore UNESCO World Heritage sites from the water.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 bg-white dark:bg-[#1a2632] rounded-lg border border-[#f0f3f4] dark:border-gray-800">
+<span class="material-symbols-outlined text-primary mt-0.5">hiking</span>
+<div>
+<p class="font-bold text-[#111518] dark:text-white">Scenic Hiking</p>
+<p class="text-sm text-[#617989] dark:text-gray-400">Guided hikes to spectacular viewpoints.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 bg-white dark:bg-[#1a2632] rounded-lg border border-[#f0f3f4] dark:border-gray-800">
+<span class="material-symbols-outlined text-primary mt-0.5">restaurant</span>
+<div>
+<p class="font-bold text-[#111518] dark:text-white">Local Cuisine</p>
+<p class="text-sm text-[#617989] dark:text-gray-400">Enjoy traditional Norwegian meals prepared outdoors.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-4 bg-white dark:bg-[#1a2632] rounded-lg border border-[#f0f3f4] dark:border-gray-800">
+<span class="material-symbols-outlined text-primary mt-0.5">group</span>
+<div>
+<p class="font-bold text-[#111518] dark:text-white">Small Groups</p>
+<p class="text-sm text-[#617989] dark:text-gray-400">Intimate experience with max 8 participants.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Description -->
+<section>
+<h3 class="text-2xl font-bold text-[#111518] dark:text-white mb-4">About this tour</h3>
+<p class="text-[#617989] dark:text-gray-300 leading-relaxed mb-4">
+                            Immerse yourself in the breathtaking beauty of the Norwegian fjords on this 3-day guided kayaking adventure. Starting from the historic village of Geiranger, we'll paddle through crystal-clear waters, past thundering waterfalls like the Seven Sisters and the Suitor. 
+                        </p>
+<p class="text-[#617989] dark:text-gray-300 leading-relaxed">
+                            Nights will be spent in comfortable wilderness camps or cozy mountain cabins, where you can relax by the fire and share stories. Whether you're a seasoned paddler or a beginner, our expert guides ensure a safe and unforgettable journey into the heart of nature.
+                        </p>
+</section>
+<!-- Itinerary -->
+<section>
+<h3 class="text-2xl font-bold text-[#111518] dark:text-white mb-6">Itinerary</h3>
+<div class="flex flex-col gap-6 pl-4 border-l-2 border-[#e5e7eb] dark:border-gray-700">
+<div class="relative pl-6">
+<div class="absolute -left-[21px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-[#101a22]"></div>
+<h4 class="text-lg font-bold text-[#111518] dark:text-white">Day 1: Arrival &amp; First Paddle</h4>
+<p class="text-[#617989] dark:text-gray-400 mt-2">Meet at Geiranger harbor at 09:00 AM. Safety briefing and equipment fitting. Paddle to Skageflå farm for a lunch break and hike.</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute -left-[21px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-[#101a22]"></div>
+<h4 class="text-lg font-bold text-[#111518] dark:text-white">Day 2: Deep Fjord Exploration</h4>
+<p class="text-[#617989] dark:text-gray-400 mt-2">Full day of kayaking deep into the fjord arms where large ships cannot go. Spot local wildlife including eagles and porpoises.</p>
+</div>
+<div class="relative pl-6">
+<div class="absolute -left-[21px] top-1 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-[#101a22]"></div>
+<h4 class="text-lg font-bold text-[#111518] dark:text-white">Day 3: Return &amp; Farewell</h4>
+<p class="text-[#617989] dark:text-gray-400 mt-2">Morning paddle back towards civilization. Final group lunch and debriefing. Tour concludes approx 3:00 PM.</p>
+</div>
+</div>
+</section>
+<!-- What's included -->
+<section>
+<h3 class="text-2xl font-bold text-[#111518] dark:text-white mb-4">What's Included</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8">
+<div class="flex items-center gap-3 text-[#111518] dark:text-gray-200">
+<span class="material-symbols-outlined text-green-500 text-[20px]">check_circle</span>
+<span>Professional English-speaking guide</span>
+</div>
+<div class="flex items-center gap-3 text-[#111518] dark:text-gray-200">
+<span class="material-symbols-outlined text-green-500 text-[20px]">check_circle</span>
+<span>All kayaking equipment (kayak, paddle, vest)</span>
+</div>
+<div class="flex items-center gap-3 text-[#111518] dark:text-gray-200">
+<span class="material-symbols-outlined text-green-500 text-[20px]">check_circle</span>
+<span>2 nights accommodation</span>
+</div>
+<div class="flex items-center gap-3 text-[#111518] dark:text-gray-200">
+<span class="material-symbols-outlined text-green-500 text-[20px]">check_circle</span>
+<span>All meals (Breakfast, Lunch, Dinner)</span>
+</div>
+<div class="flex items-center gap-3 text-[#617989] dark:text-gray-500">
+<span class="material-symbols-outlined text-red-400 text-[20px]">cancel</span>
+<span>Travel insurance</span>
+</div>
+<div class="flex items-center gap-3 text-[#617989] dark:text-gray-500">
+<span class="material-symbols-outlined text-red-400 text-[20px]">cancel</span>
+<span>Flights to/from Norway</span>
+</div>
+</div>
+</section>
+<!-- Location Map Placeholder -->
+<section>
+<h3 class="text-2xl font-bold text-[#111518] dark:text-white mb-4">Meeting Point</h3>
+<div class="w-full h-64 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-800 relative">
+<div class="w-full h-full bg-cover bg-center" data-alt="Map showing Geirangerfjord area" data-location="Geiranger, Norway" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkpfuF1Pi578kBD38QdU0-3xE4J0N-dYsuI4Q-Cvx9LmdiVo4oqmBqAnpzPY-uSW-z0gSrmGV2LkgAQVPhGFjqmMMgFJW3o-NBbOLKc8vBo6RWW6h6A_7hdlTnTHHaW15WL6kpObuG_rcAweb7JYjFseb4BVVU6zevcuoGcSk9JlGecZBXReEm70wJZjPx34E_yGWXGXCUr-9kDlJgyHjtKBevrF7Has2vtyfb01UVPcWgctWHZrpndj_VHL-UmdwlyK55MWjLpfwi");'></div>
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center">
+<button class="bg-white text-primary px-4 py-2 rounded-full font-bold shadow-lg hover:bg-gray-50 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">map</span>
+                                     View on Map
+                                 </button>
+</div>
+</div>
+<p class="mt-3 text-[#617989] dark:text-gray-400 text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">pin_drop</span>
+                             Geiranger Kayak Center, Homlong Mølle, 6216 Geiranger
+                         </p>
+</section>
+</div>
+<!-- Right Column: Sticky Booking Card -->
+<div class="lg:w-[380px] shrink-0">
+<div class="sticky top-28 flex flex-col gap-4">
+<div class="bg-white dark:bg-[#1a2632] rounded-xl shadow-lg border border-[#f0f3f4] dark:border-gray-800 p-6">
+<!-- Price Header -->
+<div class="flex items-end gap-2 mb-6">
+<span class="text-3xl font-extrabold text-primary">$1,200</span>
+<span class="text-[#617989] dark:text-gray-400 pb-1 font-medium">/ person</span>
+</div>
+<!-- Availability Alert -->
+<div class="flex items-center gap-2 text-amber-600 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 rounded-lg mb-6 text-sm font-medium border border-amber-100 dark:border-amber-900/30">
+<span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+<span>Only 3 spots left for this date!</span>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-5">
+<!-- Date Picker -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#111518] dark:text-white">Select Date</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-500">calendar_today</span>
+</div>
+<select class="block w-full pl-10 pr-10 py-3 text-base border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-[#f0f3f4] dark:bg-gray-800 dark:text-white">
+<option>Oct 12 - Oct 14, 2023</option>
+<option>Oct 19 - Oct 21, 2023</option>
+<option>Oct 26 - Oct 28, 2023</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-500">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Guests -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-[#111518] dark:text-white">Participants</label>
+<div class="flex items-center justify-between bg-[#f0f3f4] dark:bg-gray-800 rounded-lg p-1.5 border border-gray-300 dark:border-gray-700">
+<button class="w-10 h-10 flex items-center justify-center rounded-md bg-white dark:bg-[#101a22] text-[#111518] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<span class="font-bold text-lg text-[#111518] dark:text-white">2</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-md bg-white dark:bg-[#101a22] text-primary hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+<!-- Summary -->
+<div class="flex flex-col gap-2 py-4 border-t border-b border-dashed border-gray-200 dark:border-gray-700 my-1">
+<div class="flex justify-between text-sm text-[#617989] dark:text-gray-400">
+<span>$1,200 x 2 participants</span>
+<span>$2,400</span>
+</div>
+<div class="flex justify-between text-sm text-[#617989] dark:text-gray-400">
+<span>Service fee</span>
+<span>$0</span>
+</div>
+<div class="flex justify-between text-base font-bold text-[#111518] dark:text-white mt-2">
+<span>Total</span>
+<span>$2,400</span>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all transform active:scale-[0.98] flex items-center justify-center gap-2" type="button">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+                                    Book Tour
+                                </button>
+<p class="text-center text-xs text-[#617989] dark:text-gray-400">
+                                    You won't be charged yet
+                                </p>
+</form>
+</div>
+<!-- Trust Badges -->
+<div class="bg-gray-50 dark:bg-[#1a2632]/50 p-4 rounded-xl flex items-center justify-center gap-6">
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[#617989] dark:text-gray-400">verified_user</span>
+<span class="text-[10px] uppercase font-bold text-[#617989] dark:text-gray-400 tracking-wider">Secure</span>
+</div>
+<div class="h-8 w-[1px] bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[#617989] dark:text-gray-400">thumb_up</span>
+<span class="text-[10px] uppercase font-bold text-[#617989] dark:text-gray-400 tracking-wider">Verified</span>
+</div>
+<div class="h-8 w-[1px] bg-gray-200 dark:bg-gray-700"></div>
+<div class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[#617989] dark:text-gray-400">support_agent</span>
+<span class="text-[10px] uppercase font-bold text-[#617989] dark:text-gray-400 tracking-wider">24/7 Help</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="bg-white dark:bg-[#1a2632] border-t border-[#f0f3f4] dark:border-gray-800 py-12 px-10 mt-12">
+<div class="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-4 text-[#111518] dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+</svg>
+</div>
+<h2 class="text-[#111518] dark:text-white text-lg font-bold">AdventureCo</h2>
+</div>
+<p class="text-sm text-[#617989] dark:text-gray-400">© 2023 AdventureCo Inc. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FAQ &amp; Support - TourBooker</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom styles for accordion transition */
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111518] dark:text-white antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111a22] px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-[#111518] dark:text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined text-3xl">travel_explore</span>
+</div>
+<h2 class="text-[#111518] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">TourBooker</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 hidden md:flex">
+<div class="flex items-center gap-9">
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tours</a>
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Deals</a>
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors">
+<span class="truncate">Log In</span>
+</button>
+</div>
+<div class="md:hidden text-[#111518] dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</div>
+</header>
+<!-- Main Content Wrapper -->
+<main class="flex-1 flex flex-col">
+<!-- Hero Search Section -->
+<div class="w-full bg-white dark:bg-[#111a22]">
+<div class="relative flex flex-col items-center justify-center py-16 px-4 md:px-10 gap-8 bg-cover bg-center" data-alt="Scenic landscape of mountains and lake with mist" style='background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDRLsul1yQTPDs9T4Mp3qLdiiuNh3CJXXNrOVvRrKAjFVxdZlQvuFUc0BRZlV1pNpoza06rLZuIQkXFupePmUF3jxvhG9mdaBEBhto9dzX0DEFAqetwP7r2mUHKQa8eGX9zfX6qRubo5cjeKDZa1TSY5dkyaUGIMStYWfFKmMzleTmyK9-RFtIwEwmN_S1pOkIuzRdyVa1eGlLNAsx2wzjH_BbvaY6Zd9OGsGcGKZgtp8-2aLmAL5XPv-jFEqiQWxCq8S5jZFgnQo8K");'>
+<div class="flex flex-col gap-4 text-center max-w-3xl z-10">
+<h1 class="text-white text-4xl md:text-5xl font-black leading-tight tracking-tight">
+                            Hello! How can we help you today?
+                        </h1>
+<p class="text-gray-200 text-base md:text-lg font-medium">
+                            Find answers to your questions about bookings, tours, and more.
+                        </p>
+</div>
+<div class="w-full max-w-2xl z-10">
+<label class="flex w-full items-center bg-white rounded-xl shadow-lg h-14 md:h-16 px-4 focus-within:ring-2 focus-within:ring-primary/50 transition-all">
+<span class="material-symbols-outlined text-gray-400 text-2xl">search</span>
+<input class="w-full h-full bg-transparent border-none focus:ring-0 text-[#111518] placeholder-gray-400 text-base px-4" placeholder="Search for answers (e.g., 'refund policy', 'meeting point')..." type="text"/>
+<button class="bg-primary hover:bg-blue-600 text-white font-bold h-10 px-6 rounded-lg text-sm transition-colors">
+                                Search
+                            </button>
+</label>
+</div>
+</div>
+</div>
+<!-- Breadcrumbs -->
+<div class="w-full px-4 md:px-40 py-4 bg-background-light dark:bg-background-dark">
+<div class="max-w-[1200px] mx-auto flex gap-2 text-sm">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-gray-400">/</span>
+<span class="text-[#111518] dark:text-white font-medium">Support Center</span>
+</div>
+</div>
+<!-- Content Container -->
+<div class="w-full px-4 md:px-40 pb-20">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-12">
+<!-- Categories Grid -->
+<section>
+<h2 class="text-[#111518] dark:text-white text-2xl font-bold leading-tight tracking-tight mb-6">Browse by Topic</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Category Card 1 -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1e2936] border border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:shadow-md transition-all cursor-pointer">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">credit_card</span>
+</div>
+<div>
+<h3 class="text-[#111518] dark:text-white text-lg font-bold mb-1">Booking &amp; Payments</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Manage your reservations and payment methods.</p>
+</div>
+</div>
+<!-- Category Card 2 -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1e2936] border border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:shadow-md transition-all cursor-pointer">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">event_busy</span>
+</div>
+<div>
+<h3 class="text-[#111518] dark:text-white text-lg font-bold mb-1">Cancellations</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Understand our refund policies and change options.</p>
+</div>
+</div>
+<!-- Category Card 3 -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1e2936] border border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:shadow-md transition-all cursor-pointer">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">map</span>
+</div>
+<div>
+<h3 class="text-[#111518] dark:text-white text-lg font-bold mb-1">Tour Details</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Itineraries, meeting points, and what to bring.</p>
+</div>
+</div>
+<!-- Category Card 4 -->
+<div class="group flex flex-col gap-4 p-6 rounded-xl bg-white dark:bg-[#1e2936] border border-gray-200 dark:border-gray-700 hover:border-primary/50 hover:shadow-md transition-all cursor-pointer">
+<div class="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">manage_accounts</span>
+</div>
+<div>
+<h3 class="text-[#111518] dark:text-white text-lg font-bold mb-1">Account</h3>
+<p class="text-gray-500 dark:text-gray-400 text-sm">Profile settings, passwords, and preferences.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Popular FAQs Accordion -->
+<section class="grid lg:grid-cols-3 gap-10">
+<div class="lg:col-span-2">
+<h2 class="text-[#111518] dark:text-white text-2xl font-bold leading-tight tracking-tight mb-6">Frequently Asked Questions</h2>
+<div class="flex flex-col gap-4">
+<!-- Question 1 -->
+<details class="group bg-white dark:bg-[#1e2936] rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+<summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+<h3 class="text-[#111518] dark:text-white font-bold text-lg">Can I cancel my booking for a full refund?</h3>
+<span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
+                                        Most tours offer a full refund if canceled at least 24 hours in advance of the start date. However, some special events or multi-day tours may have stricter policies. Please check the specific "Cancellation Policy" section on your tour's booking page for exact details.
+                                    </div>
+</details>
+<!-- Question 2 -->
+<details class="group bg-white dark:bg-[#1e2936] rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+<summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+<h3 class="text-[#111518] dark:text-white font-bold text-lg">What happens if it rains during the tour?</h3>
+<span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
+                                        Our tours generally operate rain or shine! We recommend checking the forecast and dressing appropriately. In the event of extreme weather conditions where safety is a concern, the tour operator may cancel. In such cases, you will be offered a rescheduling option or a full refund.
+                                    </div>
+</details>
+<!-- Question 3 -->
+<details class="group bg-white dark:bg-[#1e2936] rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+<summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+<h3 class="text-[#111518] dark:text-white font-bold text-lg">Do you offer hotel pick-up services?</h3>
+<span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
+                                        Pick-up services vary by tour. Many of our day trips include hotel pick-up and drop-off from select downtown locations. You can see if "Hotel Pickup" is included in the "Inclusions" section of the tour description. If not, a central meeting point will be provided.
+                                    </div>
+</details>
+<!-- Question 4 -->
+<details class="group bg-white dark:bg-[#1e2936] rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+<summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+<h3 class="text-[#111518] dark:text-white font-bold text-lg">How do I receive my tickets?</h3>
+<span class="material-symbols-outlined text-gray-400 group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-gray-600 dark:text-gray-300 leading-relaxed">
+                                        Once your booking is confirmed, you will receive an email with a voucher. This voucher serves as your ticket. You can present it on your mobile device or print it out to show the guide at the meeting point.
+                                    </div>
+</details>
+</div>
+<div class="mt-6">
+<button class="text-primary font-bold hover:underline flex items-center gap-1">
+                                    View all FAQs
+                                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Sidebar / Additional Help -->
+<div class="flex flex-col gap-6">
+<div class="bg-[#f0f9ff] dark:bg-[#162a3b] p-6 rounded-xl border border-blue-100 dark:border-blue-900">
+<h3 class="text-[#111518] dark:text-white font-bold text-xl mb-2">Still need help?</h3>
+<p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Our support team is available 24/7 to assist you with any questions.</p>
+<div class="flex flex-col gap-4">
+<a class="flex items-center gap-4 p-4 bg-white dark:bg-[#111a22] rounded-lg shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="size-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-[#111518] dark:text-white">Live Chat</h4>
+<p class="text-xs text-gray-500">Wait time: ~2 mins</p>
+</div>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 p-4 bg-white dark:bg-[#111a22] rounded-lg shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="size-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-[#111518] dark:text-white">Call Us</h4>
+<p class="text-xs text-gray-500">+1 (800) 123-4567</p>
+</div>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</a>
+<a class="flex items-center gap-4 p-4 bg-white dark:bg-[#111a22] rounded-lg shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="size-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-[#111518] dark:text-white">Email Us</h4>
+<p class="text-xs text-gray-500">Response in 24h</p>
+</div>
+<span class="material-symbols-outlined text-gray-400">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Support Direct Cards (Alternative Layout for smaller screens or emphasis) -->
+<section class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+<div class="text-center mb-8">
+<h2 class="text-[#111518] dark:text-white text-2xl font-bold">Can't find what you're looking for?</h2>
+<p class="text-gray-500 dark:text-gray-400 mt-2">Reach out to our customer support team directly.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="flex flex-col items-center p-6 text-center bg-white dark:bg-[#1e2936] rounded-xl border border-gray-200 dark:border-gray-700">
+<div class="size-14 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-3xl">headset_mic</span>
+</div>
+<h3 class="font-bold text-lg text-[#111518] dark:text-white">Customer Support</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4 mt-2">Speak directly with an agent for immediate help.</p>
+<button class="w-full py-2 px-4 rounded-lg bg-primary hover:bg-blue-600 text-white font-bold text-sm transition-colors">Call Support</button>
+</div>
+<div class="flex flex-col items-center p-6 text-center bg-white dark:bg-[#1e2936] rounded-xl border border-gray-200 dark:border-gray-700">
+<div class="size-14 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-3xl">forum</span>
+</div>
+<h3 class="font-bold text-lg text-[#111518] dark:text-white">Live Chat</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4 mt-2">Chat with our bot or a human agent instantly.</p>
+<button class="w-full py-2 px-4 rounded-lg bg-white border border-gray-300 dark:bg-transparent dark:border-gray-600 text-[#111518] dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Start Chat</button>
+</div>
+<div class="flex flex-col items-center p-6 text-center bg-white dark:bg-[#1e2936] rounded-xl border border-gray-200 dark:border-gray-700">
+<div class="size-14 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
+<span class="material-symbols-outlined text-3xl">alternate_email</span>
+</div>
+<h3 class="font-bold text-lg text-[#111518] dark:text-white">Email Support</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4 mt-2">Send us a detailed inquiry and we'll reply soon.</p>
+<button class="w-full py-2 px-4 rounded-lg bg-white border border-gray-300 dark:bg-transparent dark:border-gray-600 text-[#111518] dark:text-white font-bold text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Send Email</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-[#111a22] border-t border-gray-200 dark:border-gray-800 py-10 px-10">
+<div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2 text-[#111518] dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
+</div>
+<h2 class="text-lg font-bold">TourBooker</h2>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">Making your travel dreams a reality with easy booking and 24/7 support.</p>
+</div>
+<div>
+<h3 class="font-bold text-[#111518] dark:text-white mb-4">Company</h3>
+<ul class="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400">
+<li><a class="hover:text-primary" href="#">About Us</a></li>
+<li><a class="hover:text-primary" href="#">Careers</a></li>
+<li><a class="hover:text-primary" href="#">Blog</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-[#111518] dark:text-white mb-4">Support</h3>
+<ul class="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400">
+<li><a class="hover:text-primary" href="#">Help Center</a></li>
+<li><a class="hover:text-primary" href="#">Cancellation Policy</a></li>
+<li><a class="hover:text-primary" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-[#111518] dark:text-white mb-4">Legal</h3>
+<ul class="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400">
+<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto mt-10 pt-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500">
+                © 2023 TourBooker. All rights reserved.
+            </div>
+</footer>
+<!-- Sticky Chat Button -->
+<button class="fixed bottom-6 right-6 z-50 bg-primary hover:bg-blue-600 text-white rounded-full p-4 shadow-xl transition-all hover:scale-105 flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">chat_bubble</span>
+</button>
+</div>
+</body></html>

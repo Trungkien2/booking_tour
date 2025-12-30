@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tour Confirmation - TravelCo</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1c2b36",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col text-slate-900 dark:text-slate-100">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-card-dark px-4 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">travel_explore</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">TravelCo</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<div class="flex items-center gap-9">
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tours</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Deals</a>
+<a class="text-slate-900 dark:text-slate-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-slate-100 dark:border-slate-700" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgDnLfTpMn5biy3cHz1EkvTMBADW6UnRzIaw4mxRpiVL1-4qoi677MJBP3Kf0h7AbyyBE6nFInLydj5pnSi8bVEXFiVu4I16EVja1SPh_tnFhz1osDiyz_ZTv0itGilADvSOexhLVy2JB-CCt1_oyKqRA9rhffgMIaHxVTdENdqPL7nqKP9c_h69rVAVlJas1ZzDdfiRZdzpa2BbwribaOQNlw6qr_JSnAmkji3mjvljGIU3QQVsNJp3FedaEdmLzhinSbGf29rZiy");'></div>
+</div>
+<!-- Mobile Menu Icon -->
+<button class="md:hidden text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+<!-- LEFT COLUMN: Confirmation & Actions -->
+<div class="lg:col-span-7 flex flex-col gap-8">
+<!-- Success Header -->
+<div class="flex flex-col items-start gap-4">
+<div class="flex items-center gap-3">
+<div class="rounded-full bg-green-100 dark:bg-green-900/30 p-2 text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-4xl filled">check_circle</span>
+</div>
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-bold tracking-tight">Booking Confirmed!</h1>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed max-w-2xl">
+                        Success! Your adventure is locked in. We've sent a detailed confirmation email to <span class="font-semibold text-slate-900 dark:text-white">alex.doe@example.com</span>.
+                    </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap gap-4">
+<button class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-sm shadow-blue-500/20 w-full sm:w-auto">
+<span class="material-symbols-outlined">calendar_month</span>
+                        Manage Booking
+                    </button>
+<button class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white dark:bg-card-dark border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold rounded-lg transition-all w-full sm:w-auto">
+<span class="material-symbols-outlined">receipt_long</span>
+                        Download Invoice
+                    </button>
+<button class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary font-medium transition-all w-full sm:w-auto">
+<span class="material-symbols-outlined">print</span>
+                        Print
+                    </button>
+</div>
+<hr class="border-slate-200 dark:border-slate-800 my-2"/>
+<!-- Next Steps Timeline -->
+<div class="flex flex-col gap-6">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">What happens next?</h3>
+<div class="relative pl-4 border-l-2 border-slate-200 dark:border-slate-700 space-y-8">
+<!-- Step 1 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-0 bg-white dark:bg-background-dark p-1">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">mail</span>
+</div>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white text-lg">Check your email</h4>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Your e-ticket and receipt have been sent. Please keep them handy.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-0 bg-white dark:bg-background-dark p-1">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">map</span>
+</div>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white text-lg">Review meeting point</h4>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Check the map link in your itinerary to see exactly where to meet your guide.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-0 bg-white dark:bg-background-dark p-1">
+<div class="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">directions_bus</span>
+</div>
+</div>
+<h4 class="font-bold text-slate-900 dark:text-white text-lg">Prepare for pickup</h4>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Please be ready in the lobby 10 minutes before the scheduled pickup time.</p>
+</div>
+</div>
+</div>
+<!-- Help Section -->
+<div class="mt-4 p-6 bg-primary/5 dark:bg-primary/10 border border-primary/10 rounded-xl flex flex-col sm:flex-row items-start sm:items-center gap-4">
+<div class="bg-white dark:bg-primary/20 p-3 rounded-full text-primary shadow-sm">
+<span class="material-symbols-outlined text-2xl">support_agent</span>
+</div>
+<div class="flex-1">
+<h4 class="font-bold text-slate-900 dark:text-white">Need help with your booking?</h4>
+<p class="text-sm text-slate-600 dark:text-slate-300 mt-1">Our support team is available 24/7 to assist you with any changes.</p>
+</div>
+<a class="text-primary font-semibold text-sm hover:underline whitespace-nowrap" href="#">Contact Support →</a>
+</div>
+</div>
+<!-- RIGHT COLUMN: Booking Summary Card -->
+<div class="lg:col-span-5">
+<div class="sticky top-24 bg-white dark:bg-card-dark rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none overflow-hidden border border-slate-100 dark:border-slate-800">
+<!-- Card Header -->
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white">Booking Summary</h3>
+<div class="px-3 py-1 bg-white dark:bg-slate-700 rounded-full border border-slate-200 dark:border-slate-600 text-xs font-mono font-medium text-slate-600 dark:text-slate-300 tracking-wide flex items-center gap-1">
+<span class="text-slate-400">REF:</span> #TR-8839
+                            <span class="material-symbols-outlined text-[14px] ml-1 cursor-pointer hover:text-primary" title="Copy">content_copy</span>
+</div>
+</div>
+<!-- Tour Preview -->
+<div class="p-6 pb-0">
+<div class="flex flex-col gap-4">
+<div class="w-full h-48 rounded-xl bg-cover bg-center relative group overflow-hidden" data-alt="Scenic view of a traditional temple in Kyoto surrounded by autumn foliage" data-location="Kyoto, Japan" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqXgBrI9WLfoY-Hqe-yKnHOTt64-tBhz0a-SsYF2sVpQH-i3X13ge4Uzu7qyD43l84rc1jC6Hmzxk3-17ryhv5omtMwpXZDfIV3I-UgIOyajIkGj5UWeIimJ0yFCr6n7h-BGmtHzjyIAN5vE5c8GHOL7JdQ30n8Bl8HcdYA0MWdvqVVTrfzGk7WMR0Io4bfdcPyCVGyN5k3fLmI4lw5XuOhud9kzbXkNE9bC4VGR72ml0N9sNYv_ET9-Teo4SbRl4XS8Fo1-zXXz9C');">
+<div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded text-slate-900 dark:text-white shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-green-600">verified</span> Confirmed
+                                 </div>
+</div>
+<div>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white leading-tight">Kyoto Ancient Temples &amp; Gardens Tour</h2>
+<div class="flex items-center gap-1 mt-1 text-slate-500 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Kyoto, Japan</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Details List -->
+<div class="p-6 space-y-4">
+<div class="grid grid-cols-2 gap-4 text-sm">
+<div class="flex flex-col gap-1 pb-4 border-b border-slate-100 dark:border-slate-800">
+<span class="text-slate-500 dark:text-slate-400">Date</span>
+<span class="font-semibold text-slate-900 dark:text-white">Oct 12, 2023</span>
+</div>
+<div class="flex flex-col gap-1 pb-4 border-b border-slate-100 dark:border-slate-800">
+<span class="text-slate-500 dark:text-slate-400">Duration</span>
+<span class="font-semibold text-slate-900 dark:text-white">3 Days</span>
+</div>
+<div class="flex flex-col gap-1 pb-4 border-b border-slate-100 dark:border-slate-800">
+<span class="text-slate-500 dark:text-slate-400">Participants</span>
+<span class="font-semibold text-slate-900 dark:text-white">2 Adults, 1 Child</span>
+</div>
+<div class="flex flex-col gap-1 pb-4 border-b border-slate-100 dark:border-slate-800">
+<span class="text-slate-500 dark:text-slate-400">Start Time</span>
+<span class="font-semibold text-slate-900 dark:text-white">09:00 AM</span>
+</div>
+</div>
+<!-- Price Breakdown -->
+<div class="pt-2 flex flex-col gap-2">
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-600 dark:text-slate-400">Adult (x2)</span>
+<span class="font-medium text-slate-900 dark:text-white">$300.00</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-600 dark:text-slate-400">Child (x1)</span>
+<span class="font-medium text-slate-900 dark:text-white">$100.00</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-600 dark:text-slate-400">Taxes &amp; Fees</span>
+<span class="font-medium text-slate-900 dark:text-white">$50.00</span>
+</div>
+</div>
+<!-- Total -->
+<div class="pt-4 mt-2 border-t border-dashed border-slate-300 dark:border-slate-700">
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="text-sm text-slate-500 dark:text-slate-400">Total Paid</span>
+<span class="text-xs text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check</span> Visa **** 4242
+                                    </span>
+</div>
+<span class="text-2xl font-extrabold text-slate-900 dark:text-white">$450.00</span>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 border-t border-slate-100 dark:border-slate-800 text-center">
+<a class="text-primary text-sm font-semibold hover:underline" href="#">View cancellation policy</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer spacer for visual balance -->
+<div class="h-12 w-full"></div>
+</body></html>

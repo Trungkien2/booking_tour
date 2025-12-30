@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TourAdmin - Tour Management</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1c2b36",
+                        "text-main": "#111518",
+                        "text-secondary": "#617989",
+                        "border-light": "#f0f3f4",
+                        "border-dark": "#2a3b47",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"],
+                        "body": ["Plus Jakarta Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white font-display overflow-x-hidden min-h-screen flex flex-col">
+<!-- Top Navbar -->
+<header class="sticky top-0 z-50 bg-surface-light dark:bg-surface-dark border-b border-border-light dark:border-border-dark px-4 sm:px-10 py-3 flex items-center justify-between whitespace-nowrap">
+<div class="flex items-center gap-4 text-text-main dark:text-white">
+<div class="size-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">travel_explore</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">TourAdmin</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium text-primary" href="#">Tours</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Bookings</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Users</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-border-light dark:border-border-dark" data-alt="User profile avatar showing a smiling person" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDrGW2y1uWEp4A25X7VA1s_FPlfyRX9zfEZDDFpBwX-AFq8Ibdco1dxvrJBJmBhdhK6dpiV7hsb04pvaQ75gKHelt2AJvnCtdWy-AUSK6K8XCIdDh5Me7mP5cQ3gLB6lW60ttAXCK5UChLhndS7d-AZI3HOgphZHjs3vN9h8-A2cIQ5diCgTXT3EBknz8Nk_JRrL2AdquduqDzJfbgq3UZCcOtAkki45EGRnHC27K0eiVaUDd334M3kdsLyA_AS3I-lfDGLG0R1ziAM");'>
+</div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="flex-1 flex justify-center py-5 px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col max-w-[1440px] w-full gap-6">
+<!-- Page Heading & Actions -->
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-3xl font-black leading-tight tracking-[-0.033em] text-text-main dark:text-white">Tour Management</h1>
+<p class="text-text-secondary dark:text-gray-400 text-base font-normal">Manage listings, inventory, and pricing details.</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-6 bg-primary text-white text-sm font-bold shadow-md hover:bg-blue-600 transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span>Add New Tour</span>
+</button>
+</div>
+<!-- Stats Section -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary dark:text-gray-400 text-sm font-medium">Total Tours</p>
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-2xl font-bold">45</p>
+<p class="text-[#078838] text-sm font-medium">+2%</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary dark:text-gray-400 text-sm font-medium">Active Tours</p>
+<span class="material-symbols-outlined text-blue-400">public</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-2xl font-bold">32</p>
+<p class="text-text-secondary dark:text-gray-400 text-sm font-medium">0%</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary dark:text-gray-400 text-sm font-medium">Drafts</p>
+<span class="material-symbols-outlined text-orange-400">edit_note</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-2xl font-bold">8</p>
+<p class="text-[#078838] text-sm font-medium">+10%</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-6 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex items-center justify-between">
+<p class="text-text-secondary dark:text-gray-400 text-sm font-medium">Fully Booked</p>
+<span class="material-symbols-outlined text-red-500">event_busy</span>
+</div>
+<div class="flex items-baseline gap-2">
+<p class="text-2xl font-bold">5</p>
+<p class="text-[#e73908] text-sm font-medium">-5%</p>
+</div>
+</div>
+</div>
+<!-- Main Content Grid: Table & Form -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column: Tour List -->
+<div class="xl:col-span-2 flex flex-col gap-4">
+<!-- Toolbar -->
+<div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark shadow-sm">
+<label class="relative flex items-center w-full sm:max-w-xs">
+<span class="absolute left-3 text-text-secondary dark:text-gray-400 material-symbols-outlined">search</span>
+<input class="w-full bg-background-light dark:bg-background-dark border-none rounded-lg py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary dark:text-white placeholder:text-text-secondary" placeholder="Search tours..." type="text"/>
+</label>
+<div class="flex gap-2 overflow-x-auto w-full sm:w-auto no-scrollbar">
+<button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-primary/10 text-primary text-sm font-medium border border-primary/20">All Status</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-background-light dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-700 text-text-secondary dark:text-gray-400 text-sm font-medium border border-transparent">Published</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-background-light dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-700 text-text-secondary dark:text-gray-400 text-sm font-medium border border-transparent">Draft</button>
+<button class="whitespace-nowrap px-3 py-1.5 rounded-lg bg-background-light dark:bg-background-dark hover:bg-gray-200 dark:hover:bg-gray-700 text-text-secondary dark:text-gray-400 text-sm font-medium border border-transparent">Archived</button>
+</div>
+</div>
+<!-- Table -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-background-light dark:bg-background-dark border-b border-border-light dark:border-border-dark">
+<tr>
+<th class="px-6 py-4 font-semibold text-text-secondary dark:text-gray-400">Tour Name</th>
+<th class="px-6 py-4 font-semibold text-text-secondary dark:text-gray-400">Price</th>
+<th class="px-6 py-4 font-semibold text-text-secondary dark:text-gray-400">Slots</th>
+<th class="px-6 py-4 font-semibold text-text-secondary dark:text-gray-400">Status</th>
+<th class="px-6 py-4 font-semibold text-text-secondary dark:text-gray-400 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light dark:divide-border-dark">
+<!-- Row 1 -->
+<tr class="group hover:bg-background-light dark:hover:bg-background-dark transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-12 w-16 rounded-lg bg-cover bg-center shrink-0" data-alt="Sunny tropical beach with palm trees" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAa5YXFceGBOZueKUNXoi53zrPtYpNXWMtae3oFleGrzLOHNj6F7jc7kJAC5lgHnOSvEN8FyFVHVbuaZYkOG0niTYtiz1KMR52wyT1K1paf-AWJER8WfJKv2nJgiiX5QXYFZczCm-HZ_QHfuDYSezfWfxhzho2Q9FSjqolbiCQ3NTdJHyZJeghlqqT_wAiDuf2JwKPFMA3ybPsyeYQ7liZZ0q7pchGO2FDmUNjoSNJpbIclzWRgN8Bko6eHW-y-rXgukQm7-StgKkJu');"></div>
+<div>
+<p class="font-bold text-text-main dark:text-white">Bali Sunset Retreat</p>
+<p class="text-xs text-text-secondary dark:text-gray-400" data-location="Bali, Indonesia">Bali, Indonesia • 5 Days</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-medium text-text-main dark:text-white">$1,200</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1 w-24">
+<div class="flex justify-between text-xs text-text-secondary dark:text-gray-400">
+<span>4/15</span>
+<span>Left</span>
+</div>
+<div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-green-500 w-[73%]"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                                Active
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-text-secondary hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-background-light dark:hover:bg-background-dark transition-colors cursor-pointer bg-blue-50/50 dark:bg-blue-900/10 border-l-4 border-l-primary">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-12 w-16 rounded-lg bg-cover bg-center shrink-0" data-alt="Mountain landscape with hikers" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6xei67wYq4vFEaxLABhYYomaVVpvNvmttDcS4BGlJpaFxRWBLcKbjPCD-dNOpcyjjWftxlEbrUp2vP0HxrqIwT2Jj1eMQ0c27SLDvECqFpAS0AEh_ljDEoI5GyGzCLHJm-90yUqAiapqTSXMzpMdvCaM07vRtL2svjH2d1wIlvoRFSXxOAckLZv4wJjmMkHIITZomtvI0bWCGm15iDl0Di0bhC0Fe_BZ-corQ-A79OzeVEvgejud7I-Yw-jdPoDlGVeGVOD9p4Yh0');"></div>
+<div>
+<p class="font-bold text-text-main dark:text-white">Swiss Alps Hiking</p>
+<p class="text-xs text-text-secondary dark:text-gray-400" data-location="Zermatt, Switzerland">Zermatt, Switzerland • 7 Days</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-medium text-text-main dark:text-white">$2,450</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1 w-24">
+<div class="flex justify-between text-xs text-text-secondary dark:text-gray-400">
+<span>12/12</span>
+<span class="text-red-500 font-bold">Full</span>
+</div>
+<div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-red-500 w-full"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                                Editing
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 transition-opacity">
+<button class="p-1.5 bg-white dark:bg-surface-dark shadow-sm border border-border-light dark:border-border-dark rounded text-primary hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-text-secondary hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-background-light dark:hover:bg-background-dark transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-12 w-16 rounded-lg bg-cover bg-center shrink-0" data-alt="Kyoto street with cherry blossoms" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9g_RBtJAKrfb7HUw7mPu8FDQZdr5_bMlYIU3ZO6ces75DZZLjtfC6eYPubAVeBQhQ4qNp23hHrj21Kt1Vx--7mm74JG2ALBsELuNuOuNJjlIck_Q2vL7ibNojBXO_bjlmZuneMtaBcl7nJwGLyGCPhI3tIVHyeJWD76OxKirnHCso8FXBlR2GSlDsDWW1Hba3RUlc9sZL4VudHdyEcfoGCG8-rwJ56-n1hXKwn7UmSFVZJVlKup19J94ajcWuTvjNDGe1VuVywS9u');"></div>
+<div>
+<p class="font-bold text-text-main dark:text-white">Kyoto Cultural Dive</p>
+<p class="text-xs text-text-secondary dark:text-gray-400" data-location="Kyoto, Japan">Kyoto, Japan • 10 Days</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-medium text-text-main dark:text-white">$1,850</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1 w-24">
+<div class="flex justify-between text-xs text-text-secondary dark:text-gray-400">
+<span>8/20</span>
+<span>Left</span>
+</div>
+<div class="h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full bg-green-500 w-[60%]"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                                Draft
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-text-secondary hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-background-light dark:hover:bg-background-dark transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-12 w-16 rounded-lg bg-cover bg-center shrink-0 grayscale" data-alt="Desert safari with camels" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA5GeQUpexStm3ewg3J7qNOB8LFBbIbYMe64zqA3Oudzhb25ntuuGhpGgvMlZ0UM8uJn59lV1lkALVkXZgNns9aR6PhtlAkVt89qWvBdedHc9QdJGqP9_bMP-9Cr2TEePr7bERPJSrU0-_ulwFtdOMGK57RdGtvfpzwtgP9lIMUKZcK_lBa6eoMIUKcaQyklo4d_xRupHws5PLV_NS7J3dB0p_fq8vO_LqVvXyITxdSn1mhiQttWXUR7ylyk9Sz-t8g1UEHvC4uVSt6');"></div>
+<div>
+<p class="font-bold text-text-secondary dark:text-gray-500">Sahara Expedition</p>
+<p class="text-xs text-text-secondary dark:text-gray-500" data-location="Morocco">Morocco • 4 Days</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-medium text-text-secondary dark:text-gray-500">$890</td>
+<td class="px-6 py-4">
+<span class="text-xs text-text-secondary">--</span>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                                Archived
+                                            </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">unarchive</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between px-6 py-4 border-t border-border-light dark:border-border-dark">
+<p class="text-sm text-text-secondary dark:text-gray-400">Showing 1 to 4 of 45 results</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-sm rounded border border-border-light dark:border-border-dark text-text-secondary disabled:opacity-50" disabled="">Previous</button>
+<button class="px-3 py-1 text-sm rounded bg-primary text-white">1</button>
+<button class="px-3 py-1 text-sm rounded border border-border-light dark:border-border-dark text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800">2</button>
+<button class="px-3 py-1 text-sm rounded border border-border-light dark:border-border-dark text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800">3</button>
+<button class="px-3 py-1 text-sm rounded border border-border-light dark:border-border-dark text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Add/Edit Form -->
+<div class="xl:col-span-1">
+<div class="sticky top-24 bg-surface-light dark:bg-surface-dark rounded-xl border border-border-light dark:border-border-dark shadow-lg overflow-hidden flex flex-col h-auto">
+<div class="px-6 py-4 border-b border-border-light dark:border-border-dark flex justify-between items-center bg-gray-50 dark:bg-gray-800/50">
+<h3 class="font-bold text-lg text-text-main dark:text-white">Edit Tour</h3>
+<div class="flex gap-2">
+<button class="text-text-secondary hover:text-text-main dark:hover:text-white"><span class="material-symbols-outlined">close</span></button>
+</div>
+</div>
+<div class="p-6 flex-1 overflow-y-auto max-h-[calc(100vh-200px)] custom-scrollbar">
+<form class="flex flex-col gap-5">
+<!-- Image Upload -->
+<div class="w-full h-40 rounded-lg border-2 border-dashed border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark flex flex-col items-center justify-center text-text-secondary cursor-pointer hover:border-primary transition-colors group relative overflow-hidden">
+<!-- Pre-filled Image Visual -->
+<div class="absolute inset-0 bg-cover bg-center opacity-50 group-hover:opacity-20 transition-opacity" data-alt="Mountain landscape preview" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2dZLh_0jGihzW3uTM-ssWAhoes6P5nYBl_gbWzQuKcSBW5NzFXmkuutSt1H1Pl0f82teJp7gVw3H2VO8Eftqi9uNSybfw6WlY4Pcw4xxvVRq1BKusmCmRYJXHtsgrKoX5Mytsqn9QC6phHhyVumSMa3TO8jxvGN43gWLBZ12SB05l-T3zAd0q3-MKE3iiEQDoFXCwfoaF1jbrjNvrNkeLBfuMCIHEzqs2AURTmD1ptf9aw5_jIKEBqHGHAn5Tude5wjxmvytEluuJ')"></div>
+<span class="material-symbols-outlined text-3xl mb-2 z-10">cloud_upload</span>
+<p class="text-sm font-medium z-10">Change Cover Image</p>
+</div>
+<!-- Basic Info -->
+<div class="flex flex-col gap-4">
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Tour Title</span>
+<input class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white" placeholder="e.g. Bali Retreat" type="text" value="Swiss Alps Hiking"/>
+</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Location</span>
+<div class="relative">
+<span class="absolute left-3 top-2.5 material-symbols-outlined text-[18px] text-text-secondary">location_on</span>
+<input class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white" type="text" value="Zermatt"/>
+</div>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Duration (Days)</span>
+<input class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white" type="number" value="7"/>
+</label>
+</div>
+</div>
+<hr class="border-border-light dark:border-border-dark"/>
+<!-- Pricing & Slots -->
+<div class="grid grid-cols-2 gap-4">
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Price ($)</span>
+<input class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg px-4 py-2.5 text-sm font-medium focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white" type="number" value="2450"/>
+</label>
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Total Slots</span>
+<input class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white" type="number" value="12"/>
+</label>
+</div>
+<!-- Date Range -->
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Start Date</span>
+<input class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg px-4 py-2.5 text-sm text-text-secondary focus:ring-2 focus:ring-primary focus:border-transparent dark:text-white" type="date" value="2023-11-15"/>
+</label>
+<!-- Status -->
+<div class="flex flex-col gap-2">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Status</span>
+<div class="flex gap-4">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary w-4 h-4 bg-background-light border-border-light" name="status" type="radio"/>
+<span class="text-sm dark:text-white">Published</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="text-primary focus:ring-primary w-4 h-4 bg-background-light border-border-light" name="status" type="radio"/>
+<span class="text-sm dark:text-white">Draft</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="text-primary focus:ring-primary w-4 h-4 bg-background-light border-border-light" name="status" type="radio"/>
+<span class="text-sm dark:text-white">Closed</span>
+</label>
+</div>
+</div>
+<label class="flex flex-col gap-1.5">
+<span class="text-xs font-semibold uppercase text-text-secondary tracking-wider">Description</span>
+<textarea class="w-full bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-transparent resize-none dark:text-white" rows="3">Experience the breathtaking beauty of the Swiss Alps...</textarea>
+</label>
+</form>
+</div>
+<!-- Form Actions -->
+<div class="p-4 border-t border-border-light dark:border-border-dark bg-gray-50 dark:bg-gray-800/50 flex gap-3">
+<button class="flex-1 py-2.5 rounded-lg border border-border-light dark:border-border-dark bg-white dark:bg-transparent text-text-main dark:text-white text-sm font-bold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">Cancel</button>
+<button class="flex-1 py-2.5 rounded-lg bg-primary text-white text-sm font-bold shadow hover:bg-blue-600 transition-colors">Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Reports &amp; Analytics</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1e2a35",
+                        "border-light": "#dbe1e6",
+                        "border-dark": "#2a3b4d",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569; 
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111518] dark:text-white transition-colors duration-200">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- SideNavBar -->
+<aside class="w-72 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-col hidden lg:flex h-full z-10 transition-colors duration-200">
+<div class="flex flex-col h-full p-4 justify-between">
+<div class="flex flex-col gap-6">
+<!-- Branding -->
+<div class="flex gap-3 items-center px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-10 w-10 relative overflow-hidden bg-primary/10">
+<!-- Abstract logo representation -->
+<div class="absolute inset-0 flex items-center justify-center text-primary font-bold text-xl">TA</div>
+</div>
+<div class="flex flex-col">
+<h1 class="text-[#111518] dark:text-white text-base font-bold leading-normal">TourAdmin</h1>
+<p class="text-[#617989] dark:text-gray-400 text-sm font-normal leading-normal">Super Admin</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#111518] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors">grid_view</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#111518] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors">map</span>
+<p class="text-sm font-medium leading-normal">Tours</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#111518] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors">calendar_month</span>
+<p class="text-sm font-medium leading-normal">Bookings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#111518] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-primary transition-colors">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-primary fill-1">analytics</span>
+<p class="text-sm font-bold leading-normal">Reports</p>
+</a>
+</nav>
+</div>
+<!-- Bottom Actions -->
+<div class="flex flex-col gap-2 border-t border-border-light dark:border-border-dark pt-4">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-[#111518] dark:text-gray-200 group transition-colors" href="#">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 group-hover:text-red-500 transition-colors">logout</span>
+<p class="text-sm font-medium leading-normal">Sign Out</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-y-auto bg-background-light dark:bg-background-dark relative">
+<!-- Header Section -->
+<header class="sticky top-0 z-20 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md px-6 py-6 md:px-10 border-b border-border-light dark:border-border-dark">
+<div class="flex flex-wrap justify-between items-end gap-4 max-w-7xl mx-auto">
+<div class="flex flex-col gap-1">
+<h1 class="text-[#111518] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Analytics Dashboard</h1>
+<p class="text-[#617989] dark:text-gray-400 text-base font-normal leading-normal flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">today</span>
+                        Overview for Oct 24, 2023
+                    </p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<!-- Date Picker -->
+<div class="relative">
+<select class="appearance-none bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark text-[#111518] dark:text-white h-10 pl-4 pr-10 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer shadow-sm">
+<option value="7d">Last 7 Days</option>
+<option value="30d">Last 30 Days</option>
+<option value="90d">Last Quarter</option>
+<option value="ytd">Year to Date</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#617989] dark:text-gray-400">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+<!-- Export Button -->
+<button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white h-10 px-5 rounded-lg text-sm font-bold shadow-sm transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export Report</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Content Body -->
+<div class="p-6 md:p-10 flex-1 w-full max-w-7xl mx-auto flex flex-col gap-6">
+<!-- KPI Stats Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Total Revenue -->
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#617989] dark:text-gray-400 text-sm font-medium leading-normal">Total Revenue</p>
+<div class="p-1.5 bg-green-500/10 rounded-md text-[#078838]">
+<span class="material-symbols-outlined text-lg">attach_money</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<p class="text-[#111518] dark:text-white text-2xl font-bold leading-tight tracking-tight">$124,500</p>
+</div>
+<div class="flex items-center gap-1 text-sm mt-1">
+<span class="material-symbols-outlined text-[16px] text-[#078838]">trending_up</span>
+<p class="text-[#078838] font-medium">+12%</p>
+<p class="text-[#617989] dark:text-gray-500 font-normal ml-1">vs last month</p>
+</div>
+</div>
+<!-- Total Bookings -->
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#617989] dark:text-gray-400 text-sm font-medium leading-normal">Total Bookings</p>
+<div class="p-1.5 bg-blue-500/10 rounded-md text-primary">
+<span class="material-symbols-outlined text-lg">confirmation_number</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<p class="text-[#111518] dark:text-white text-2xl font-bold leading-tight tracking-tight">1,450</p>
+</div>
+<div class="flex items-center gap-1 text-sm mt-1">
+<span class="material-symbols-outlined text-[16px] text-[#078838]">trending_up</span>
+<p class="text-[#078838] font-medium">+5%</p>
+<p class="text-[#617989] dark:text-gray-500 font-normal ml-1">vs last month</p>
+</div>
+</div>
+<!-- Active Users/New Customers -->
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#617989] dark:text-gray-400 text-sm font-medium leading-normal">New Customers</p>
+<div class="p-1.5 bg-purple-500/10 rounded-md text-purple-600">
+<span class="material-symbols-outlined text-lg">person_add</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<p class="text-[#111518] dark:text-white text-2xl font-bold leading-tight tracking-tight">320</p>
+</div>
+<div class="flex items-center gap-1 text-sm mt-1">
+<span class="material-symbols-outlined text-[16px] text-[#078838]">trending_up</span>
+<p class="text-[#078838] font-medium">+2%</p>
+<p class="text-[#617989] dark:text-gray-500 font-normal ml-1">vs last month</p>
+</div>
+</div>
+<!-- Avg Rating -->
+<div class="flex flex-col gap-2 rounded-xl p-5 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm">
+<div class="flex justify-between items-start">
+<p class="text-[#617989] dark:text-gray-400 text-sm font-medium leading-normal">Avg. Tour Rating</p>
+<div class="p-1.5 bg-yellow-500/10 rounded-md text-yellow-600">
+<span class="material-symbols-outlined text-lg">star</span>
+</div>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<p class="text-[#111518] dark:text-white text-2xl font-bold leading-tight tracking-tight">4.8</p>
+<span class="text-sm text-[#617989] dark:text-gray-500">/ 5.0</span>
+</div>
+<div class="flex items-center gap-1 text-sm mt-1">
+<span class="material-symbols-outlined text-[16px] text-[#078838]">trending_up</span>
+<p class="text-[#078838] font-medium">+0.2</p>
+<p class="text-[#617989] dark:text-gray-500 font-normal ml-1">vs last month</p>
+</div>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Line Chart -->
+<div class="lg:col-span-2 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm p-6 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-[#111518] dark:text-white text-lg font-bold">Revenue &amp; Bookings Trend</h3>
+<p class="text-[#617989] dark:text-gray-400 text-sm">Monthly performance overview</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs text-[#617989] dark:text-gray-400 font-medium">Revenue</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+<span class="text-xs text-[#617989] dark:text-gray-400 font-medium">Projected</span>
+</div>
+</div>
+</div>
+<!-- SVG Chart -->
+<div class="flex-1 w-full min-h-[250px] relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 478 150">
+<!-- Gradient Defs -->
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#1392ec" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#1392ec" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid lines -->
+<line class="dark:stroke-gray-700" stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="478" y1="120" y2="120"></line>
+<line class="dark:stroke-gray-700" stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="478" y1="80" y2="80"></line>
+<line class="dark:stroke-gray-700" stroke="#e2e8f0" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="478" y1="40" y2="40"></line>
+<!-- Area Fill -->
+<path d="M0 109 C50 109, 80 50, 150 70 C220 90, 250 40, 320 60 C390 80, 420 20, 478 25 V 150 H 0 Z" fill="url(#chartGradient)"></path>
+<!-- Line -->
+<path d="M0 109 C50 109, 80 50, 150 70 C220 90, 250 40, 320 60 C390 80, 420 20, 478 25" fill="none" stroke="#1392ec" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+<!-- Tooltip (Simulated) -->
+<div class="absolute top-[35%] left-[65%] bg-surface-dark text-white text-xs py-1 px-2 rounded shadow-lg pointer-events-none transform -translate-x-1/2 -translate-y-full">
+                            $42,300
+                            <div class="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[4px] border-t-surface-dark"></div>
+</div>
+<div class="absolute top-[38%] left-[65%] w-3 h-3 bg-white border-2 border-primary rounded-full transform -translate-x-1/2 -translate-y-1/2 shadow-sm"></div>
+</div>
+<!-- X Axis Labels -->
+<div class="flex justify-between mt-4 text-xs font-medium text-[#617989] dark:text-gray-500">
+<span>Week 1</span>
+<span>Week 2</span>
+<span>Week 3</span>
+<span>Week 4</span>
+</div>
+</div>
+<!-- Side Column Charts -->
+<div class="flex flex-col gap-6">
+<!-- Tour Categories Donut Chart -->
+<div class="flex-1 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm p-6 flex flex-col justify-between">
+<h3 class="text-[#111518] dark:text-white text-lg font-bold mb-4">Top Categories</h3>
+<div class="flex items-center gap-6">
+<!-- CSS Donut Chart -->
+<div class="relative w-32 h-32 flex-shrink-0">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<!-- Background Circle -->
+<path class="text-gray-100 dark:text-gray-700" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4.5"></path>
+<!-- Segment 1: Adventure (40%) -->
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="40, 100" stroke-width="4.5"></path>
+<!-- Segment 2: City (30%) - starts at 40 -->
+<path class="text-purple-500" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="30, 100" stroke-dashoffset="-40" stroke-width="4.5"></path>
+<!-- Segment 3: Food (30%) - starts at 70 -->
+<path class="text-orange-400" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="30, 100" stroke-dashoffset="-70" stroke-width="4.5"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="text-2xl font-bold dark:text-white">1.4k</span>
+<span class="text-[10px] text-gray-500 uppercase">Bookings</span>
+</div>
+</div>
+<!-- Legend -->
+<div class="flex flex-col gap-3 w-full">
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-primary"></div>
+<span class="text-sm text-[#111518] dark:text-gray-300">Adventure</span>
+</div>
+<span class="text-sm font-semibold text-[#111518] dark:text-white">40%</span>
+</div>
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-purple-500"></div>
+<span class="text-sm text-[#111518] dark:text-gray-300">City</span>
+</div>
+<span class="text-sm font-semibold text-[#111518] dark:text-white">30%</span>
+</div>
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-sm bg-orange-400"></div>
+<span class="text-sm text-[#111518] dark:text-gray-300">Food</span>
+</div>
+<span class="text-sm font-semibold text-[#111518] dark:text-white">30%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- User Engagement Bar Chart -->
+<div class="flex-1 rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm p-6">
+<h3 class="text-[#111518] dark:text-white text-lg font-bold mb-4">Daily Engagement</h3>
+<div class="flex items-end justify-between h-32 gap-2 mt-4">
+<!-- Bar 1 -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary/20 rounded-t-sm h-[40%] relative group-hover:bg-primary/40 transition-all"></div>
+<span class="text-xs text-gray-500 dark:text-gray-400">M</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary/20 rounded-t-sm h-[60%] relative group-hover:bg-primary/40 transition-all"></div>
+<span class="text-xs text-gray-500 dark:text-gray-400">T</span>
+</div>
+<!-- Bar 3 -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary/20 rounded-t-sm h-[45%] relative group-hover:bg-primary/40 transition-all"></div>
+<span class="text-xs text-gray-500 dark:text-gray-400">W</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary/20 rounded-t-sm h-[80%] relative group-hover:bg-primary/40 transition-all"></div>
+<span class="text-xs text-gray-500 dark:text-gray-400">T</span>
+</div>
+<!-- Bar 5 (Peak) -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary rounded-t-sm h-[100%] relative group-hover:bg-primary/80 transition-all shadow-[0_0_10px_rgba(19,146,236,0.3)]"></div>
+<span class="text-xs font-bold text-primary">F</span>
+</div>
+<!-- Bar 6 -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary/20 rounded-t-sm h-[85%] relative group-hover:bg-primary/40 transition-all"></div>
+<span class="text-xs text-gray-500 dark:text-gray-400">S</span>
+</div>
+<!-- Bar 7 -->
+<div class="flex flex-col items-center gap-2 w-full group cursor-pointer">
+<div class="w-full bg-primary/20 rounded-t-sm h-[70%] relative group-hover:bg-primary/40 transition-all"></div>
+<span class="text-xs text-gray-500 dark:text-gray-400">S</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Popular Tours Table -->
+<div class="rounded-xl bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark shadow-sm overflow-hidden flex flex-col">
+<div class="px-6 py-5 border-b border-border-light dark:border-border-dark flex justify-between items-center flex-wrap gap-4">
+<h3 class="text-[#111518] dark:text-white text-lg font-bold">Popular Tours</h3>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400 material-symbols-outlined text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 border border-border-light dark:border-border-dark rounded-lg text-sm bg-transparent text-[#111518] dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Search tours..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 dark:bg-[#15202b] border-b border-border-light dark:border-border-dark">
+<th class="py-4 px-6 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">Tour Name</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 text-right">Total Bookings</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 text-right">Revenue</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 text-right">Rating</th>
+<th class="py-4 px-6 text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 text-center">Trend</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light dark:divide-border-dark">
+<!-- Row 1 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-cover bg-center" data-alt="Grand Canyon landscape with sunset" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEmkFQE5TDrCJQjIeuEOM22PnhzitZJdvHPVJ2BNlZnn_51LLfAj0qf2o7_HvB3x-Q3NNL9BqF4ZaNCixVLoUJ8BBfYqvq9zbKv8S2UAJmLgBD_ZV23qlnoq9P45OvzF_8OgpD9ljCoxO9voVJSScORPAoJl7TfLl3P04T_powvKovhtpU77htFbVVpygxQ68Wxlb5dhy0_0xTAfn-m5fh8TA89-TakRbECYCLA2l5-cyt6QwwbJWPe2abzuZ9kHiMOdL-Yrxh-pIe');"></div>
+<div>
+<p class="text-sm font-bold text-[#111518] dark:text-white">Grand Canyon Day Trip</p>
+<p class="text-xs text-gray-500">Adventure • Full Day</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">482</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">$62,400</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center px-2 py-1 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold">
+                                        4.9 <span class="material-symbols-outlined text-[12px] ml-1">star</span>
+</div>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="material-symbols-outlined text-green-600 text-lg">trending_up</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-cover bg-center" data-alt="Paris city street at night with lights" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBTUtVpl6-H3Rr5Z3m4uL01XGx8ro0-7SFwoDidJJiyCiBSBGdrj1-p4uZSD1SahACqpSdSZ2vTDEdS02mRFTaTOqhPQqKTnW6AnfvmzyNRk3oE5j28FdS39YEnzwU95bnGE91RiuItubfhufG48LuDK6vgsMJJN8uHr7VY8pxWK6XiOgExvAX7Aztt99rrX5AzSbiPOBYUZKjngjxjp5rz4xrvUWcLVcIiQoxvOHZUuoC5lzMP_MdHPqhANcNbGCPMX6Pc-7JihpZf');"></div>
+<div>
+<p class="text-sm font-bold text-[#111518] dark:text-white">Paris Night Walk</p>
+<p class="text-xs text-gray-500">City • 3 Hours</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">356</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">$14,240</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center px-2 py-1 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold">
+                                        4.8 <span class="material-symbols-outlined text-[12px] ml-1">star</span>
+</div>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="material-symbols-outlined text-green-600 text-lg">trending_up</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-cover bg-center" data-alt="Delicious street food platter" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD-Le-biETkpfIIKd5DhNJNBhV4S8-0ZvxtUfiTolnFR1vvTVwCQMpYuwJ8XC7TZzK1aPmuh1cD78m8AGBNsewNnFheHryjyvMFQ8KmjcOOoEujL55Zq-BRypUB98eYxuHIPIIpbIL_xj4KkIG1L6YRuIznl0RS-xVqRZaox4aYs0EPLE5tm5_gNFcc11fDt_n6A_HfGd33COPfIvPCS0pmUMsRQQQylaL2P3c3Fy8Y0EbsAnFvKkG6ttpaWDHWmuzhXoWOKUU0EJYB');"></div>
+<div>
+<p class="text-sm font-bold text-[#111518] dark:text-white">Tokyo Food Safari</p>
+<p class="text-xs text-gray-500">Food • 4 Hours</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">290</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">$26,100</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center px-2 py-1 rounded bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-bold">
+                                        4.7 <span class="material-symbols-outlined text-[12px] ml-1">star</span>
+</div>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="material-symbols-outlined text-gray-400 text-lg">trending_flat</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-cover bg-center" data-alt="Venice canal with gondola" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBliZc1QpdDzgU3_y523kQPEIcpaz6-3qbL_p2D38Cgcpi10lFSnaEyEUo-3KUaR2Ot84xW1XmedHogaqZmyR1CH-pSWDeEH6bLIiF6N_BXiQHn1EaZUj9EpXeyb4nuNZm8vaNRusUv1j2yc6oeOsASx0oWLFC0OrCbWvRVWpuAqGXuKgeey1vN5wgDuIB4RElCdFsnpunGcQI3D3dzbo5ERAyFV-CcCxc4zT_-Plo_-KNIZSkuyXHj8BjT9fr4B4uJfYG8qF-L5QsT');"></div>
+<div>
+<p class="text-sm font-bold text-[#111518] dark:text-white">Venice Gondola Ride</p>
+<p class="text-xs text-gray-500">Romantic • 1 Hour</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">185</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">$18,500</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center px-2 py-1 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold">
+                                        4.9 <span class="material-symbols-outlined text-[12px] ml-1">star</span>
+</div>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="material-symbols-outlined text-green-600 text-lg">trending_up</span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-cover bg-center" data-alt="Mountain hiking trail view" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCD_Ojq-C-57KUF3ma1A3fDJnRR07hWUipkfr3xPXT_eJi2fxxZA-wfx02JsG_e5eUSkdcEIieCDxj_Y2JjRI2UNhWBi9QtFSGyXq65Eqt4PLq6yeB9UvP9HVv_CbjMv85vWoY5PrczldsiyMHAU8z4mT_LNgyAUxto5EvpAZsz-0_SmmR4Kym5kIYJJCj4CCclsoTAUMD_LH11LCFWtZV8S3g2yVQWdCFH-NBfA0ObDJVWaXWPWXQWM_Oo-xmTV_o3zX6w2z78nqBo');"></div>
+<div>
+<p class="text-sm font-bold text-[#111518] dark:text-white">Alps Hiking Adventure</p>
+<p class="text-xs text-gray-500">Adventure • 2 Days</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">142</td>
+<td class="py-4 px-6 text-right text-sm font-medium text-[#111518] dark:text-gray-300">$42,600</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center px-2 py-1 rounded bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 text-xs font-bold">
+                                        4.2 <span class="material-symbols-outlined text-[12px] ml-1">star</span>
+</div>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="material-symbols-outlined text-red-500 text-lg">trending_down</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-border-light dark:border-border-dark flex justify-center">
+<button class="text-sm font-bold text-primary hover:text-primary/80 transition-colors">View All Tours</button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="flex justify-between text-xs text-gray-400 mt-4 pb-8">
+<p>© 2023 TourAdmin Platform. All rights reserved.</p>
+<div class="flex gap-4">
+<a class="hover:text-gray-500" href="#">Privacy Policy</a>
+<a class="hover:text-gray-500" href="#">Terms of Service</a>
+</div>
+</footer>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#1392ec",
+                "background-light": "#f6f7f8",
+                "background-dark": "#101a22",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111518] dark:text-white font-display">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Side Navigation -->
+<aside class="flex w-64 flex-col justify-between border-r border-[#e0e0e0] dark:border-[#2a3b47] bg-white dark:bg-[#1a2632] p-4 flex-shrink-0">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Tour company logo abstract" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDz01qRpZN_l3H7JRBIpjL2kaU7FTlGWJLULM3JW1QIw-NbigQtTkrvDW3nTeVggpIFvZYVo45I7aGzUIhYKsT28rwRk3HBHkrmJDh7VaCbp4LcWTh_xkChx8sI0tP9J3X26imVSFZt73YB6RC-GmsArBB9lu0X7c8WOw0DZ8GmzXxYq_Pb6nqKFdlnwjthPc3k_8ATjtg_m4wR6IBcExl4gkfMGUExcfZIwrA5C7ZWjB3_7E9qoOZ8n4xbMFz0Uc5DNJJ2PrZ--dDQ");'></div>
+<div class="flex flex-col">
+<h1 class="text-[#111518] dark:text-white text-base font-bold leading-normal">TourAdmin</h1>
+<p class="text-[#617989] dark:text-[#93adc8] text-sm font-normal leading-normal">Management Portal</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#111518] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">map</span>
+<p class="text-sm font-medium leading-normal">Tours</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#111518] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<p class="text-sm font-medium leading-normal">Bookings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#111518] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#111518] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<p class="text-sm font-medium leading-normal">Reports</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#111518] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+</nav>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-lg h-10 px-4 bg-transparent border border-[#dbe1e6] dark:border-[#3e4f5e] text-[#111518] dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-sm font-bold leading-normal tracking-[0.015em]">
+<span class="material-symbols-outlined text-lg">logout</span>
+<span class="truncate">Logout</span>
+</button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
+<div class="max-w-[1200px] mx-auto p-8 flex flex-col gap-8">
+<!-- Page Heading -->
+<header class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h2 class="text-[#111518] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Dashboard Overview</h2>
+<p class="text-[#617989] dark:text-[#93adc8] text-base font-normal leading-normal">Welcome back, Admin. Here is what is happening today.</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm text-[#617989] dark:text-[#93adc8] font-medium">Last updated: Just now</span>
+<button class="bg-white dark:bg-[#1a2632] border border-[#dbe1e6] dark:border-[#3e4f5e] rounded-lg p-2 text-[#111518] dark:text-white hover:bg-gray-50 dark:hover:bg-[#2a3b47]">
+<span class="material-symbols-outlined">refresh</span>
+</button>
+</div>
+</header>
+<!-- Stats KPI Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-[#dbe1e6] dark:border-[#2a3b47] shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<p class="text-[#617989] dark:text-[#93adc8] text-sm font-medium leading-normal">Total Revenue</p>
+<p class="text-[#111518] dark:text-white tracking-tight text-2xl font-bold leading-tight">$124,500</p>
+</div>
+<div class="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center text-green-600 dark:text-green-400 text-sm font-medium bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm mr-0.5">trending_up</span> 12%
+                        </span>
+<span class="text-[#617989] dark:text-[#93adc8] text-sm">vs last month</span>
+</div>
+</div>
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-[#dbe1e6] dark:border-[#2a3b47] shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<p class="text-[#617989] dark:text-[#93adc8] text-sm font-medium leading-normal">Total Bookings</p>
+<p class="text-[#111518] dark:text-white tracking-tight text-2xl font-bold leading-tight">1,240</p>
+</div>
+<div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center text-green-600 dark:text-green-400 text-sm font-medium bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm mr-0.5">trending_up</span> 5%
+                        </span>
+<span class="text-[#617989] dark:text-[#93adc8] text-sm">vs last month</span>
+</div>
+</div>
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-[#dbe1e6] dark:border-[#2a3b47] shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<p class="text-[#617989] dark:text-[#93adc8] text-sm font-medium leading-normal">Active Tours</p>
+<p class="text-[#111518] dark:text-white tracking-tight text-2xl font-bold leading-tight">42</p>
+</div>
+<div class="p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined">tour</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center text-[#617989] dark:text-[#93adc8] text-sm font-medium bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
+                            0%
+                        </span>
+<span class="text-[#617989] dark:text-[#93adc8] text-sm">vs last month</span>
+</div>
+</div>
+<div class="flex flex-col justify-between gap-4 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-[#dbe1e6] dark:border-[#2a3b47] shadow-sm">
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-1">
+<p class="text-[#617989] dark:text-[#93adc8] text-sm font-medium leading-normal">New Users</p>
+<p class="text-[#111518] dark:text-white tracking-tight text-2xl font-bold leading-tight">85</p>
+</div>
+<div class="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="flex items-center text-green-600 dark:text-green-400 text-sm font-medium bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-sm mr-0.5">trending_up</span> 2%
+                        </span>
+<span class="text-[#617989] dark:text-[#93adc8] text-sm">vs last month</span>
+</div>
+</div>
+</section>
+<!-- Main Chart Area -->
+<section class="flex flex-col lg:flex-row gap-6">
+<!-- Revenue Chart -->
+<div class="flex-1 flex flex-col rounded-xl border border-[#dbe1e6] dark:border-[#2a3b47] bg-white dark:bg-[#1a2632] p-6 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div class="flex flex-col gap-1">
+<h3 class="text-[#111518] dark:text-white text-lg font-bold leading-tight">Revenue Trends</h3>
+<div class="flex items-center gap-2">
+<p class="text-[#111518] dark:text-white text-2xl font-bold tracking-tight">$12,450</p>
+<span class="text-sm text-green-600 dark:text-green-400 font-medium">+8.5%</span>
+<span class="text-sm text-[#617989] dark:text-[#93adc8]">Last 30 Days</span>
+</div>
+</div>
+<button class="text-primary text-sm font-medium hover:underline">View Report</button>
+</div>
+<div class="flex-1 min-h-[250px] w-full relative">
+<!-- Chart SVG Placeholder -->
+<svg class="w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 478 150" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient gradientunits="userSpaceOnUse" id="paint0_linear" x1="239" x2="239" y1="0" y2="150">
+<stop stop-color="#1392ec" stop-opacity="0.2"></stop>
+<stop offset="1" stop-color="#1392ec" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V150H0V109Z" fill="url(#paint0_linear)"></path>
+<path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#1392ec" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<div class="flex justify-between mt-4 text-xs text-[#617989] dark:text-[#93adc8] font-medium">
+<span>Week 1</span>
+<span>Week 2</span>
+<span>Week 3</span>
+<span>Week 4</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Actions Section -->
+<section>
+<h2 class="text-[#111518] dark:text-white text-xl font-bold leading-tight px-1 pb-4">Quick Actions</h2>
+<div class="flex flex-wrap gap-4">
+<button class="flex items-center gap-2 px-4 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg text-sm font-bold transition-colors shadow-sm shadow-blue-200 dark:shadow-none">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                        Add New Tour
+                     </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-white dark:bg-[#1a2632] hover:bg-gray-50 dark:hover:bg-[#2a3b47] text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-[#2a3b47] rounded-lg text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-lg">confirmation_number</span>
+                        Create Booking
+                     </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-white dark:bg-[#1a2632] hover:bg-gray-50 dark:hover:bg-[#2a3b47] text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-[#2a3b47] rounded-lg text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-lg">person_add</span>
+                        Invite User
+                     </button>
+</div>
+</section>
+<!-- Bottom Grid: Recent Bookings & Top Performing Tours -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Recent Bookings Table -->
+<div class="lg:col-span-2 flex flex-col rounded-xl border border-[#dbe1e6] dark:border-[#2a3b47] bg-white dark:bg-[#1a2632] shadow-sm overflow-hidden">
+<div class="flex items-center justify-between px-6 py-4 border-b border-[#e0e0e0] dark:border-[#2a3b47]">
+<h3 class="text-[#111518] dark:text-white text-lg font-bold">Recent Bookings</h3>
+<a class="text-primary text-sm font-medium hover:underline" href="#">View All</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#f8f9fa] dark:bg-[#202d3a]">
+<th class="px-6 py-3 text-[#617989] dark:text-[#93adc8] text-xs font-semibold uppercase tracking-wider">Customer</th>
+<th class="px-6 py-3 text-[#617989] dark:text-[#93adc8] text-xs font-semibold uppercase tracking-wider">Tour</th>
+<th class="px-6 py-3 text-[#617989] dark:text-[#93adc8] text-xs font-semibold uppercase tracking-wider">Date</th>
+<th class="px-6 py-3 text-[#617989] dark:text-[#93adc8] text-xs font-semibold uppercase tracking-wider">Amount</th>
+<th class="px-6 py-3 text-[#617989] dark:text-[#93adc8] text-xs font-semibold uppercase tracking-wider">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#e0e0e0] dark:divide-[#2a3b47]">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" data-alt="Portrait of Sarah Johnson" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA38xarR7DQgde0O59PeUBegVuf5eS30zjWMM6jzCNbBup2qHncGCoA1_DTHGZMqOZ922TCp_kvudAIKVzXilTVIJVFoEqnBMkeoXtRTcLD1NvRnw6iKcc9EDwtzSuqjhEngamI034g4iZA8y4UiHrNJiKKQZmALxbOLHr-nWh3mF5ArFCS-h7xWc-ICjQxei3lWGuaAprDz3fT4Rg1AF2uEZUeFWrCjgnz51RBlCs91o15Hr68gZNCRVkHTzxLqGLKi_iuKMaRdVyz');"></div>
+<div>
+<p class="text-sm font-medium text-[#111518] dark:text-white">Sarah Johnson</p>
+<p class="text-xs text-[#617989] dark:text-[#93adc8]">sarah@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#111518] dark:text-white">
+                                        Alpine Adventure
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#617989] dark:text-[#93adc8]">
+                                        Oct 24, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#111518] dark:text-white">
+                                        $450.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 dark:bg-green-900/30 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
+                                            Confirmed
+                                        </span>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" data-alt="Portrait of Michael Chen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDBMCoecvFmzS0Ai6A8WlnZSEFHa1-Qiw5I2CjZu-akHIib9hfsFCySbbOXb6PWiJB-vvY9ZhpIx4viY4IsSrN0PUwTxWmkOMayTZkZYBkJwCXrcYeNyy9wgPBEzIAmMYkNW8UMcTiuGJvHIJLdO8K1VcQU1X-CgwOmtcwnJkmME4JRtsDNp_o4AKOrBZONY57BMgw9a7xbLhyJboRPqEkepdipyUSg-50OtEm2iF8YpyllzAxnYZz38QOJZfqCjf--a6LiR-Jk64Zs');"></div>
+<div>
+<p class="text-sm font-medium text-[#111518] dark:text-white">Michael Chen</p>
+<p class="text-xs text-[#617989] dark:text-[#93adc8]">m.chen@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#111518] dark:text-white">
+                                        City Bike Tour
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#617989] dark:text-[#93adc8]">
+                                        Oct 23, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#111518] dark:text-white">
+                                        $85.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 rounded-full bg-yellow-50 dark:bg-yellow-900/30 px-2 py-1 text-xs font-semibold text-yellow-700 dark:text-yellow-300">
+                                            Pending
+                                        </span>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" data-alt="Portrait of Emily Davis" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLI7fPSwBiyAPJ7DtgUWnHAbJFQqsBTt1z-W_CQG92xzgHe2wwsvB3ZsvZ1vcaaMVMRUfJvo0_68N_2CWCEhHO2QrMLFdmloB8wC4ZUsFsADAYO5E55bhW2pEVu6L4ZYbCx8XG08QVoPcd4vxKJbK6gYKOwVYT6lhn2PfItnerInTl_v41W-Zy0CUNT1UyugSIPrjHsJYTeDdEdgfNDwr3GzGbjZyKfkco3pYCSY9V2jazVBacSFtoZeUEMPOKFQ77jUv8jJm_csYp');"></div>
+<div>
+<p class="text-sm font-medium text-[#111518] dark:text-white">Emily Davis</p>
+<p class="text-xs text-[#617989] dark:text-[#93adc8]">emily.d@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#111518] dark:text-white">
+                                        Wine Tasting
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#617989] dark:text-[#93adc8]">
+                                        Oct 22, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#111518] dark:text-white">
+                                        $210.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 rounded-full bg-red-50 dark:bg-red-900/30 px-2 py-1 text-xs font-semibold text-red-700 dark:text-red-300">
+                                            Cancelled
+                                        </span>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-cover bg-center" data-alt="Portrait of James Wilson" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDjOmE3ilECo2etDBvQMTBO-NOdOU1oRyyFvSYSXYMBO_Q-ibs-xmbnXi-MjLyZI72-DifUiCsVwWv_qNCw3rJ0TIr21tF56McYCxesNRes7_JfU_Rl_btXm_kZFOIG3QDSbj43ZKX2W5dpid_PNXXly-OnHjCM2JE8vrq99pKPIbC9Jand0Rx3aLpTtoODMro2K0wW9IVdxdrgd8aw4l0SnpQCb2TCxlD7_dyUYBTO2Yspj9BhwerRr7CjcT128lEsLA-kJ00ww1zR');"></div>
+<div>
+<p class="text-sm font-medium text-[#111518] dark:text-white">James Wilson</p>
+<p class="text-xs text-[#617989] dark:text-[#93adc8]">jwilson@example.com</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#111518] dark:text-white">
+                                        Historic Walk
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-[#617989] dark:text-[#93adc8]">
+                                        Oct 21, 2023
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#111518] dark:text-white">
+                                        $45.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 rounded-full bg-green-50 dark:bg-green-900/30 px-2 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
+                                            Confirmed
+                                        </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Top Performing Tours -->
+<div class="flex flex-col rounded-xl border border-[#dbe1e6] dark:border-[#2a3b47] bg-white dark:bg-[#1a2632] shadow-sm">
+<div class="px-6 py-4 border-b border-[#e0e0e0] dark:border-[#2a3b47]">
+<h3 class="text-[#111518] dark:text-white text-lg font-bold">Top Performing Tours</h3>
+</div>
+<div class="flex flex-col p-4 gap-4">
+<!-- Item 1 -->
+<div class="flex gap-4 items-center">
+<div class="w-16 h-16 rounded-lg bg-cover bg-center flex-shrink-0" data-alt="Scenic mountain landscape" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbVgTUqpsPW9TYqpVssqFhgzujBZYp8bnwIg5ly6BQTrdjlYz2z4jttVWSWa2Qc7dsV95Zde7eFgfUQwfTctnOo9YUdA9oMneWZxasar2uoxLJ1ZZa8j2X9kSWwJlAczPwLXtmKZTvgCxOlxmWa_VtY9vhxVeiF28ouSHPQ17lWoAoXyyKF6Nf3hsmbT8IL_7qbKKyrhyqOVzqWV6BtEexqyJfLczCJ_nbQRxvsu8pSmaU9FlV6Lp7C5Jm8Vqx_2Q2FrlgU8mLFsPZ');"></div>
+<div class="flex flex-col flex-1">
+<h4 class="text-[#111518] dark:text-white font-semibold text-sm">Alpine Adventure</h4>
+<p class="text-[#617989] dark:text-[#93adc8] text-xs">245 Bookings</p>
+</div>
+<div class="text-right">
+<p class="text-[#111518] dark:text-white font-bold text-sm">$24.5k</p>
+<p class="text-green-600 text-xs font-medium">+15%</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-4 items-center">
+<div class="w-16 h-16 rounded-lg bg-cover bg-center flex-shrink-0" data-alt="View of Paris streets" data-location="Paris, France" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBe_JnuE3qOSNO1jz9NZh--6X7uk3wV4yvHpUibbkM88sXBciMGAENs7iCv3TFo3eRgPfQYuRZn_pNUP0lGQft-cdsxSGgkRFCycOxpMCTqCsbRXC6hqSuIQbt9DO0Eb6c2ouSMezISYl6sW-nVeiwkcwx1cnfuanHJ8hJP48tXf_26_6GA3f585J62AXinESLE-zxUtH4efIY72CnykOQCTkd8zPFjJuNaj9SeSUYeTe6haJjbz6w2mbE5kOusbvk1ZEy5Vbg0zXRf');"></div>
+<div class="flex flex-col flex-1">
+<h4 class="text-[#111518] dark:text-white font-semibold text-sm">Paris City Tour</h4>
+<p class="text-[#617989] dark:text-[#93adc8] text-xs">180 Bookings</p>
+</div>
+<div class="text-right">
+<p class="text-[#111518] dark:text-white font-bold text-sm">$12.2k</p>
+<p class="text-green-600 text-xs font-medium">+8%</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex gap-4 items-center">
+<div class="w-16 h-16 rounded-lg bg-cover bg-center flex-shrink-0" data-alt="Tropical beach scene" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWiB1w2bOoZW4opB0H5PVDBLXmslU2vZPmUnG6NhNCRRIF5WPxxreHz1HUgSDSYfdWSxILBF98JCY4Lt07TidIe0isLS6EjYYoo-PfCtlCoGxgETJ3T7aMkuD9TSi6jEWCCtZzS9EB5zdviMFDdDSoaNhKU3tsbW21WuRhj42ACWXOCvHhgceJKNU65mvb8BPJE8vmBHTuD7cBZsp6zTIN2q1w1iuAzBzVxAqBmrpJURN1vmpfCH0cMC63_5LpxnrrEtrAriwJv4bA');"></div>
+<div class="flex flex-col flex-1">
+<h4 class="text-[#111518] dark:text-white font-semibold text-sm">Island Hopper</h4>
+<p class="text-[#617989] dark:text-[#93adc8] text-xs">120 Bookings</p>
+</div>
+<div class="text-right">
+<p class="text-[#111518] dark:text-white font-bold text-sm">$8.9k</p>
+<p class="text-[#617989] text-xs font-medium">0%</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex gap-4 items-center">
+<div class="w-16 h-16 rounded-lg bg-cover bg-center flex-shrink-0" data-alt="Ancient Rome Colosseum" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCv-Df_fpifGwCZ1lsd0UH38C8gld0KFbfmbOaXFC7h-8jWo2CWtr8ZCIH4VEmXLazxPHuN10-n4DYpoi7wRMuUzzAPw-xedNGc9OvigVTCg9ElmTeY9yCJxo67dc-jI5FMFwW8_hNFiSJ95lUvXFnkmAr183tGpBN13mbUv-lv-ufpvoH-PeGQQDwO-jPL12aKn_LKJpsxjYqCK_OwOCTuyNK-Bw04YtuLDdzSVQ6ZS3Aog99aemkO5F3FE1LMWtI_hu4NgBICXQAZ');"></div>
+<div class="flex flex-col flex-1">
+<h4 class="text-[#111518] dark:text-white font-semibold text-sm">Rome History</h4>
+<p class="text-[#617989] dark:text-[#93adc8] text-xs">95 Bookings</p>
+</div>
+<div class="text-right">
+<p class="text-[#111518] dark:text-white font-bold text-sm">$5.4k</p>
+<p class="text-red-500 text-xs font-medium">-2%</p>
+</div>
+</div>
+</div>
+<div class="px-6 py-4 border-t border-[#e0e0e0] dark:border-[#2a3b47]">
+<button class="w-full py-2 px-4 rounded-lg border border-[#dbe1e6] dark:border-[#3e4f5e] text-[#111518] dark:text-white text-sm font-bold hover:bg-gray-50 dark:hover:bg-[#2a3b47] transition-colors">View All Tours</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

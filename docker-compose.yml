@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  # Database chính
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: booking_tour
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  
+  # Redis (Để cache session, lock booking)
+  redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+
+volumes:
+  postgres_data:

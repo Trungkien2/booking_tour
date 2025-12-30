@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Booking Management</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a222c",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#2d3748",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white overflow-hidden h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-col hidden md:flex h-full transition-colors duration-300">
+<div class="p-6 flex items-center gap-3 border-b border-border-light dark:border-border-dark">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-base font-bold leading-none">Admin Panel</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Tour Manager</p>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 px-3 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">map</span>
+<span class="text-sm font-medium">Tours</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="#">
+<span class="material-symbols-outlined fill-1">confirmation_number</span>
+<span class="text-sm font-medium">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">group</span>
+<span class="text-sm font-medium">Customers</span>
+</a>
+<div class="pt-4 mt-4 border-t border-border-light dark:border-border-dark">
+<p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">System</p>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-white dark:border-slate-700 shadow-sm" data-alt="User avatar profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuASqMLKCrYQR3-SDvuwmrDBTWhd4uiobcoupVQDvjnwUlVCTTjgDN0sxKb8vIn0giaXPznABqceEuil6CD7B4aGwpaNEKqzdPLy9KhWHLYy7wW8E_F0DhOXNEMVM0A-uGp3PWY3TpYaIrAcF96ZPKXK0sBmuTLuK6P-M7GixL7xXXbliN-GnA3IZEpEHAMcDfmdxFyUbNkRMqvza898fcdoq9wdYD9tbhJMrZmwKLU0TX14EtCOJX5ggihmx1LkJZPPyQjpP1Q_UfP0");'></div>
+<div class="flex flex-col min-w-0">
+<p class="text-sm font-medium truncate dark:text-white">Alex Morgan</p>
+<p class="text-xs text-slate-500 truncate">alex@touradmin.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Bar (Mobile Menu Trigger could go here) -->
+<div class="flex-1 overflow-y-auto">
+<div class="max-w-[1400px] mx-auto p-6 md:p-8 space-y-8">
+<!-- Header & Breadcrumbs -->
+<div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-medium text-slate-900 dark:text-white">Booking Management</span>
+</div>
+<h1 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Bookings</h1>
+<p class="text-slate-500 dark:text-slate-400 max-w-2xl">Manage tour bookings, track payments, and update reservation statuses from a single view.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                            Export
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors shadow-sm shadow-blue-200 dark:shadow-none">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                            Create Booking
+                        </button>
+</div>
+</div>
+<!-- Stats Overview -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-green-50 dark:bg-green-900/20 rounded-lg">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400">payments</span>
+</div>
+<span class="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 12%
+                            </span>
+</div>
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Revenue</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">$12,450</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+<span class="material-symbols-outlined text-orange-600 dark:text-orange-400">pending_actions</span>
+</div>
+<span class="flex items-center gap-1 text-xs font-medium text-orange-600 bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded-full">
+                                2 Action Req
+                            </span>
+</div>
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pending Requests</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">14</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl border border-border-light dark:border-border-dark shadow-sm flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-400">confirmation_number</span>
+</div>
+<span class="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 5%
+                            </span>
+</div>
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Occupancy Rate</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">85%</p>
+</div>
+</div>
+</div>
+<!-- Filters & Table Section -->
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Filter Bar -->
+<div class="p-4 border-b border-border-light dark:border-border-dark flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center bg-white dark:bg-surface-dark">
+<!-- Search -->
+<div class="relative w-full lg:w-96 group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-border-light dark:border-border-dark rounded-lg leading-5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-shadow" placeholder="Search booking ID, customer name..." type="text"/>
+</div>
+<!-- Dropdowns -->
+<div class="flex flex-wrap gap-3 w-full lg:w-auto">
+<button class="flex items-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800 border border-border-light dark:border-border-dark rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">calendar_month</span>
+                                Last 30 Days
+                                <span class="material-symbols-outlined text-[18px] text-slate-400 ml-1">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800 border border-border-light dark:border-border-dark rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">filter_list</span>
+                                Status: All
+                                <span class="material-symbols-outlined text-[18px] text-slate-400 ml-1">expand_more</span>
+</button>
+<button class="flex items-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800 border border-border-light dark:border-border-dark rounded-lg text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-slate-400">tour</span>
+                                Tour Type
+                                <span class="material-symbols-outlined text-[18px] text-slate-400 ml-1">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-border-light dark:divide-border-dark">
+<thead class="bg-slate-50 dark:bg-slate-800/50">
+<tr>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-4" scope="col">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Booking ID</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Customer</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Tour</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Date &amp; Time</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Amount</th>
+<th class="px-6 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Status</th>
+<th class="px-6 py-4 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="bg-white dark:bg-surface-dark divide-y divide-border-light dark:divide-border-dark">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<a class="text-sm font-medium text-primary hover:underline" href="#">#BK-2024-001</a>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-cover bg-center" data-alt="Customer portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnW7__OoVHWAzFX9ZIEmVTuZxaeKN1WDT6DzjhEoNIiX9e5dwPdy8rUozkZp3kCldy1zvVpDhzbsywZ7GD4aDm3nwEnFl41RYApSkyYNohzSQ1740T-cfuVP37PQLJoMhVc8bWP5Gplobw1HdFImmuwhr_mrWd0VHkiRlVXJyN7H4NjfAuK1Y8cSTWTw6t_jKpNU5GwgdQod_7ouwH9BcVZcngsuUf45Nqtd33AFJ-ytj5SiOOPnLsOM6C0w4BViJlOhEXY7aI-1xj')"></div>
+<div class="ml-3">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Jane Doe</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">jane@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
+                                        Sunset Kayak Tour
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="text-sm text-slate-900 dark:text-white">Oct 24, 2024</div>
+<div class="text-xs text-slate-500">2:00 PM</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                        $150.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                                                Paid
+                                            </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                                                Confirmed
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<a class="text-sm font-medium text-primary hover:underline" href="#">#BK-2024-002</a>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-cover bg-center" data-alt="Customer portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCAsnyb2siDHhWM4PoXQn3ijf5Vs1hA4KthW7T70L_d8cAd-w9EmNgRPRDvRb3cP9nx5i_d_oc6qXqTAEtlCVWUYcwAUq_D2JLqUCMUvjRBohVbbNpGTaOhrYmAFx7smhC9jnINtzWM1EIIyjTRHSoIcM4uig_2JOTGhtqYaVu55yqrxl6Tc97CXox8Fgqep6o8oZInHuGq5nOULmJ9p-1ts1TP_Vxe04rZMFv7OVw6-bLEUAHZt-4g20lsxCLZWtoSzO8NkXcpGXWM')"></div>
+<div class="ml-3">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Michael Smith</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">mike.s@example.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
+                                        Mountain Hiking
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="text-sm text-slate-900 dark:text-white">Oct 25, 2024</div>
+<div class="text-xs text-slate-500">8:00 AM</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                        $85.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300">
+                                                Pending
+                                            </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300">
+                                                Unpaid
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<a class="text-sm font-medium text-primary hover:underline" href="#">#BK-2024-003</a>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold">
+                                                RK
+                                            </div>
+<div class="ml-3">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Robert King</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">rob.king@email.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
+                                        City Bike Tour
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="text-sm text-slate-900 dark:text-white">Oct 26, 2024</div>
+<div class="text-xs text-slate-500">10:30 AM</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                        $45.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                                                Paid
+                                            </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                                                Confirmed
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<a class="text-sm font-medium text-primary hover:underline" href="#">#BK-2024-004</a>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-cover bg-center" data-alt="Customer portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBF6TRI-FSnrRjnMaA49j3fOK1c4qyf5lVGt-5wdmX8fUQCcmFGLWCxMAaophWO-PnnzvuJ5Jy9yROcCXv3VAuZtcKuILFZrCFJJEeGQiu9v0iQ-xcOsYU88f5UwN7H9JX0aN3QR0230k-YHptTkoTfA0b3qRCqcS0WlmFSbpEXbdBIi0QQOspwSHxRnfs9oAptO8_c510cFlNL6f9w-i792HgiwP5lv8L8JBvfWB44uto7DNBRnupPR4v20xYaEWLFsJ5CUbIIDj9y')"></div>
+<div class="ml-3">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Sarah Connor</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">s.connor@sky.net</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
+                                        Island Hopping
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="text-sm text-slate-900 dark:text-white">Oct 27, 2024</div>
+<div class="text-xs text-slate-500">9:00 AM</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                        $220.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300">
+                                                Refunded
+                                            </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300">
+                                                Cancelled
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<a class="text-sm font-medium text-primary hover:underline" href="#">#BK-2024-005</a>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="h-8 w-8 rounded-full bg-cover bg-center" data-alt="Customer portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCayTvUXrBQJqHLBPCs3cjB7TdTHsfDAIoln3bwes_Yv80xbRFXAk-JTVCEEoLlLYohPope3RFOEObbB5h9nxZF-Ax-Ou77eCvIl9Ibe22D698CUArQ_wAkFUzQUj1HmRsQONs22_fdfMDKmAoGwIxMJXlxZj5PW9nufdp4OpnaRjm3zCrJRsWGynhEViZVBXJciEAvXr2kvIG0fCvnEIA7A-gL4IXi6MDzFZ9Yd-r5kgTv995y5FBkC0UDFc_uRXMN3N0m6H4XaUiH')"></div>
+<div class="ml-3">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Adam Brown</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">adam.b@work.com</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 dark:text-slate-300">
+                                        Historic Walk
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="text-sm text-slate-900 dark:text-white">Oct 28, 2024</div>
+<div class="text-xs text-slate-500">11:00 AM</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                        $30.00
+                                    </td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+                                                Paid
+                                            </span>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300">
+                                                Pending Review
+                                            </span>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 flex items-center justify-between border-t border-border-light dark:border-border-dark bg-slate-50 dark:bg-surface-dark/50">
+<p class="text-sm text-slate-500 dark:text-slate-400">
+                            Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">5</span> of <span class="font-medium text-slate-900 dark:text-white">45</span> results
+                        </p>
+<nav class="inline-flex rounded-md shadow-sm isolate">
+<button class="relative inline-flex items-center rounded-l-md px-2 py-2 text-slate-400 ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-white dark:hover:bg-slate-700 focus:z-20 focus:outline-offset-0 transition-colors bg-white dark:bg-slate-800">
+<span class="sr-only">Previous</span>
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">1</button>
+<button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-300 ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-slate-50 dark:hover:bg-slate-700 focus:z-20 focus:outline-offset-0 bg-white dark:bg-slate-800">2</button>
+<button class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-300 ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-slate-50 dark:hover:bg-slate-700 focus:z-20 focus:outline-offset-0 bg-white dark:bg-slate-800">3</button>
+<span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-400 ring-1 ring-inset ring-border-light dark:ring-border-dark bg-white dark:bg-slate-800">...</span>
+<button class="relative inline-flex items-center rounded-r-md px-2 py-2 text-slate-400 ring-1 ring-inset ring-border-light dark:ring-border-dark hover:bg-white dark:hover:bg-slate-700 focus:z-20 focus:outline-offset-0 transition-colors bg-white dark:bg-slate-800">
+<span class="sr-only">Next</span>
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

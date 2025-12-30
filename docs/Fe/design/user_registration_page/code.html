@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TourBooker - Registration</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#111518] dark:text-white min-h-screen flex flex-col">
+<!-- Top Navbar -->
+<div class="relative w-full bg-white dark:bg-[#111518] border-b border-[#f0f3f4] dark:border-[#2b353d]">
+<div class="layout-container flex justify-center w-full">
+<div class="flex max-w-[1280px] flex-1 px-4 sm:px-10 py-3 items-center justify-between">
+<div class="flex items-center gap-4 text-[#111518] dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 4H30.6666V17.3334H17.3334V30.6666H4V44H44V4Z"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">TourBooker</h2>
+</div>
+<div class="flex items-center gap-4 sm:gap-9">
+<div class="hidden md:flex gap-9">
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Tours</a>
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-colors shadow-sm">
+<span class="truncate">Log In</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col justify-center py-10 px-4 sm:px-6 lg:px-8">
+<div class="max-w-6xl w-full mx-auto bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+<!-- Left Side: Image/Branding -->
+<div class="relative w-full md:w-5/12 hidden md:block bg-gray-100 dark:bg-gray-800">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Scenic landscape of mountains and road for travel inspiration" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuABdMRKXglA2iVM4_m_irQHRb5rj4oqQJXSxSpS15r1l1c9epOdDCR7ktqEnKZCSs7HEeo46YvR-Q0IFPCdkKg976B8CS5gINQXdMZ8VbEuLKp-f9YpZnliN1RusuNzgE_LOhTKbqwy6mI8OLPhgM3rWnvUjjCJ_FmJHefXz0V8EAKiWthdQP7rinNUWqdJCSA0e7-GiFsfqe_MO9zs4sIC8kJMG6FXnElUdd7szH6cS9Gq4oubE9g3UedbcjpRQ35phVb242FPb8po');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-8 text-white">
+<blockquote class="mb-4 space-y-2">
+<p class="text-lg font-medium">"The journey of a thousand miles begins with a single step."</p>
+<footer class="text-sm text-white/80">— Lao Tzu</footer>
+</blockquote>
+<div class="flex items-center gap-2 text-sm font-medium text-white/90">
+<span class="material-symbols-outlined text-lg">public</span>
+<span>Explore over 50 countries</span>
+</div>
+</div>
+</div>
+<!-- Right Side: Form -->
+<div class="w-full md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
+<!-- Page Heading -->
+<div class="flex flex-col gap-2 mb-8">
+<h1 class="text-[#111518] dark:text-white text-3xl font-black leading-tight tracking-[-0.033em]">Create your account</h1>
+<p class="text-[#617989] dark:text-gray-400 text-base font-normal leading-normal">Join us to discover and book exclusive tours around the world.</p>
+</div>
+<!-- Registration Form -->
+<form class="flex flex-col gap-5" onsubmit="event.preventDefault();">
+<!-- Full Name -->
+<label class="flex flex-col w-full">
+<span class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Full Name</span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</span>
+<input class="form-input flex w-full rounded-lg text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-gray-600 bg-white dark:bg-[#23303d] focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-4 placeholder:text-[#9aaeb8] text-base font-normal leading-normal transition-all" placeholder="e.g. Jane Doe" required="" type="text"/>
+</div>
+</label>
+<!-- Email -->
+<label class="flex flex-col w-full">
+<span class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Email Address</span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</span>
+<input class="form-input flex w-full rounded-lg text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-gray-600 bg-white dark:bg-[#23303d] focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-4 placeholder:text-[#9aaeb8] text-base font-normal leading-normal transition-all" placeholder="e.g. jane@example.com" required="" type="email"/>
+</div>
+</label>
+<!-- Row for Phone (Optional) & Country (Optional) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<label class="flex flex-col w-full">
+<span class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Phone Number <span class="text-gray-400 font-normal">(Optional)</span></span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</span>
+<input class="form-input flex w-full rounded-lg text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-gray-600 bg-white dark:bg-[#23303d] focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-4 placeholder:text-[#9aaeb8] text-base font-normal leading-normal transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</label>
+<label class="flex flex-col w-full">
+<span class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Country <span class="text-gray-400 font-normal">(Optional)</span></span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</span>
+<select class="form-select flex w-full rounded-lg text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-gray-600 bg-white dark:bg-[#23303d] focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-4 text-base font-normal leading-normal transition-all appearance-none">
+<option disabled="" selected="" value="">Select a country</option>
+<option value="US">United States</option>
+<option value="CA">Canada</option>
+<option value="UK">United Kingdom</option>
+<option value="FR">France</option>
+<option value="JP">Japan</option>
+</select>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</span>
+</div>
+</label>
+</div>
+<!-- Passwords -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<label class="flex flex-col w-full">
+<span class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Password</span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">lock</span>
+</span>
+<input class="form-input flex w-full rounded-lg text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-gray-600 bg-white dark:bg-[#23303d] focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-10 placeholder:text-[#9aaeb8] text-base font-normal leading-normal transition-all" placeholder="********" required="" type="password"/>
+</div>
+</label>
+<label class="flex flex-col w-full">
+<span class="text-[#111518] dark:text-gray-200 text-sm font-medium leading-normal pb-2">Confirm Password</span>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</span>
+<input class="form-input flex w-full rounded-lg text-[#111518] dark:text-white border border-[#dbe1e6] dark:border-gray-600 bg-white dark:bg-[#23303d] focus:border-primary focus:ring-1 focus:ring-primary h-12 pl-11 pr-10 placeholder:text-[#9aaeb8] text-base font-normal leading-normal transition-all" placeholder="********" required="" type="password"/>
+</div>
+</label>
+</div>
+<!-- Password Strength Indicator -->
+<div class="flex items-center gap-2 mt-[-10px]">
+<div class="h-1 flex-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+<div class="h-full w-2/3 bg-yellow-400 rounded-full"></div>
+</div>
+<span class="text-xs text-yellow-600 dark:text-yellow-400 font-medium">Medium Strength</span>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-3 mt-2">
+<input class="mt-1 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary bg-white dark:bg-[#23303d] dark:border-gray-600" id="terms" type="checkbox"/>
+<label class="text-sm text-[#617989] dark:text-gray-400" for="terms">
+                            By creating an account, I agree to the <a class="text-primary hover:underline" href="#">Terms of Use</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+                        </label>
+</div>
+<!-- Submit Button -->
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-blue-600 transition-all shadow-md mt-2">
+                        Register Account
+                    </button>
+<!-- Login Link -->
+<p class="text-center text-sm text-[#617989] dark:text-gray-400 mt-2">
+                        Already have an account? <a class="text-primary font-semibold hover:underline" href="#">Log in</a>
+</p>
+<!-- Divider -->
+<div class="relative flex py-2 items-center">
+<div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+<span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase font-medium">Or continue with</span>
+<div class="flex-grow border-t border-gray-200 dark:border-gray-700"></div>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#23303d] py-2.5 px-4 text-sm font-medium text-[#111518] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+<img alt="Google Logo" class="h-5 w-5" data-alt="Google G logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALFUN2rjoIRY45pUWHT_e8md9LdLCasusLyRpGTE1MIOP_RGAs4s696IUCFTh9d_sqb48cyyJq-PdWK6EutFy9xc0ka9u5mr0MDAK3iBatFaPKP1TcY72vFKtM_RUEjUiXQ5_FR6BZQ5XQmTYQ737yenpFEV2u7kF0tTedDBS1BEsf-zLXbciHB2yEXeeA8gjp8Rw-nvtul1n2YPKhX_QDqi8htDE9XLoMKozsAisOI8UBanLnyKBK2OjJ2xWKzR8N12Rx9IYXVCiN"/>
+<span>Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#23303d] py-2.5 px-4 text-sm font-medium text-[#111518] dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+<img alt="Facebook Logo" class="h-5 w-5" data-alt="Facebook F logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMz-G5Z80OfAk8Ld5eZxwPCYaggZ2sqzcVhzIH357WsHfKuDwfRuc69DCu3ex0Agqos67rZ_8-wajnYmvd0TE8cQvLclOFExpZngtqEbPZRA-hagiA42ifzahdBbn88z16lUbtNQkZNMde8AQuMWwAKnl4in_hkl-KYQGq10TOfX2k2FV4IcLpZ0Gk_RkHNQu9vsfUiLaxL_Z8TdzRi1M_S36RofLsWA2MyecnjCUBDxTSp-pSh9bPEpmVYo3dbetRT8_xC8lOhFdb"/>
+<span>Facebook</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+<!-- Simple Footer -->
+<footer class="w-full border-t border-[#f0f3f4] dark:border-[#2b353d] bg-white dark:bg-[#111518] py-6">
+<div class="layout-container flex justify-center w-full">
+<div class="flex flex-col items-center gap-4">
+<p class="text-sm text-[#617989] dark:text-gray-500">© 2023 TourBooker Inc. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</body></html>
