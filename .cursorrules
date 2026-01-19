@@ -1,0 +1,54 @@
+# Cursor Rules for Booking Tour Project
+
+Xem chi tiết các quy tắc trong `.cursor/rules/`:
+- `project-rules.md` - Quy tắc chung
+- `backend-rules.md` - NestJS & Prisma
+- `frontend-rules.md` - Next.js
+- `database-rules.md` - Database patterns
+- `tdd-generation-rules.mdc` - Technical Design Document Template
+- `task-breakdown-rules.mdc` - Task Breakdown Checklist
+- `implementation-rules.mdc` - Implementation Workflow & Standards
+- `code-review-rules.mdc` - Code Review (Senior Architect perspective)
+
+## Quick Reference
+
+**Monorepo**: Turborepo + pnpm workspace
+**Backend**: NestJS 10, Prisma 7, PostgreSQL
+**Frontend**: Next.js 16 App Router
+**Shared**: `@repo/ui` package
+
+## Code Style
+- TypeScript strict mode
+- ESLint + Prettier từ shared configs
+- Kebab-case cho files, camelCase cho functions
+
+## Critical Patterns
+- Optimistic locking cho TourSchedule (version field)
+- Price snapshot trong BookingTraveler
+- Transactions cho booking flow
+
+## Quick Commands (Aliases)
+
+### Code Review Commands
+- `/review [file]` - Review code với Senior Architect perspective
+  - Example: `/review @apps/server/src/modules/auth/auth.service.ts`
+  - Applies: `code-review-rules.mdc`
+  
+- `/audit [file]` - Deep security & performance audit
+  - Example: `/audit @file.ts`
+  - Focus: Security vulnerabilities, performance bottlenecks
+
+### Usage
+```
+# Review current file
+/review
+
+# Review specific file
+/review @path/to/file.ts
+
+# Review multiple files
+/review @file1.ts @file2.ts
+
+# Security audit
+/audit @auth.service.ts
+```
