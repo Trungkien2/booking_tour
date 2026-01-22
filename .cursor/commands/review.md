@@ -1,43 +1,36 @@
-# Command: /review
+# review
 
 Review code với Senior Architect perspective.
 
 ## Usage
 
 ```
-/review [file_path]
-/review @file.ts
-/review
+/review @<file_path>
 ```
 
-## Examples
+## Example
 
-```bash
-# Review specific file
+```
 /review @apps/server/src/modules/auth/auth.service.ts
-
-# Review current file
-/review
-
-# Review multiple files
-/review @file1.ts @file2.ts
 ```
 
 ## What it does
 
-Applies `code-review-rules.mdc` to review code for:
-- Performance & Scalability issues
-- Security vulnerabilities
-- Design patterns & architecture
-- Edge cases & error handling
-- Code quality & maintainability
+1. Analyze code structure và patterns
+2. Check coding standards compliance
+3. Review security considerations
+4. Check performance implications
+5. Suggest improvements
+6. Rate code quality
 
-## Output Format
+## Focus Areas
 
-- 🔴 Critical issues
-- 🟡 High priority issues
-- 🟢 Medium priority issues
-- 🔵 Low priority suggestions
+- **Architecture**: Module structure, dependencies
+- **Security**: Input validation, auth, data exposure
+- **Performance**: N+1 queries, caching, indexing
+- **Maintainability**: DRY, SOLID, readability
+- **Error Handling**: Exceptions, edge cases
 
-Each issue includes:
-- [Problem] -> [Solution] -> [Why]
+## Rules Applied
+
+See: `.cursor/rules/code-review-rules.mdc`

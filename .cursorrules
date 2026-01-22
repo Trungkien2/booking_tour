@@ -1,14 +1,25 @@
 # Cursor Rules for Booking Tour Project
 
-Xem chi tiết các quy tắc trong `.cursor/rules/`:
+## Rules (`.cursor/rules/`)
 - `project-rules.md` - Quy tắc chung
 - `backend-rules.md` - NestJS & Prisma
 - `frontend-rules.md` - Next.js
 - `database-rules.md` - Database patterns
 - `tdd-generation-rules.mdc` - Technical Design Document Template
 - `task-breakdown-rules.mdc` - Task Breakdown Checklist
-- `implementation-rules.mdc` - Implementation Workflow & Standards
+- `implementation-rules.mdc` - Implementation Workflow & Standards (Full)
+- `scaffold-be-rules.mdc` - Scaffold Backend Only (NestJS)
+- `scaffold-fe-rules.mdc` - Scaffold Frontend Only (Next.js)
 - `code-review-rules.mdc` - Code Review (Senior Architect perspective)
+
+## Commands (`.cursor/commands/`)
+- `/scaffold-be` - Scaffold Backend (NestJS)
+- `/scaffold-fe` - Scaffold Frontend (Next.js)
+- `/implement` - Full Implementation
+- `/review` - Code Review
+- `/audit` - Security & Performance Audit
+- `/tdd` - Generate TDD from feature spec
+- `/tasks` - Generate Task Breakdown from TDD
 
 ## Quick Reference
 
@@ -29,6 +40,20 @@ Xem chi tiết các quy tắc trong `.cursor/rules/`:
 
 ## Quick Commands (Aliases)
 
+### Scaffold Commands
+- `/scaffold-be` - Scaffold Backend code (NestJS) - structure only, no business logic
+  - Example: `/scaffold-be @tasks.md @tdd.md Phase 1`
+  - Applies: `scaffold-be-rules.mdc`
+  
+- `/scaffold-fe` - Scaffold Frontend code (Next.js) - structure only, no complex logic
+  - Example: `/scaffold-fe @tasks.md @tdd.md Phase 2`
+  - Applies: `scaffold-fe-rules.mdc`
+
+### Implementation Commands
+- `/implement` - Full implementation with business logic
+  - Example: `/implement @tasks.md @tdd.md`
+  - Applies: `implementation-rules.mdc`
+
 ### Code Review Commands
 - `/review [file]` - Review code với Senior Architect perspective
   - Example: `/review @apps/server/src/modules/auth/auth.service.ts`
@@ -38,16 +63,34 @@ Xem chi tiết các quy tắc trong `.cursor/rules/`:
   - Example: `/audit @file.ts`
   - Focus: Security vulnerabilities, performance bottlenecks
 
-### Usage
+### Documentation Commands
+- `/tdd @<screen_folder>` - Generate Technical Design Document
+  - Example: `/tdd @docs/Fe/screens/register`
+  - Applies: `tdd-generation-rules.mdc`
+
+- `/tasks @<tdd_file>` - Generate Task Breakdown
+  - Example: `/tasks @tdd-register.md`
+  - Applies: `task-breakdown-rules.mdc`
+
+### Usage Examples
 ```
-# Review current file
-/review
+# Generate TDD from screen spec
+/tdd @docs/Fe/screens/register
+
+# Generate tasks from TDD
+/tasks @docs/Fe/screens/register/tdd-register.md
+
+# Scaffold backend Phase 1
+/scaffold-be @tasks-register.md @tdd-register.md Phase 1
+
+# Scaffold frontend Phase 2 & 3
+/scaffold-fe @tasks-register.md @tdd-register.md Phase 2
+
+# Full implementation
+/implement @tasks-register.md @tdd-register.md
 
 # Review specific file
 /review @path/to/file.ts
-
-# Review multiple files
-/review @file1.ts @file2.ts
 
 # Security audit
 /audit @auth.service.ts

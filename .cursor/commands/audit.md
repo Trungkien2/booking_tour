@@ -1,37 +1,41 @@
-# Command: /audit
+# audit
 
-Comprehensive code audit với focus vào security và performance.
+Deep security & performance audit cho code.
 
 ## Usage
 
 ```
-/audit [file_path]
-/audit @file.ts
-/audit
+/audit @<file_path>
 ```
 
-## Examples
+## Example
 
-```bash
-# Audit specific file
+```
 /audit @apps/server/src/modules/auth/auth.service.ts
-
-# Audit current file
-/audit
-
-# Full security audit
-/audit --security
 ```
 
 ## What it does
 
-Deep dive audit focusing on:
-- Security vulnerabilities (SQL Injection, XSS, IDOR, etc.)
-- Performance bottlenecks (N+1 queries, memory leaks)
-- Scalability concerns
-- Best practices violations
+1. **Security Audit**
+   - SQL Injection vulnerabilities
+   - XSS vulnerabilities
+   - Authentication/Authorization flaws
+   - Sensitive data exposure
+   - Input validation gaps
+   - Rate limiting check
 
-## Difference from /review
+2. **Performance Audit**
+   - Database query optimization
+   - N+1 query detection
+   - Memory leaks potential
+   - Caching opportunities
+   - Async/await issues
 
-- `/review`: General code review
-- `/audit`: Deep security & performance audit
+3. **Report**
+   - Severity levels (Critical, High, Medium, Low)
+   - Specific line references
+   - Remediation suggestions
+
+## Rules Applied
+
+See: `.cursor/rules/code-review-rules.mdc`
