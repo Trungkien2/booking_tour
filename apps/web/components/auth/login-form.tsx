@@ -1,18 +1,21 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { loginSchema, type LoginFormData } from '@/lib/validations/auth';
 import { login } from '@/lib/api/auth';
+import { useAuth } from '@/lib/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SocialButtons } from './social-buttons';
 
-export function LoginForm() {
+function LoginFormContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { setAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -26,21 +29,35 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    // TODO: Implement login submission logic
     setIsLoading(true);
     setApiError(null);
 
     try {
-      // Call API
+      // Call API to authenticate
       const response = await login(data);
 
-      // Store tokens
-      // TODO: Implement token storage
+      // Store tokens and user info in auth state
+      setAuth(
+        {
+          id: response.user.id,
+          email: response.user.email,
+          role: response.user.role,
+        },
+        response.accessToken,
+        response.refreshToken
+      );
 
-      // Redirect to home or previous page
-      router.push('/');
-    } catch (error: any) {
-      setApiError(error.message || 'Login failed. Please try again.');
+      // Redirect to home or previous page (if redirect param exists)
+      const redirectTo = searchParams.get('redirect') || '/';
+      router.push(redirectTo);
+      router.refresh(); // Refresh to update server-side auth state
+    } catch (error: unknown) {
+      // Handle different error types
+      if (error instanceof Error) {
+        setApiError(error.message);
+      } else {
+        setApiError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -145,5 +162,13 @@ export function LoginForm() {
         </p>
       </div>
     </div>
+  );
+}
+
+export function LoginForm() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginFormContent />
+    </Suspense>
   );
 }

@@ -12,22 +12,52 @@ export interface LoginResponse {
   };
 }
 
+/**
+ * Authenticates user with email and password.
+ * @param data - Login credentials (email and password)
+ * @returns LoginResponse with tokens and user info
+ * @throws Error if login fails (invalid credentials, network error, etc.)
+ */
 export async function login(data: LoginFormData): Promise<LoginResponse> {
-  // TODO: Implement API call to backend
-  const response = await fetch(`${API_BASE_URL}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include', // Include cookies if using HttpOnly cookies
+    });
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Login failed');
+    if (!response.ok) {
+      // Try to parse error response
+      let errorMessage = 'Login failed. Please try again.';
+      
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || errorMessage;
+      } catch {
+        // If response is not JSON, use status text
+        errorMessage = response.status === 401
+          ? 'Invalid email or password'
+          : response.status === 429
+          ? 'Too many login attempts. Please try again later.'
+          : `Login failed: ${response.statusText}`;
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    const result: LoginResponse = await response.json();
+    return result;
+  } catch (error) {
+    // Re-throw if it's already an Error with message
+    if (error instanceof Error) {
+      throw error;
+    }
+    // Handle network errors
+    throw new Error('Network error. Please check your connection and try again.');
   }
-
-  return response.json();
 }
 
 export async function socialLogin(data: SocialLoginData): Promise<LoginResponse> {
