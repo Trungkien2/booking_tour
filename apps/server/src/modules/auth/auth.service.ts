@@ -1,10 +1,17 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
 import { SocialLoginDto } from './dto/social-login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
+import { RegisterDto } from './dto/register.dto';
+import { RegisterResponseDto } from './dto/register-response.dto';
+import { CheckEmailResponseDto } from './dto/check-email.dto';
 
 @Injectable()
 export class AuthService {
@@ -104,5 +111,80 @@ export class AuthService {
   private generateRefreshToken(userId: number): string {
     const payload = { sub: userId };
     return this.jwtService.sign(payload, { expiresIn: '7d' });
+  }
+
+  /**
+   * Registers a new user account.
+   * @param registerDto - Registration data (fullName, email, password, phone?, country?)
+   * @returns RegisterResponseDto with user info and success message
+   * @throws ConflictException if email already exists
+   */
+  async register(registerDto: RegisterDto): Promise<RegisterResponseDto> {
+    const { email, password, fullName, phone } = registerDto;
+
+    // Check if email already exists (case-insensitive)
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    if (existingUser) {
+      throw new ConflictException('An account with this email already exists');
+    }
+
+    // Hash password with bcrypt
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create user in database
+    const user = await this.prisma.user.create({
+      data: {
+        email: email.toLowerCase().trim(),
+        password: hashedPassword,
+        fullName: fullName.trim(),
+        phone: phone?.trim(),
+        role: 'USER',
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        phone: true,
+        role: true,
+        createdAt: true,
+      },
+    });
+
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName ?? '',
+        phone: user.phone ?? undefined,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+      message: 'Account created successfully. Please log in.',
+    };
+  }
+
+  /**
+   * Checks if an email address is available for registration.
+   * @param email - Email address to check
+   * @returns CheckEmailResponseDto with availability status
+   */
+  async checkEmailAvailability(email: string): Promise<CheckEmailResponseDto> {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+      select: { id: true },
+    });
+
+    if (existingUser) {
+      return {
+        available: false,
+        message: 'This email is already registered',
+      };
+    }
+
+    return { available: true };
   }
 }
