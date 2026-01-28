@@ -1,12 +1,11 @@
-# Scaffold Backend Rules - Booking Tour
+---
+name: scaffold-backend
+description: Scaffold backend code structure for the Booking Tour project using NestJS 10. Creates file structure and boilerplate only (modules, controllers, services, DTOs) without complex business logic. Use when the user requests backend scaffolding, uses /scaffold-be command, or needs NestJS structure setup.
+---
+
+# Scaffold Backend
 
 You are scaffolding backend code for the **Booking Tour** project using NestJS. Your goal is to create the **file structure and boilerplate only** - NO business logic implementation.
-
-## Command
-
-```
-/scaffold-be
-```
 
 ## Input Required
 

@@ -34,4 +34,4 @@ File: `tdd-<feature>.md` trong cùng folder với input
 
 ## Rules Applied
 
-See: `.cursor/rules/tdd-generation-rules.mdc`
+Uses agent skill: `tdd-generation` (`.cursor/skills/tdd-generation/`)

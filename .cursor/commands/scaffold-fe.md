@@ -32,4 +32,4 @@ Phase: Phase 2
 
 ## Rules Applied
 
-See: `.cursor/rules/scaffold-fe-rules.mdc`
+Uses agent skill: `scaffold-frontend` (`.cursor/skills/scaffold-frontend/`)

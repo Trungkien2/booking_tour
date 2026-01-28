@@ -30,4 +30,4 @@ Technical Design Document: @docs/Fe/screens/register/tdd-register.md
 
 ## Rules Applied
 
-See: `.cursor/rules/implementation-rules.mdc`
+Uses agent skill: `implementation` (`.cursor/skills/implementation/`)

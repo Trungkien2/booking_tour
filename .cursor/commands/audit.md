@@ -38,4 +38,4 @@ Deep security & performance audit cho code.
 
 ## Rules Applied
 
-See: `.cursor/rules/code-review-rules.mdc`
+Uses agent skill: `code-review` (`.cursor/skills/code-review/`)

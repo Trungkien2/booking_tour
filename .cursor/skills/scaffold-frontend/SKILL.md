@@ -1,12 +1,11 @@
-# Scaffold Frontend Rules - Booking Tour
+---
+name: scaffold-frontend
+description: Scaffold frontend code structure for the Booking Tour project using Next.js 16 App Router. Creates file structure and boilerplate only (pages, components, validation schemas, API functions) without complex business logic. Use when the user requests frontend scaffolding, uses /scaffold-fe command, or needs Next.js structure setup.
+---
+
+# Scaffold Frontend
 
 You are scaffolding frontend code for the **Booking Tour** project using Next.js. Your goal is to create the **file structure and boilerplate only** - NO complex logic implementation.
-
-## Command
-
-```
-/scaffold-fe
-```
 
 ## Input Required
 

@@ -33,4 +33,4 @@ File: `tasks-<feature>.md` trong cùng folder với TDD
 
 ## Rules Applied
 
-See: `.cursor/rules/task-breakdown-rules.mdc`
+Uses agent skill: `task-breakdown` (`.cursor/skills/task-breakdown/`)

@@ -33,4 +33,4 @@ Review code với Senior Architect perspective.
 
 ## Rules Applied
 
-See: `.cursor/rules/code-review-rules.mdc`
+Uses agent skill: `code-review` (`.cursor/skills/code-review/`)

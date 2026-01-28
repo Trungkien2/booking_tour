@@ -5,12 +5,14 @@
 - `backend-rules.md` - NestJS & Prisma
 - `frontend-rules.md` - Next.js
 - `database-rules.md` - Database patterns
-- `tdd-generation-rules.mdc` - Technical Design Document Template
-- `task-breakdown-rules.mdc` - Task Breakdown Checklist
-- `implementation-rules.mdc` - Implementation Workflow & Standards (Full)
-- `scaffold-be-rules.mdc` - Scaffold Backend Only (NestJS)
-- `scaffold-fe-rules.mdc` - Scaffold Frontend Only (Next.js)
-- `code-review-rules.mdc` - Code Review (Senior Architect perspective)
+
+## Agent Skills (`.cursor/skills/`)
+- `tdd-generation/` - Technical Design Document Template
+- `task-breakdown/` - Task Breakdown Checklist
+- `implementation/` - Implementation Workflow & Standards (Full)
+- `scaffold-backend/` - Scaffold Backend Only (NestJS)
+- `scaffold-frontend/` - Scaffold Frontend Only (Next.js)
+- `code-review/` - Code Review (Senior Architect perspective)
 
 ## Commands (`.cursor/commands/`)
 - `/scaffold-be` - Scaffold Backend (NestJS)
@@ -43,34 +45,35 @@
 ### Scaffold Commands
 - `/scaffold-be` - Scaffold Backend code (NestJS) - structure only, no business logic
   - Example: `/scaffold-be @tasks.md @tdd.md Phase 1`
-  - Applies: `scaffold-be-rules.mdc`
+  - Uses agent skill: `scaffold-backend`
   
 - `/scaffold-fe` - Scaffold Frontend code (Next.js) - structure only, no complex logic
   - Example: `/scaffold-fe @tasks.md @tdd.md Phase 2`
-  - Applies: `scaffold-fe-rules.mdc`
+  - Uses agent skill: `scaffold-frontend`
 
 ### Implementation Commands
 - `/implement` - Full implementation with business logic
   - Example: `/implement @tasks.md @tdd.md`
-  - Applies: `implementation-rules.mdc`
+  - Uses agent skill: `implementation`
 
 ### Code Review Commands
 - `/review [file]` - Review code với Senior Architect perspective
   - Example: `/review @apps/server/src/modules/auth/auth.service.ts`
-  - Applies: `code-review-rules.mdc`
+  - Uses agent skill: `code-review`
   
 - `/audit [file]` - Deep security & performance audit
   - Example: `/audit @file.ts`
   - Focus: Security vulnerabilities, performance bottlenecks
+  - Uses agent skill: `code-review`
 
 ### Documentation Commands
 - `/tdd @<screen_folder>` - Generate Technical Design Document
   - Example: `/tdd @docs/Fe/screens/register`
-  - Applies: `tdd-generation-rules.mdc`
+  - Uses agent skill: `tdd-generation`
 
 - `/tasks @<tdd_file>` - Generate Task Breakdown
   - Example: `/tasks @tdd-register.md`
-  - Applies: `task-breakdown-rules.mdc`
+  - Uses agent skill: `task-breakdown`
 
 ### Usage Examples
 ```

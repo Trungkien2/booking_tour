@@ -32,4 +32,4 @@ Phase: Phase 1
 
 ## Rules Applied
 
-See: `.cursor/rules/scaffold-be-rules.mdc`
+Uses agent skill: `scaffold-backend` (`.cursor/skills/scaffold-backend/`)
