@@ -5,7 +5,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 const DEFAULT_PORT = 4000;
-const DEFAULT_CORS_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+const DEFAULT_CORS_ORIGINS = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:4000',
+  'http://127.0.0.1:4000',
+];
 
 function getCorsOriginList(): string[] {
   const raw = process.env.CORS_ORIGIN;
@@ -15,7 +20,12 @@ function getCorsOriginList(): string[] {
     .split(',')
     .map((o) => o.trim())
     .filter(Boolean);
-  return list.length > 0 ? list : DEFAULT_CORS_ORIGINS;
+  const port = process.env.PORT ?? String(DEFAULT_PORT);
+  const serverOrigins = [
+    `http://localhost:${port}`,
+    `http://127.0.0.1:${port}`,
+  ];
+  return [...new Set([...list, ...serverOrigins])];
 }
 
 function isAllowAllCors(): boolean {

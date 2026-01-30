@@ -59,35 +59,35 @@
 ## Phase 2: Frontend - API & Validation
 
 ### 2.1 Validation Schema
-- [ ] **Task 2.1**: [FE] Add `registerSchema` to `apps/web/lib/validations/auth.ts`
-  - [ ] `fullName`: required, min 2 characters
-  - [ ] `email`: required, valid email format
-  - [ ] `phone`: optional, valid phone pattern
-  - [ ] `country`: optional string
-  - [ ] `password`: required, min 8 chars, must contain uppercase, lowercase, number
-  - [ ] `confirmPassword`: required, must match password
-  - [ ] `agreeTerms`: required, must be true
-  - [ ] Export `RegisterFormData` type
+- [x] **Task 2.1**: [FE] Add `registerSchema` to `apps/web/lib/validations/auth.ts` ✅ (Completed)
+  - [x] `fullName`: required, min 2 characters
+  - [x] `email`: required, valid email format
+  - [x] `phone`: optional, valid phone pattern
+  - [x] `country`: optional string
+  - [x] `password`: required, min 8 chars, must contain uppercase, lowercase, number
+  - [x] `confirmPassword`: required, must match password
+  - [x] `agreeTerms`: required, must be true
+  - [x] Export `RegisterFormData` type
 
 ### 2.2 API Functions
-- [ ] **Task 2.2**: [FE] Add `register()` function to `apps/web/lib/api/auth.ts`
+- [x] **Task 2.2**: [FE] Add `register()` function to `apps/web/lib/api/auth.ts` ✅ (Completed)
   - Define `RegisterRequest` interface
   - Define `RegisterResponse` interface
   - Implement POST request to `/auth/register`
   - Handle error responses
 
-- [ ] **Task 2.3**: [FE] Add `checkEmail()` function to `apps/web/lib/api/auth.ts`
+- [x] **Task 2.3**: [FE] Add `checkEmail()` function to `apps/web/lib/api/auth.ts` ✅ (Completed)
   - Define `CheckEmailResponse` interface
   - Implement GET request to `/auth/check-email`
   - Handle error responses
 
-- [ ] **Task 2.4**: [FE] Create `apps/web/lib/api/countries.ts`
+- [x] **Task 2.4**: [FE] Create `apps/web/lib/api/countries.ts` ✅ (Completed)
   - Define `Country` interface
   - Implement `getCountries()` function
   - GET request to `/api/countries`
 
 ### 2.3 Install Dependencies
-- [ ] **Task 2.5**: [FE] Install `use-debounce` package
+- [x] **Task 2.5**: [FE] Install `use-debounce` package ✅ (Completed)
   ```bash
   cd apps/web && pnpm add use-debounce
   ```
@@ -97,64 +97,64 @@
 ## Phase 3: Frontend - UI Components
 
 ### 3.1 Password Strength Component
-- [ ] **Task 3.1**: [FE] Create `apps/web/components/auth/password-strength.tsx`
-  - [ ] Implement `calculatePasswordStrength()` function
+- [x] **Task 3.1**: [FE] Create `apps/web/components/auth/password-strength.tsx` ✅ (Completed)
+  - [x] Implement `calculatePasswordStrength()` function
     - Check length >= 8, >= 12
     - Check lowercase, uppercase, number, special char
     - Return score, level (weak/medium/strong), color, label, percentage
-  - [ ] Create progress bar UI with color based on strength
-  - [ ] Create requirements checklist with checkmarks
-  - [ ] Export `PasswordStrength` component
+  - [x] Create progress bar UI with color based on strength
+  - [x] Create requirements checklist with checkmarks
+  - [x] Export `PasswordStrength` component
 
 ### 3.2 Country Select Component
-- [ ] **Task 3.2**: [FE] Create `apps/web/components/auth/country-select.tsx`
-  - [ ] Fetch countries list on mount via `getCountries()`
-  - [ ] Show loading state while fetching
-  - [ ] Render select dropdown with flag + name
-  - [ ] Call `onChange` with `{ code, dialCode }` on selection
-  - [ ] Export `CountrySelect` component
+- [x] **Task 3.2**: [FE] Create `apps/web/components/auth/country-select.tsx` ✅ (Completed)
+  - [x] Fetch countries list on mount via `getCountries()`
+  - [x] Show loading state while fetching
+  - [x] Render select dropdown with flag + name
+  - [x] Call `onChange` with `{ code, dialCode }` on selection
+  - [x] Export `CountrySelect` component
 
 ### 3.3 Register Form Component
-- [ ] **Task 3.3**: [FE] Create `apps/web/components/auth/register-form.tsx` - Form Setup
-  - [ ] Setup `useForm` with `zodResolver(registerSchema)`
-  - [ ] Setup state: `isLoading`, `apiError`, `emailStatus`, `selectedCountry`
-  - [ ] Setup `showPassword`, `showConfirmPassword` toggles
+- [x] **Task 3.3**: [FE] Create `apps/web/components/auth/register-form.tsx` - Form Setup ✅ (Completed)
+  - [x] Setup `useForm` with `zodResolver(registerSchema)`
+  - [x] Setup state: `isLoading`, `apiError`, `emailStatus`, `selectedCountry`
+  - [x] Setup `showPassword`, `showConfirmPassword` toggles
 
-- [ ] **Task 3.4**: [FE] Implement email availability check (debounced)
-  - [ ] Use `useDebouncedCallback` (500ms)
-  - [ ] Call `checkEmail()` API on email change
-  - [ ] Update `emailStatus`: 'idle' | 'checking' | 'available' | 'taken'
-  - [ ] Show status indicator icon (spinner, checkmark, X)
+- [x] **Task 3.4**: [FE] Implement email availability check (debounced) ✅ (Completed)
+  - [x] Use `useDebouncedCallback` (500ms)
+  - [x] Call `checkEmail()` API on email change
+  - [x] Update `emailStatus`: 'idle' | 'checking' | 'available' | 'taken'
+  - [x] Show status indicator icon (spinner, checkmark, X)
 
-- [ ] **Task 3.5**: [FE] Implement form fields UI
-  - [ ] Full Name input with validation error
-  - [ ] Email input with availability status indicator
-  - [ ] Country select with phone dial code prefix
-  - [ ] Phone input with country dial code
-  - [ ] Password input with show/hide toggle
-  - [ ] Password strength indicator (conditional)
-  - [ ] Confirm password input with show/hide toggle
-  - [ ] Terms checkbox with links to Terms & Privacy
+- [x] **Task 3.5**: [FE] Implement form fields UI ✅ (Completed)
+  - [x] Full Name input with validation error
+  - [x] Email input with availability status indicator
+  - [x] Country select with phone dial code prefix
+  - [x] Phone input with country dial code
+  - [x] Password input with show/hide toggle
+  - [x] Password strength indicator (conditional)
+  - [x] Confirm password input with show/hide toggle
+  - [x] Terms checkbox with links to Terms & Privacy
 
-- [ ] **Task 3.6**: [FE] Implement form submission
-  - [ ] Format phone with country dial code
-  - [ ] Call `register()` API
-  - [ ] Handle success: redirect to `/login?registered=true`
-  - [ ] Handle error: show API error message
-  - [ ] Disable submit when invalid, loading, or email taken
+- [x] **Task 3.6**: [FE] Implement form submission ✅ (Completed)
+  - [x] Format phone with country dial code
+  - [x] Call `register()` API
+  - [x] Handle success: redirect to `/login?registered=true`
+  - [x] Handle error: show API error message
+  - [x] Disable submit when invalid, loading, or email taken
 
-- [ ] **Task 3.7**: [FE] Add Social Buttons section
-  - [ ] Reuse existing `SocialButtons` component
-  - [ ] Add "OR CONTINUE WITH" divider
+- [x] **Task 3.7**: [FE] Add Social Buttons section ✅ (Completed)
+  - [x] Reuse existing `SocialButtons` component
+  - [x] Add "OR CONTINUE WITH" divider
 
-- [ ] **Task 3.8**: [FE] Add Login link footer
-  - [ ] "Already have an account? Log in" link
+- [x] **Task 3.8**: [FE] Add Login link footer ✅ (Completed)
+  - [x] "Already have an account? Log in" link
 
 ### 3.4 Register Page
-- [ ] **Task 3.9**: [FE] Create `apps/web/app/(auth)/register/page.tsx`
-  - [ ] Add page metadata (title, description)
-  - [ ] Add header with title and subtitle
-  - [ ] Import and render `RegisterForm` component
+- [x] **Task 3.9**: [FE] Create `apps/web/app/(auth)/register/page.tsx` ✅ (Completed)
+  - [x] Add page metadata (title, description)
+  - [x] Add header with title and subtitle
+  - [x] Import and render `RegisterForm` component
 
 ### 3.5 Auth Redirect
 - [ ] **Task 3.10**: [FE] Handle authenticated user redirect

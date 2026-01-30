@@ -48,10 +48,24 @@ model Tour {
   location      String?
   ratingAverage Decimal  @default(0) @map("rating_average") @db.Decimal(2, 1)
   
+  // NEW FIELDS
+  status        TourStatus @default(DRAFT)
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+  deletedAt     DateTime?  @map("deleted_at")
+
   schedules     TourSchedule[]
   reviews       Review[]
 
+  @@index([status])
+  @@index([deletedAt])
   @@map("tours")
+}
+
+enum TourStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
 
 // --- 3. SCHEDULES (Inventory) ---

@@ -12,7 +12,11 @@ import {
  * DTO for user registration request.
  */
 export class RegisterDto {
-  @ApiProperty({ example: 'Nguyễn Văn A', minLength: 2, description: 'Họ tên đầy đủ' })
+  @ApiProperty({
+    example: 'Nguyễn Văn A',
+    minLength: 2,
+    description: 'Họ tên đầy đủ',
+  })
   @IsNotEmpty({ message: 'Full name is required' })
   @IsString()
   @MinLength(2, { message: 'Name must be at least 2 characters' })
@@ -36,7 +40,10 @@ export class RegisterDto {
   })
   password: string;
 
-  @ApiPropertyOptional({ example: '+84123456789', description: 'Số điện thoại' })
+  @ApiPropertyOptional({
+    example: '+84123456789',
+    description: 'Số điện thoại',
+  })
   @IsOptional()
   @IsString()
   phone?: string;

@@ -42,7 +42,10 @@ describe('AuthService', () => {
         fullName: 'User',
       });
 
-      const user = await authService.validateUser('user@example.com', 'password123');
+      const user = await authService.validateUser(
+        'user@example.com',
+        'password123',
+      );
 
       expect(user).toEqual({
         id: 1,
@@ -55,9 +58,9 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException when user not found', async () => {
       prisma.user.findUnique.mockResolvedValue(null);
 
-      await expect(authService.validateUser('missing@example.com', 'password'))
-        .rejects
-        .toBeInstanceOf(UnauthorizedException);
+      await expect(
+        authService.validateUser('missing@example.com', 'password'),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException when password is invalid', async () => {
@@ -70,9 +73,9 @@ describe('AuthService', () => {
         fullName: null,
       });
 
-      await expect(authService.validateUser('user@example.com', 'wrong'))
-        .rejects
-        .toBeInstanceOf(UnauthorizedException);
+      await expect(
+        authService.validateUser('user@example.com', 'wrong'),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
     });
   });
 
@@ -109,4 +112,3 @@ describe('AuthService', () => {
     });
   });
 });
-

@@ -6,12 +6,14 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CountriesModule } from './modules/countries/countries.module';
+import { ToursModule } from './modules/tours/tours.module';
 
 @Module({
   imports: [
     PrismaModule,
     AuthModule,
     CountriesModule,
+    ToursModule,
     ThrottlerModule.forRoot([
       {
         name: 'default',

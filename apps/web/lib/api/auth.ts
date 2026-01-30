@@ -1,6 +1,35 @@
 import { LoginFormData, SocialLoginData } from '@/lib/validations/auth';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+
+// ============================================================================
+// TYPES
+// ============================================================================
+
+export interface RegisterRequest {
+  fullName: string;
+  email: string;
+  password: string;
+  phone?: string;
+  country?: string;
+}
+
+export interface RegisterResponse {
+  user: {
+    id: number;
+    email: string;
+    fullName: string;
+    phone?: string;
+    role: string;
+    createdAt: string;
+  };
+  message: string;
+}
+
+export interface CheckEmailResponse {
+  available: boolean;
+  message?: string;
+}
 
 export interface LoginResponse {
   accessToken: string;
@@ -78,4 +107,80 @@ export async function socialLogin(data: SocialLoginData): Promise<LoginResponse>
   }
 
   return response.json();
+}
+
+// ============================================================================
+// REGISTRATION
+// ============================================================================
+
+/**
+ * Registers a new user account.
+ * @param data - Registration data (fullName, email, password, phone?, country?)
+ * @returns RegisterResponse with user info and success message
+ * @throws Error if registration fails (email exists, validation error, etc.)
+ */
+export async function register(data: RegisterRequest): Promise<RegisterResponse> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      let errorMessage = 'Registration failed. Please try again.';
+
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorData.error || errorMessage;
+      } catch {
+        errorMessage =
+          response.status === 409
+            ? 'An account with this email already exists'
+            : response.status === 400
+              ? 'Invalid registration data'
+              : response.status === 429
+                ? 'Too many registration attempts. Please try again later.'
+                : `Registration failed: ${response.statusText}`;
+      }
+
+      throw new Error(errorMessage);
+    }
+
+    const result: RegisterResponse = await response.json();
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Network error. Please check your connection and try again.');
+  }
+}
+
+/**
+ * Checks if an email address is available for registration.
+ * @param email - Email address to check
+ * @returns CheckEmailResponse with availability status
+ * @throws Error if check fails
+ */
+export async function checkEmail(email: string): Promise<CheckEmailResponse> {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/auth/check-email?email=${encodeURIComponent(email)}`
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to check email availability');
+    }
+
+    const result: CheckEmailResponse = await response.json();
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error('Network error. Please check your connection.');
+  }
 }
