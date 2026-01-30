@@ -46,9 +46,8 @@ export class AuthService {
 
     // Compare password using bcrypt
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Password is incorrect');
     }
 
     // Return user without password
@@ -66,7 +65,11 @@ export class AuthService {
     const user = await this.validateUser(loginDto.email, loginDto.password);
 
     // Generate JWT tokens
-    const accessToken = this.generateAccessToken(user.id, user.email, user.role);
+    const accessToken = this.generateAccessToken(
+      user.id,
+      user.email,
+      user.role,
+    );
     const refreshToken = this.generateRefreshToken(user.id);
 
     // Return tokens and user info
@@ -81,7 +84,9 @@ export class AuthService {
     };
   }
 
-  async validateOAuthLogin(socialLoginDto: SocialLoginDto): Promise<LoginResponseDto> {
+  async validateOAuthLogin(
+    socialLoginDto: SocialLoginDto,
+  ): Promise<LoginResponseDto> {
     // TODO: Implement OAuth login logic
     // 1. Verify idToken with provider
     // 2. Extract user profile
@@ -98,7 +103,11 @@ export class AuthService {
    * @param role - User role
    * @returns JWT access token string
    */
-  private generateAccessToken(userId: number, email: string, role: string): string {
+  private generateAccessToken(
+    userId: number,
+    email: string,
+    role: string,
+  ): string {
     const payload = { sub: userId, email, role };
     return this.jwtService.sign(payload, { expiresIn: '1h' });
   }

@@ -33,44 +33,51 @@ export default function LoginPage() {
           </div>
 
           {/* Right Column: Hero Image (Hidden on mobile) */}
-          <div className="hidden lg:flex flex-1 items-stretch pl-8">
-            <div className="w-full h-full rounded-2xl overflow-hidden relative group">
-              {/* Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{
-                  backgroundImage:
-                    'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8PffVPQfaXfHAE6E6wFMT4vyGmT3kSya-2HZxvnXvIVro6sF97qc2pVsANIB0BsORApHgUPR-MS-bK8S9q0Cz-YAaW6LwWarldeb7_5EYG3BDnrwCPRPjdCZtPwg3Kdo2wSlF6Z39fJ4lKh_bt9XFmGSpIMgWHskPlsOXb0pRpg6I_xxPjf1iDho62ucaMkQ1RT8P4SQdl-P-IQOHZUz9-8L_6N424nU0N4Iu4C8SS1c7JxW7Q97FdV-IZdDsA-V8fk9zpKR4sBV0")',
-                }}
-              />
-
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-
-              {/* Floating Card Content */}
-              <div className="absolute bottom-8 left-8 right-8 text-white">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-yellow-400">
-                    star
-                  </span>
-                  <span className="text-sm font-bold">4.9 (2.5k reviews)</span>
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Explore the Swiss Alps</h3>
-                <p className="text-white/90 text-sm mb-4">
-                  Discover breathtaking views and unforgettable hiking trails in one
-                  of the world&apos;s most beautiful destinations.
-                </p>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-lg p-3 w-fit border border-white/20">
+          <div className="hidden lg:flex flex-1 items-stretch">
+            {/* Beige/Cream Background Container */}
+            <div className="w-full h-full bg-[#f5e6d8] rounded-l-[2rem] rounded-r-2xl p-6 flex items-center justify-center">
+              {/* White Frame */}
+              <div className="w-full h-full bg-white rounded-xl p-3 shadow-sm">
+                {/* Image Container */}
+                <div className="w-full h-full rounded-lg overflow-hidden relative group">
+                  {/* Image */}
                   <div
-                    className="size-10 rounded-full bg-cover bg-center"
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                     style={{
                       backgroundImage:
-                        'url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9U82XvHNfSpnzHyMn6ArlIPspKHsEcTmHQrVORlGaKWdj2fv6wZaGzk2gtY4m7r9mYoPruc4sl0G5zYSRFLHdJpa5iIaeU-f-B3-WdRxWVX4I25SeFEHhNraRIQpBkIWePkcPgHHmkQGxsrvPxyhjrTpXd3yOSWUvIl2P-CFULVB6n6AF_Ue9Cs9-gTTZA5shvXF_QU853XKZPzOefzLXJlG2j-aT5CyiPAHc4BM-uUCQCmU_ViY_DHguaMdxnDkT8VfznFLYWaE_")',
+                        'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD8PffVPQfaXfHAE6E6wFMT4vyGmT3kSya-2HZxvnXvIVro6sF97qc2pVsANIB0BsORApHgUPR-MS-bK8S9q0Cz-YAaW6LwWarldeb7_5EYG3BDnrwCPRPjdCZtPwg3Kdo2wSlF6Z39fJ4lKh_bt9XFmGSpIMgWHskPlsOXb0pRpg6I_xxPjf1iDho62ucaMkQ1RT8P4SQdl-P-IQOHZUz9-8L_6N424nU0N4Iu4C8SS1c7JxW7Q97FdV-IZdDsA-V8fk9zpKR4sBV0")',
                     }}
                   />
-                  <div>
-                    <p className="text-xs text-white/70">Curated by</p>
-                    <p className="text-sm font-bold">Sarah Jenkins</p>
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                  {/* Floating Card Content */}
+                  <div className="absolute bottom-8 left-8 right-8 text-white">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="material-symbols-outlined text-yellow-400">
+                        star
+                      </span>
+                      <span className="text-sm font-bold">4.9 (2.5k reviews)</span>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">Explore the Swiss Alps</h3>
+                    <p className="text-white/90 text-sm mb-4">
+                      Discover breathtaking views and unforgettable hiking trails in one
+                      of the world&apos;s most beautiful destinations.
+                    </p>
+                    <div className="flex items-center gap-3 bg-black/30 backdrop-blur-md rounded-lg p-3 w-fit border border-white/20">
+                      <div
+                        className="size-10 rounded-full bg-cover bg-center"
+                        style={{
+                          backgroundImage:
+                            'url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9U82XvHNfSpnzHyMn6ArlIPspKHsEcTmHQrVORlGaKWdj2fv6wZaGzk2gtY4m7r9mYoPruc4sl0G5zYSRFLHdJpa5iIaeU-f-B3-WdRxWVX4I25SeFEHhNraRIQpBkIWePkcPgHHmkQGxsrvPxyhjrTpXd3yOSWUvIl2P-CFULVB6n6AF_Ue9Cs9-gTTZA5shvXF_QU853XKZPzOefzLXJlG2j-aT5CyiPAHc4BM-uUCQCmU_ViY_DHguaMdxnDkT8VfznFLYWaE_")',
+                        }}
+                      />
+                      <div>
+                        <p className="text-xs text-white/70">Curated by</p>
+                        <p className="text-sm font-bold">Sarah Jenkins</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

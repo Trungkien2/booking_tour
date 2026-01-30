@@ -69,9 +69,9 @@ function LoginFormContent() {
       <SocialButtons />
 
       {/* Divider */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 my-6">
         <div className="h-px bg-[#dbe1e6] dark:bg-[#22303c] flex-1"></div>
-        <span className="text-[#617989] dark:text-gray-500 text-sm font-medium">
+        <span className="text-[#617989] dark:text-gray-500 text-sm font-medium whitespace-nowrap">
           Or continue with email
         </span>
         <div className="h-px bg-[#dbe1e6] dark:bg-[#22303c] flex-1"></div>
@@ -80,28 +80,34 @@ function LoginFormContent() {
       {/* Form Fields */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         {/* Email or Username Field */}
-        <label className="flex flex-col min-w-40 flex-1">
-          <p className="text-[#111518] dark:text-white text-base font-medium leading-normal pb-2">
+        <div className="flex flex-col">
+          <label
+            htmlFor="email"
+            className="text-[#111518] dark:text-white text-base font-medium leading-normal pb-2"
+          >
             Email or Username
-          </p>
+          </label>
           <Input
             id="email"
             type="email"
             placeholder="user@example.com"
             {...register('email')}
-            className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111518] dark:text-white focus:outline-0 focus:ring-2 focus:ring-[#1392ec]/50 border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] focus:border-[#1392ec] h-12 placeholder:text-[#617989] dark:placeholder:text-gray-500 p-[15px] text-base font-normal leading-normal transition-all"
+            className="h-12 py-3 px-5 rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white placeholder:text-[#617989] dark:placeholder:text-gray-500 text-base focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec] transition-all"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
           )}
-        </label>
+        </div>
 
         {/* Password Field */}
-        <label className="flex flex-col min-w-40 flex-1">
+        <div className="flex flex-col">
           <div className="flex justify-between items-center pb-2">
-            <p className="text-[#111518] dark:text-white text-base font-medium leading-normal">
+            <label
+              htmlFor="password"
+              className="text-[#111518] dark:text-white text-base font-medium leading-normal"
+            >
               Password
-            </p>
+            </label>
             <Link
               href="/forgot-password"
               className="text-[#1392ec] text-sm font-bold hover:underline"
@@ -115,12 +121,12 @@ function LoginFormContent() {
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter your password"
               {...register('password')}
-              className="flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111518] dark:text-white focus:outline-0 focus:ring-2 focus:ring-[#1392ec]/50 border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] focus:border-[#1392ec] h-12 placeholder:text-[#617989] dark:placeholder:text-gray-500 p-[15px] pr-12 text-base font-normal leading-normal transition-all"
+              className="h-12 py-3 px-5 pr-12 rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white placeholder:text-[#617989] dark:placeholder:text-gray-500 text-base focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec] transition-all"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#617989] hover:text-[#111518] dark:hover:text-white transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#617989] hover:text-[#111518] dark:hover:text-white transition-colors"
             >
               <span className="material-symbols-outlined text-xl">
                 {showPassword ? 'visibility_off' : 'visibility'}
@@ -130,11 +136,11 @@ function LoginFormContent() {
           {errors.password && (
             <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
           )}
-        </label>
+        </div>
 
         {/* API Error */}
         {apiError && (
-          <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
+          <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 border border-red-200 dark:border-red-800">
             <p className="text-sm text-red-800 dark:text-red-200">{apiError}</p>
           </div>
         )}
@@ -142,7 +148,7 @@ function LoginFormContent() {
         {/* Submit Button */}
         <Button
           type="submit"
-          className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-[#1392ec] hover:bg-blue-600 text-white text-base font-bold leading-normal tracking-[0.015em] mt-2 transition-colors shadow-sm"
+          className="w-full h-12 rounded-lg bg-[#1392ec] hover:bg-[#1180d4] text-white text-base font-bold tracking-[0.015em] mt-2 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={isLoading}
         >
           {isLoading ? 'Signing in...' : 'Sign In'}
@@ -150,12 +156,12 @@ function LoginFormContent() {
       </form>
 
       {/* Footer Sign Up Link */}
-      <div className="mt-6 text-center">
+      <div className="text-center pt-2">
         <p className="text-[#617989] dark:text-gray-400 text-sm">
           Don&apos;t have an account?{' '}
           <Link
             href="/register"
-            className="text-[#1392ec] font-bold hover:underline ml-1"
+            className="text-[#1392ec] font-bold hover:underline"
           >
             Sign Up
           </Link>
