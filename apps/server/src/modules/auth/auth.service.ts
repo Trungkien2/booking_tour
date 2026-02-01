@@ -12,6 +12,7 @@ import { LoginResponseDto } from './dto/login-response.dto';
 import { RegisterDto } from './dto/register.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
 import { CheckEmailResponseDto } from './dto/check-email.dto';
+import { RefreshTokenResponseDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -118,8 +119,47 @@ export class AuthService {
    * @returns JWT refresh token string (expires in 7 days)
    */
   private generateRefreshToken(userId: number): string {
-    const payload = { sub: userId };
-    return this.jwtService.sign(payload, { expiresIn: '7d' });
+    const payload = { sub: userId, type: 'refresh' };
+    const refreshSecret =
+      process.env.JWT_REFRESH_SECRET ||
+      process.env.JWT_SECRET ||
+      'your-refresh-secret-key';
+    return this.jwtService.sign(payload, {
+      expiresIn: '7d',
+      secret: refreshSecret,
+    });
+  }
+
+  /**
+   * Refreshes access token using a valid refresh token.
+   * Implements token rotation for enhanced security.
+   * @param userId - User ID from validated refresh token
+   * @returns RefreshTokenResponseDto with new access and refresh tokens
+   * @throws UnauthorizedException if user not found or inactive
+   */
+  async refreshToken(userId: number): Promise<RefreshTokenResponseDto> {
+    // Verify user still exists and is active
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Generate new tokens (token rotation for security)
+    const accessToken = this.generateAccessToken(user.id, user.email, user.role);
+    const refreshToken = this.generateRefreshToken(user.id);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 
   /**

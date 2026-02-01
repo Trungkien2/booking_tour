@@ -6,6 +6,8 @@ import {
   HttpStatus,
   Get,
   Query,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
@@ -14,10 +16,13 @@ import { LoginDto } from './dto/login.dto';
 import { SocialLoginDto } from './dto/social-login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import {
   ApiLogin,
   ApiRegister,
   ApiSocialLogin,
+  ApiRefreshToken,
   THROTTLE_AUTH,
   THROTTLE_CHECK_EMAIL,
 } from './auth.decorators';
@@ -64,5 +69,17 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Email availability result' })
   async checkEmail(@Query() checkEmailDto: CheckEmailDto) {
     return this.authService.checkEmailAvailability(checkEmailDto.email);
+  }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtRefreshGuard)
+  @Throttle(THROTTLE_AUTH)
+  @ApiRefreshToken()
+  async refreshToken(
+    @Body() refreshTokenDto: RefreshTokenDto,
+    @Req() req: { user: { userId: number } },
+  ) {
+    return this.authService.refreshToken(req.user.userId);
   }
 }

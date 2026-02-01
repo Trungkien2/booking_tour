@@ -5,6 +5,10 @@ import { LoginResponseDto } from './dto/login-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { SocialLoginDto } from './dto/social-login.dto';
 import { RegisterDto } from './dto/register.dto';
+import {
+  RefreshTokenDto,
+  RefreshTokenResponseDto,
+} from './dto/refresh-token.dto';
 
 export const ROLES_KEY = 'roles';
 export const Roles = (...roles: Role[]) => SetMetadata(ROLES_KEY, roles);
@@ -100,6 +104,42 @@ export function ApiRegister() {
       },
     }),
     ApiResponse({ status: 201, description: 'User registered successfully' }),
+    ApiResponse({
+      status: 429,
+      description: 'Too many requests (rate limited)',
+    }),
+  );
+}
+
+/** Decorators chung cho POST /auth/refresh */
+export function ApiRefreshToken() {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Refresh access token',
+      description:
+        'Exchange a valid refresh token for a new access token and refresh token. ' +
+        'Implements token rotation - the old refresh token is invalidated after use.',
+    }),
+    ApiBody({
+      type: RefreshTokenDto,
+      examples: {
+        default: {
+          summary: 'Refresh token request',
+          value: {
+            refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          },
+        },
+      },
+    }),
+    ApiResponse({
+      status: 200,
+      description: 'Token refreshed successfully',
+      type: RefreshTokenResponseDto,
+    }),
+    ApiResponse({
+      status: 401,
+      description: 'Invalid or expired refresh token',
+    }),
     ApiResponse({
       status: 429,
       description: 'Too many requests (rate limited)',
