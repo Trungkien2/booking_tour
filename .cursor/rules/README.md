@@ -9,6 +9,7 @@ Thư mục này chứa các quy tắc và hướng dẫn cho Cursor AI khi làm 
 - `backend-rules.md` - Quy tắc riêng cho backend (NestJS)
 - `frontend-rules.md` - Quy tắc riêng cho frontend (Next.js)
 - `database-rules.md` - Quy tắc cho database và Prisma
+- `troubleshoot-next.md` - Troubleshoot Next.js App Router (Server/Client, event handlers, barrel export) – tránh tái phạm lỗi thường gặp
 
 ### Workflow Rules (`.mdc`)
 - `tdd-generation-rules.mdc` - Quy tắc tạo Technical Design Document

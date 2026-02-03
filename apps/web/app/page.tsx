@@ -2,22 +2,22 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { getTours } from '@/lib/api/tours';
 import { TourFilters } from '@/lib/types/tour';
+import { HeroSection } from '@/components/tours/hero-section';
 import {
-  HeroSection,
   TourGrid,
   TourFiltersBar,
-  TourPagination,
   TourGridSkeleton,
   EmptyState,
+  ShowMoreTours,
 } from '@/components/tours';
 
 export const metadata: Metadata = {
-  title: 'Discover Amazing Tours | TourBooking',
+  title: 'Discover Your Next Adventure | TravelCo',
   description:
-    "Explore the world's most beautiful destinations with our curated tours. Find your next adventure today.",
+    "Explore the world's most beautiful destinations with our curated tours. Hand-picked for your next holiday.",
   keywords: ['tours', 'travel', 'vacation', 'adventure', 'destinations'],
   openGraph: {
-    title: 'Discover Amazing Tours | TourBooking',
+    title: 'Discover Your Next Adventure | TravelCo',
     description:
       "Explore the world's most beautiful destinations with our curated tours.",
     images: ['/og-tours.jpg'],
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Discover Amazing Tours | TourBooking',
+    title: 'Discover Your Next Adventure | TravelCo',
     description: "Explore the world's most beautiful destinations.",
     images: ['/og-tours.jpg'],
   },
@@ -46,7 +46,6 @@ interface HomePageProps {
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
 
-  // Parse search params into filters
   const filters: TourFilters = {
     search: params.search,
     page: params.page ? parseInt(params.page, 10) : 1,
@@ -59,28 +58,27 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
+    <main className="grow w-full">
       <HeroSection initialSearch={filters.search} />
 
-      {/* Tours Section */}
-      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
-        {/* Section Header */}
-        <div className="mb-6 lg:mb-8">
-          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
-            Popular Tours This Season
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Hand-picked destinations for your next holiday.
-          </p>
+      <section className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        {/* Section Header & Filters - bám design: title trái, filter pills phải */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+          <div className="min-w-0">
+            <h2 className="text-[#111518] dark:text-white text-2xl sm:text-3xl font-bold leading-tight tracking-tight">
+              Popular Tours This Season
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm sm:text-base">
+              Hand-picked destinations for your next holiday.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <Suspense fallback={null}>
+              <TourFiltersBar />
+            </Suspense>
+          </div>
         </div>
 
-        {/* Filters */}
-        <Suspense fallback={null}>
-          <TourFiltersBar />
-        </Suspense>
-
-        {/* Tour Grid with Suspense */}
         <Suspense fallback={<TourGridSkeleton count={8} />}>
           <ToursContent filters={filters} />
         </Suspense>
@@ -89,10 +87,6 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   );
 }
 
-/**
- * Async component to fetch and display tours.
- * Wrapped in Suspense boundary above.
- */
 async function ToursContent({ filters }: { filters: TourFilters }) {
   try {
     const { tours, pagination } = await getTours(filters);
@@ -103,30 +97,18 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
 
     return (
       <>
-        {/* Results Count */}
-        <div className="mb-4">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Showing <span className="font-semibold">{tours.length}</span> of{' '}
-            <span className="font-semibold">{pagination.total}</span> tours
-          </p>
-        </div>
-
-        {/* Tour Grid */}
         <TourGrid tours={tours} />
 
-        {/* Pagination */}
-        {pagination.totalPages > 1 && (
-          <Suspense fallback={null}>
-            <TourPagination pagination={pagination} />
-          </Suspense>
-        )}
+        <Suspense fallback={null}>
+          <ShowMoreTours pagination={pagination} />
+        </Suspense>
       </>
     );
   } catch (error) {
     console.error('Error loading tours:', error);
     return (
       <div className="text-center py-12">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg font-semibold text-[#111518] dark:text-white mb-2">
           Unable to load tours
         </h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">

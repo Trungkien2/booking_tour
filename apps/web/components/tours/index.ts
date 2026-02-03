@@ -3,6 +3,7 @@ export { TourCardSkeleton, TourGridSkeleton } from './tour-card-skeleton';
 export { TourGrid } from './tour-grid';
 export { TourFiltersBar } from './tour-filters';
 export { TourPagination } from './tour-pagination';
+export { ShowMoreTours } from './show-more-tours';
 export { TourSearch } from './tour-search';
 export { EmptyState } from './empty-state';
 export { ErrorState } from './error-state';

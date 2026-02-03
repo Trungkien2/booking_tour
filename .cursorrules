@@ -5,6 +5,7 @@
 - `backend-rules.md` - NestJS & Prisma
 - `frontend-rules.md` - Next.js
 - `database-rules.md` - Database patterns
+- `troubleshoot-next.md` - Troubleshoot Next.js (Server/Client, event handlers) – không tái phạm
 
 ## Agent Skills (`.cursor/skills/`)
 - `tdd-generation/` - Technical Design Document Template
