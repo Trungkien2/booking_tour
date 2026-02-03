@@ -1,102 +1,138 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+import { Suspense } from 'react';
+import { Metadata } from 'next';
+import { getTours } from '@/lib/api/tours';
+import { TourFilters } from '@/lib/types/tour';
+import {
+  HeroSection,
+  TourGrid,
+  TourFiltersBar,
+  TourPagination,
+  TourGridSkeleton,
+  EmptyState,
+} from '@/components/tours';
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
+export const metadata: Metadata = {
+  title: 'Discover Amazing Tours | TourBooking',
+  description:
+    "Explore the world's most beautiful destinations with our curated tours. Find your next adventure today.",
+  keywords: ['tours', 'travel', 'vacation', 'adventure', 'destinations'],
+  openGraph: {
+    title: 'Discover Amazing Tours | TourBooking',
+    description:
+      "Explore the world's most beautiful destinations with our curated tours.",
+    images: ['/og-tours.jpg'],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Discover Amazing Tours | TourBooking',
+    description: "Explore the world's most beautiful destinations.",
+    images: ['/og-tours.jpg'],
+  },
 };
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
+interface HomePageProps {
+  searchParams: Promise<{
+    search?: string;
+    page?: string;
+    sort?: string;
+    priceMin?: string;
+    priceMax?: string;
+    difficulty?: string;
+    duration?: string;
+  }>;
+}
+
+export default async function HomePage({ searchParams }: HomePageProps) {
+  const params = await searchParams;
+
+  // Parse search params into filters
+  const filters: TourFilters = {
+    search: params.search,
+    page: params.page ? parseInt(params.page, 10) : 1,
+    sort: params.sort as TourFilters['sort'],
+    priceMin: params.priceMin ? parseInt(params.priceMin, 10) : undefined,
+    priceMax: params.priceMax ? parseInt(params.priceMax, 10) : undefined,
+    difficulty: params.difficulty as TourFilters['difficulty'],
+    duration: params.duration,
+    limit: 8,
+  };
 
   return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Hero Section */}
+      <HeroSection initialSearch={filters.search} />
 
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://turborepo.com/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+      {/* Tours Section */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+        {/* Section Header */}
+        <div className="mb-6 lg:mb-8">
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white">
+            Popular Tours This Season
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Hand-picked destinations for your next holiday.
+          </p>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.com?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.com →
-        </a>
-      </footer>
-    </div>
+
+        {/* Filters */}
+        <Suspense fallback={null}>
+          <TourFiltersBar />
+        </Suspense>
+
+        {/* Tour Grid with Suspense */}
+        <Suspense fallback={<TourGridSkeleton count={8} />}>
+          <ToursContent filters={filters} />
+        </Suspense>
+      </section>
+    </main>
   );
+}
+
+/**
+ * Async component to fetch and display tours.
+ * Wrapped in Suspense boundary above.
+ */
+async function ToursContent({ filters }: { filters: TourFilters }) {
+  try {
+    const { tours, pagination } = await getTours(filters);
+
+    if (tours.length === 0) {
+      return <EmptyState />;
+    }
+
+    return (
+      <>
+        {/* Results Count */}
+        <div className="mb-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Showing <span className="font-semibold">{tours.length}</span> of{' '}
+            <span className="font-semibold">{pagination.total}</span> tours
+          </p>
+        </div>
+
+        {/* Tour Grid */}
+        <TourGrid tours={tours} />
+
+        {/* Pagination */}
+        {pagination.totalPages > 1 && (
+          <Suspense fallback={null}>
+            <TourPagination pagination={pagination} />
+          </Suspense>
+        )}
+      </>
+    );
+  } catch (error) {
+    console.error('Error loading tours:', error);
+    return (
+      <div className="text-center py-12">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          Unable to load tours
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          Something went wrong. Please try again later.
+        </p>
+      </div>
+    );
+  }
 }

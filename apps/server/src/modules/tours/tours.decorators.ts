@@ -1,5 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { CreateTourDto } from './dto/create-tour.dto';
 import { UpdateTourDto } from './dto/update-tour.dto';
 import {
@@ -13,7 +19,8 @@ export function ApiGetStatistics() {
   return applyDecorators(
     ApiOperation({
       summary: 'Lấy thống kê tour',
-      description: 'Trả về tổng số tour, active, draft, fully booked (chỉ ADMIN).',
+      description:
+        'Trả về tổng số tour, active, draft, fully booked (chỉ ADMIN).',
     }),
     ApiResponse({
       status: 200,
@@ -67,7 +74,8 @@ export function ApiFindOneTour() {
   return applyDecorators(
     ApiOperation({
       summary: 'Chi tiết một tour',
-      description: 'Lấy thông tin tour theo ID, kèm tổng slots / đã đặt / còn trống (chỉ ADMIN).',
+      description:
+        'Lấy thông tin tour theo ID, kèm tổng slots / đã đặt / còn trống (chỉ ADMIN).',
     }),
     ApiParam({ name: 'id', type: Number, example: 1, description: 'ID tour' }),
     ApiResponse({
@@ -86,7 +94,8 @@ export function ApiCreateTour() {
   return applyDecorators(
     ApiOperation({
       summary: 'Tạo tour mới',
-      description: 'Tạo tour mới. Slug tự sinh từ tên. Mặc định status = DRAFT (chỉ ADMIN).',
+      description:
+        'Tạo tour mới. Slug tự sinh từ tên. Mặc định status = DRAFT (chỉ ADMIN).',
     }),
     ApiBody({
       type: CreateTourDto,

@@ -48,7 +48,8 @@ export class TourQueryDto {
 
   @ApiPropertyOptional({
     example: 'createdAt:desc',
-    description: 'Sắp xếp (field:asc hoặc field:desc), ví dụ name:asc, createdAt:desc',
+    description:
+      'Sắp xếp (field:asc hoặc field:desc), ví dụ name:asc, createdAt:desc',
   })
   @IsOptional()
   @IsString()

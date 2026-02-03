@@ -78,6 +78,10 @@ async function main() {
         priceChild: 99.99,
         location: 'Quảng Ninh, Vietnam',
         status: 'PUBLISHED',
+        difficulty: 'EASY',
+        featured: true,
+        reviewCount: 2,
+        ratingAverage: 4.5,
       },
     }),
     prisma.tour.upsert({
@@ -95,6 +99,10 @@ async function main() {
         priceChild: 75.0,
         location: 'Lào Cai, Vietnam',
         status: 'PUBLISHED',
+        difficulty: 'MODERATE',
+        featured: true,
+        reviewCount: 0,
+        ratingAverage: 0,
       },
     }),
     prisma.tour.upsert({
@@ -112,6 +120,10 @@ async function main() {
         priceChild: 24.99,
         location: 'Quảng Nam, Vietnam',
         status: 'PUBLISHED',
+        difficulty: 'EASY',
+        featured: false,
+        reviewCount: 1,
+        ratingAverage: 5.0,
       },
     }),
     prisma.tour.upsert({
@@ -128,6 +140,10 @@ async function main() {
         priceChild: 19.99,
         location: 'Tiền Giang, Vietnam',
         status: 'PUBLISHED',
+        difficulty: 'EASY',
+        featured: false,
+        reviewCount: 0,
+        ratingAverage: 0,
       },
     }),
     prisma.tour.upsert({
@@ -143,6 +159,74 @@ async function main() {
         priceChild: 0,
         location: 'Khánh Hòa, Vietnam',
         status: 'DRAFT',
+        difficulty: 'CHALLENGING',
+        featured: false,
+        reviewCount: 0,
+        ratingAverage: 0,
+      },
+    }),
+    // Additional tours for better testing
+    prisma.tour.upsert({
+      where: { slug: 'swiss-alps-adventure' },
+      update: {},
+      create: {
+        name: 'Swiss Alps Adventure',
+        slug: 'swiss-alps-adventure',
+        summary: 'Explore breathtaking mountain views and hiking trails.',
+        description:
+          'Discover the Swiss Alps with guided hikes, cable car rides, and stunning panoramic views. Perfect for nature lovers and adventure seekers.',
+        coverImage: 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=800',
+        durationDays: 5,
+        priceAdult: 1299.0,
+        priceChild: 899.0,
+        location: 'Switzerland',
+        status: 'PUBLISHED',
+        difficulty: 'CHALLENGING',
+        featured: true,
+        reviewCount: 15,
+        ratingAverage: 4.8,
+      },
+    }),
+    prisma.tour.upsert({
+      where: { slug: 'bali-island-escape' },
+      update: {},
+      create: {
+        name: 'Bali Island Escape',
+        slug: 'bali-island-escape',
+        summary: 'Tropical paradise with temples, beaches, and rice terraces.',
+        description:
+          'Experience the magic of Bali. Visit ancient temples, relax on pristine beaches, explore rice terraces, and immerse yourself in Balinese culture.',
+        coverImage: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800',
+        durationDays: 7,
+        priceAdult: 899.0,
+        priceChild: 599.0,
+        location: 'Bali, Indonesia',
+        status: 'PUBLISHED',
+        difficulty: 'EASY',
+        featured: true,
+        reviewCount: 42,
+        ratingAverage: 4.9,
+      },
+    }),
+    prisma.tour.upsert({
+      where: { slug: 'tokyo-cultural-immersion' },
+      update: {},
+      create: {
+        name: 'Tokyo Cultural Immersion',
+        slug: 'tokyo-cultural-immersion',
+        summary: 'Blend of ancient traditions and modern wonders.',
+        description:
+          'Explore Tokyo from ancient temples to neon-lit districts. Experience tea ceremonies, visit shrines, and discover cutting-edge technology.',
+        coverImage: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800',
+        durationDays: 4,
+        priceAdult: 799.0,
+        priceChild: 549.0,
+        location: 'Tokyo, Japan',
+        status: 'PUBLISHED',
+        difficulty: 'EASY',
+        featured: false,
+        reviewCount: 28,
+        ratingAverage: 4.7,
       },
     }),
   ]);
@@ -256,17 +340,10 @@ async function main() {
 
   console.log('Created reviews');
 
-  // Update tour rating average for tour 1 (optional, can be computed in app)
-  const avgRating = (5 + 4) / 2;
-  await prisma.tour.update({
-    where: { id: tours[0].id },
-    data: { ratingAverage: avgRating },
-  });
-
   console.log('\n✅ Seed completed successfully.');
   console.log('  - Users: admin@bookingtour.com (ADMIN), jane@example.com, john@example.com');
   console.log('  - Password for all: Password123!');
-  console.log('  - Tours: 5 (4 published, 1 draft)');
+  console.log('  - Tours:', tours.length, '(7 published, 1 draft)');
   console.log('  - Schedules, bookings, travelers, payment, reviews created.');
 }
 

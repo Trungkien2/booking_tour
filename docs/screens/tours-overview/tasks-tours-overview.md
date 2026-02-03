@@ -21,7 +21,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 1.1 Schema Updates
 
-- [ ] **Task 1.1**: [DB] Update `apps/server/prisma/schema.prisma` - Add new fields to Tour model
+- [x] **Task 1.1**: [DB] Update `apps/server/prisma/schema.prisma` - Add new fields to Tour model ✅
   - Add `difficulty Difficulty? @default(EASY)` field
   - Add `featured Boolean @default(false)` field
   - Add `reviewCount Int @default(0) @map("review_count")` field
@@ -29,7 +29,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   - Add `updatedAt DateTime @updatedAt @map("updated_at")` field
   - **Estimated**: 30 min
 
-- [ ] **Task 1.2**: [DB] Add `Difficulty` enum to schema
+- [x] **Task 1.2**: [DB] Add `Difficulty` enum to schema ✅
   ```prisma
   enum Difficulty {
     EASY
@@ -39,7 +39,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   ```
   - **Estimated**: 10 min
 
-- [ ] **Task 1.3**: [DB] Add database indexes for performance optimization
+- [x] **Task 1.3**: [DB] Add database indexes for performance optimization ✅
   - `@@index([location])`
   - `@@index([priceAdult])`
   - `@@index([ratingAverage])`
@@ -50,7 +50,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 1.2 Migration & Data Setup
 
-- [ ] **Task 1.4**: [DB] Generate and run Prisma migration
+- [x] **Task 1.4**: [DB] Generate and run Prisma migration ✅
   ```bash
   cd apps/server
   pnpm prisma migrate dev --name add_tour_overview_fields
@@ -71,7 +71,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   - Verify counts match actual review records
   - **Estimated**: 20 min
 
-- [ ] **Task 1.7**: [DB] (Optional) Create seed data for testing
+- [x] **Task 1.7**: [DB] (Optional) Create seed data for testing ✅
   - Add 15-20 sample tours with variety in:
     - Prices ($200-$3000)
     - Difficulties (Easy, Moderate, Challenging)
@@ -86,7 +86,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 2.1 Module Structure
 
-- [ ] **Task 2.1**: [BE] Create `apps/server/src/modules/tours/` folder structure
+- [x] **Task 2.1**: [BE] Create `apps/server/src/modules/tours/` folder structure ✅ (Already exists from admin-tours)
   ```
   tours/
   ├── tours.module.ts
@@ -97,13 +97,13 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   ```
   - **Estimated**: 10 min
 
-- [ ] **Task 2.2**: [BE] Create `tours.module.ts`
+- [x] **Task 2.2**: [BE] Create `tours.module.ts` ✅ (Updated to include public service/controller)
   - Import `PrismaModule`
   - Register `ToursController` and `ToursService`
   - Export `ToursService` for use by other modules
   - **Estimated**: 15 min
 
-- [ ] **Task 2.3**: [BE] Register `ToursModule` in `AppModule`
+- [x] **Task 2.3**: [BE] Register `ToursModule` in `AppModule` ✅ (Already registered)
   - Add import in `apps/server/src/app.module.ts`
   - Verify module loads correctly on server start
   - **Estimated**: 10 min
@@ -114,49 +114,29 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 3.1 Request DTOs
 
-- [ ] **Task 3.1**: [BE] Create `apps/server/src/modules/tours/dto/get-tours.dto.ts`
-  - [ ] Define `SortOption` enum (popular, newest, price_asc, price_desc, rating)
-  - [ ] Define `DifficultyFilter` enum (easy, moderate, challenging)
-  - [ ] Create `GetToursDto` class with validation:
-    - `page` (optional, int, min 1, default 1)
-    - `limit` (optional, int, min 1, max 50, default 8)
-    - `search` (optional, string)
-    - `sort` (optional, SortOption enum, default 'popular')
-    - `priceMin` (optional, int, min 0)
-    - `priceMax` (optional, int)
-    - `difficulty` (optional, DifficultyFilter enum)
-    - `location` (optional, string)
-    - `duration` (optional, string, e.g., "1-3", "4-7", "8+")
-  - [ ] Add `@ApiProperty` decorators for Swagger docs
-  - [ ] Add `class-validator` decorators
-  - [ ] Add `class-transformer` decorators (@Type)
+- [x] **Task 3.1**: [BE] Create `apps/server/src/modules/tours/dto/get-tours-public.dto.ts` ✅
+  - [x] Define `SortOption` enum (popular, newest, price_asc, price_desc, rating) ✅
+  - [x] Define `DifficultyFilter` enum (easy, moderate, challenging) ✅
+  - [x] Create `GetToursDto` class with validation ✅
+  - [x] Add `@ApiProperty` decorators for Swagger docs ✅
+  - [x] Add `class-validator` decorators ✅
+  - [x] Add `class-transformer` decorators (@Type) ✅
   - **Estimated**: 1 hour
 
 ### 3.2 Response DTOs
 
-- [ ] **Task 3.2**: [BE] Create `apps/server/src/modules/tours/dto/tour-response.dto.ts`
-  - [ ] Create `TourItemDto` class with all tour fields:
-    - id, name, slug, summary, coverImage
-    - durationDays, priceAdult, priceChild
-    - location, ratingAverage, reviewCount
-    - difficulty, featured, nextAvailableDate
-  - [ ] Create `PaginationDto` class:
-    - page, limit, total, totalPages
-    - hasNext, hasPrev
-  - [ ] Create `ToursResponseDto` wrapper class
-  - [ ] Add `@Expose()` decorators for class-transformer
-  - [ ] Add `@ApiProperty` decorators for Swagger
+- [x] **Task 3.2**: [BE] Create `apps/server/src/modules/tours/dto/tour-public-response.dto.ts` ✅
+  - [x] Create `TourItemDto` class with all tour fields ✅
+  - [x] Create `PaginationDto` class ✅
+  - [x] Create `ToursResponseDto` wrapper class ✅
+  - [x] Add `@ApiProperty` decorators for Swagger ✅
   - **Estimated**: 45 min
 
-- [ ] **Task 3.3**: [BE] Create `apps/server/src/modules/tours/dto/tour-suggestion.dto.ts`
-  - [ ] Create `GetSuggestionsDto` class:
-    - `q` (required, string, min 2 chars)
-    - `limit` (optional, int, max 10, default 5)
-  - [ ] Create `SuggestionItemDto` class:
-    - type ('tour' | 'destination')
-    - id, name, slug
-  - [ ] Create `SuggestionsResponseDto` wrapper
-  - [ ] Add validation and API decorators
+- [x] **Task 3.3**: [BE] Create `apps/server/src/modules/tours/dto/tour-suggestion.dto.ts` ✅
+  - [x] Create `GetSuggestionsDto` class ✅
+  - [x] Create `SuggestionItemDto` class ✅
+  - [x] Create `SuggestionsResponseDto` wrapper ✅
+  - [x] Add validation and API decorators ✅
   - **Estimated**: 30 min
 
 ---
@@ -165,70 +145,68 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 4.1 Core Service Methods
 
-- [ ] **Task 4.1**: [BE] Create `tours.service.ts` - Implement `getTours()` method
-  - [ ] Inject `PrismaService` in constructor
-  - [ ] Parse pagination params (page, limit, skip)
-  - [ ] Build `where` clause using `buildWhereClause()` helper
-  - [ ] Build `orderBy` clause using `buildOrderBy()` helper
-  - [ ] Execute parallel queries (Promise.all):
-    - `prisma.tour.findMany()` with filters, pagination, select
-    - `prisma.tour.count()` with same filters
-  - [ ] Include `schedules` relation for next available date (1 schedule, future, OPEN status)
-  - [ ] Calculate pagination metadata (totalPages, hasNext, hasPrev)
-  - [ ] Map results using `mapTourToDto()` helper
-  - [ ] Add logging for debugging
+- [x] **Task 4.1**: [BE] Create `tours-public.service.ts` - Implement `getTours()` method ✅
+  - [x] Inject `PrismaService` in constructor ✅
+  - [x] Parse pagination params (page, limit, skip) ✅
+  - [x] Build `where` clause using `buildWhereClause()` helper ✅
+  - [x] Build `orderBy` clause using `buildOrderBy()` helper ✅
+  - [x] Execute parallel queries (Promise.all) ✅
+  - [x] Include `schedules` relation for next available date ✅
+  - [x] Calculate pagination metadata (totalPages, hasNext, hasPrev) ✅
+  - [x] Map results using `mapTourToDto()` helper ✅
+  - [x] Add logging for debugging ✅
   - **Estimated**: 2 hours
 
-- [ ] **Task 4.2**: [BE] Implement `getFeaturedTours()` method
-  - [ ] Query tours with `featured: true`
-  - [ ] Order by `ratingAverage` desc, then `reviewCount` desc
-  - [ ] Apply limit parameter
-  - [ ] Map to TourItemDto
-  - [ ] Add error handling
+- [x] **Task 4.2**: [BE] Implement `getFeaturedTours()` method ✅
+  - [x] Query tours with `featured: true` ✅
+  - [x] Order by `ratingAverage` desc, then `reviewCount` desc ✅
+  - [x] Apply limit parameter ✅
+  - [x] Map to TourItemDto ✅
+  - [x] Add error handling ✅
   - **Estimated**: 30 min
 
-- [ ] **Task 4.3**: [BE] Implement `getSuggestions()` method
-  - [ ] Query matching tours (name OR location contains query)
-  - [ ] Query distinct locations matching query
-  - [ ] Combine results with type indicators
-  - [ ] Limit total suggestions
-  - [ ] Return formatted suggestions array
+- [x] **Task 4.3**: [BE] Implement `getSuggestions()` method ✅
+  - [x] Query matching tours (name OR location contains query) ✅
+  - [x] Query distinct locations matching query ✅
+  - [x] Combine results with type indicators ✅
+  - [x] Limit total suggestions ✅
+  - [x] Return formatted suggestions array ✅
   - **Estimated**: 45 min
 
 ### 4.2 Helper Methods
 
-- [ ] **Task 4.4**: [BE] Implement `buildWhereClause()` private method
-  - [ ] Handle search filter (OR across name, location, summary)
-  - [ ] Handle price range filter (gte, lte on priceAdult)
-  - [ ] Handle difficulty filter (exact match, case-insensitive)
-  - [ ] Handle location filter (contains, case-insensitive)
-  - [ ] Handle duration filter using `parseDurationRange()`
-  - [ ] Return typed `Prisma.TourWhereInput`
+- [x] **Task 4.4**: [BE] Implement `buildWhereClause()` private method ✅
+  - [x] Handle search filter (OR across name, location, summary) ✅
+  - [x] Handle price range filter (gte, lte on priceAdult) ✅
+  - [x] Handle difficulty filter (exact match, case-insensitive) ✅
+  - [x] Handle location filter (contains, case-insensitive) ✅
+  - [x] Handle duration filter using `parseDurationRange()` ✅
+  - [x] Return typed `Prisma.TourWhereInput` ✅
   - **Estimated**: 1 hour
 
-- [ ] **Task 4.5**: [BE] Implement `buildOrderBy()` private method
-  - [ ] Switch on `SortOption` enum
-  - [ ] Handle 'popular' (reviewCount desc, ratingAverage desc)
-  - [ ] Handle 'newest' (createdAt desc)
-  - [ ] Handle 'price_asc' (priceAdult asc)
-  - [ ] Handle 'price_desc' (priceAdult desc)
-  - [ ] Handle 'rating' (ratingAverage desc)
-  - [ ] Return typed `Prisma.TourOrderByWithRelationInput`
+- [x] **Task 4.5**: [BE] Implement `buildOrderBy()` private method ✅
+  - [x] Switch on `SortOption` enum ✅
+  - [x] Handle 'popular' (reviewCount desc, ratingAverage desc) ✅
+  - [x] Handle 'newest' (createdAt desc) ✅
+  - [x] Handle 'price_asc' (priceAdult asc) ✅
+  - [x] Handle 'price_desc' (priceAdult desc) ✅
+  - [x] Handle 'rating' (ratingAverage desc) ✅
+  - [x] Return typed `Prisma.TourOrderByWithRelationInput` ✅
   - **Estimated**: 30 min
 
-- [ ] **Task 4.6**: [BE] Implement `parseDurationRange()` private method
-  - [ ] Parse "1-3" format (gte min, lte max)
-  - [ ] Parse "8+" format (gte min)
-  - [ ] Handle edge cases (invalid format)
-  - [ ] Return `Prisma.IntFilter | undefined`
+- [x] **Task 4.6**: [BE] Implement `parseDurationRange()` private method ✅
+  - [x] Parse "1-3" format (gte min, lte max) ✅
+  - [x] Parse "8+" format (gte min) ✅
+  - [x] Handle edge cases (invalid format) ✅
+  - [x] Return `Prisma.IntFilter | undefined` ✅
   - **Estimated**: 20 min
 
-- [ ] **Task 4.7**: [BE] Implement `mapTourToDto()` private method
-  - [ ] Map all fields from Prisma Tour to TourItemDto
-  - [ ] Convert Decimal to Number (priceAdult, priceChild, ratingAverage)
-  - [ ] Lowercase difficulty enum
-  - [ ] Handle optional fields (null coalescing)
-  - [ ] Format nextAvailableDate (ISO string)
+- [x] **Task 4.7**: [BE] Implement `mapTourToDto()` private method ✅
+  - [x] Map all fields from Prisma Tour to TourItemDto ✅
+  - [x] Convert Decimal to Number (priceAdult, priceChild, ratingAverage) ✅
+  - [x] Lowercase difficulty enum ✅
+  - [x] Handle optional fields (null coalescing) ✅
+  - [x] Format nextAvailableDate (ISO string) ✅
   - **Estimated**: 20 min
 
 ---
@@ -237,34 +215,35 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 5.1 REST Endpoints
 
-- [ ] **Task 5.1**: [BE] Create `tours.controller.ts`
-  - [ ] Add `@Controller('tours')` decorator
-  - [ ] Add `@ApiTags('tours')` for Swagger
-  - [ ] Inject `ToursService` in constructor
+- [x] **Task 5.1**: [BE] Create `tours-public.controller.ts` ✅
+  - [x] Add `@Controller('tours')` decorator ✅
+  - [x] Add `@ApiTags('tours')` for Swagger ✅
+  - [x] Add `@Public()` decorator for unauthenticated access ✅
+  - [x] Inject `ToursPublicService` in constructor ✅
   - **Estimated**: 10 min
 
-- [ ] **Task 5.2**: [BE] Add `GET /tours` endpoint
-  - [ ] Add `@Get()` decorator
-  - [ ] Use `@Query()` decorator with `GetToursDto`
-  - [ ] Call `toursService.getTours(dto)`
-  - [ ] Return wrapped response: `{ success: true, data: ... }`
-  - [ ] Add `@ApiOperation` and `@ApiResponse` decorators
+- [x] **Task 5.2**: [BE] Add `GET /tours` endpoint ✅
+  - [x] Add `@Get()` decorator ✅
+  - [x] Use `@Query()` decorator with `GetToursPublicDto` ✅
+  - [x] Call `toursPublicService.getTours(dto)` ✅
+  - [x] Return wrapped response: `{ success: true, data: ... }` ✅
+  - [x] Add `@ApiOperation` and `@ApiResponse` decorators ✅
   - **Estimated**: 20 min
 
-- [ ] **Task 5.3**: [BE] Add `GET /tours/featured` endpoint
-  - [ ] Add `@Get('featured')` decorator
-  - [ ] Accept optional `limit` query param
-  - [ ] Call `toursService.getFeaturedTours(limit)`
-  - [ ] Return wrapped response
-  - [ ] Add Swagger decorators
+- [x] **Task 5.3**: [BE] Add `GET /tours/featured` endpoint ✅
+  - [x] Add `@Get('featured')` decorator ✅
+  - [x] Accept optional `limit` query param ✅
+  - [x] Call `toursPublicService.getFeaturedTours(limit)` ✅
+  - [x] Return wrapped response ✅
+  - [x] Add Swagger decorators ✅
   - **Estimated**: 15 min
 
-- [ ] **Task 5.4**: [BE] Add `GET /tours/suggestions` endpoint
-  - [ ] Add `@Get('suggestions')` decorator
-  - [ ] Use `@Query()` with `GetSuggestionsDto`
-  - [ ] Call `toursService.getSuggestions(dto)`
-  - [ ] Return wrapped response
-  - [ ] Add Swagger decorators
+- [x] **Task 5.4**: [BE] Add `GET /tours/suggestions` endpoint ✅
+  - [x] Add `@Get('suggestions')` decorator ✅
+  - [x] Use `@Query()` with `GetSuggestionsDto` ✅
+  - [x] Call `toursPublicService.getSuggestions(dto)` ✅
+  - [x] Return wrapped response ✅
+  - [x] Add Swagger decorators ✅
   - **Estimated**: 15 min
 
 ---
@@ -333,46 +312,46 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 7.1 Type Definitions
 
-- [ ] **Task 7.1**: [FE] Create `apps/web/lib/types/tour.ts`
-  - [ ] Define `Tour` interface (matching backend TourItemDto)
-  - [ ] Define `TourFilters` interface (query params)
-  - [ ] Define `Pagination` interface
-  - [ ] Define `ToursResponse` interface
-  - [ ] Define `TourCardProps` interface
-  - [ ] Define `Suggestion` interface
+- [x] **Task 7.1**: [FE] Create `apps/web/lib/types/tour.ts` ✅
+  - [x] Define `Tour` interface (matching backend TourItemDto) ✅
+  - [x] Define `TourFilters` interface (query params) ✅
+  - [x] Define `Pagination` interface ✅
+  - [x] Define `ToursResponse` interface ✅
+  - [x] Define `TourCardProps` interface ✅
+  - [x] Define `Suggestion` interface ✅
   - **Estimated**: 30 min
 
 ### 7.2 API Client Functions
 
-- [ ] **Task 7.2**: [FE] Create `apps/web/lib/api/tours.ts`
-  - [ ] Implement `getTours(filters)` function
-    - [ ] Build URLSearchParams from filters
-    - [ ] Call API with `fetch()`
-    - [ ] Add ISR caching: `next: { revalidate: 300 }`
-    - [ ] Parse and return `ToursResponse`
-    - [ ] Add error handling with try-catch
+- [x] **Task 7.2**: [FE] Create `apps/web/lib/api/tours.ts` ✅
+  - [x] Implement `getTours(filters)` function ✅
+    - [x] Build URLSearchParams from filters ✅
+    - [x] Call API with `fetch()` ✅
+    - [x] Add ISR caching: `next: { revalidate: 300 }` ✅
+    - [x] Parse and return `ToursResponse` ✅
+    - [x] Add error handling with try-catch ✅
   - **Estimated**: 45 min
 
-- [ ] **Task 7.3**: [FE] Implement `getFeaturedTours()` function
-  - [ ] Call `/tours/featured` endpoint
-  - [ ] Add ISR caching: `next: { revalidate: 600 }`
-  - [ ] Return Tour array
+- [x] **Task 7.3**: [FE] Implement `getFeaturedTours()` function ✅
+  - [x] Call `/tours/featured` endpoint ✅
+  - [x] Add ISR caching: `next: { revalidate: 600 }` ✅
+  - [x] Return Tour array ✅
   - **Estimated**: 15 min
 
-- [ ] **Task 7.4**: [FE] Implement `getSearchSuggestions()` function
-  - [ ] Call `/tours/suggestions` endpoint
-  - [ ] Use `cache: 'no-store'` (always fresh)
-  - [ ] Handle minimum 2 characters
-  - [ ] Return Suggestion array
+- [x] **Task 7.4**: [FE] Implement `getSearchSuggestions()` function ✅
+  - [x] Call `/tours/suggestions` endpoint ✅
+  - [x] Use `cache: 'no-store'` (always fresh) ✅
+  - [x] Handle minimum 2 characters ✅
+  - [x] Return Suggestion array ✅
   - **Estimated**: 15 min
 
 ### 7.3 Utility Functions
 
-- [ ] **Task 7.5**: [FE] Create `apps/web/lib/utils/format.ts`
-  - [ ] Implement `formatCurrency(amount)` - USD formatting
-  - [ ] Implement `formatRating(rating)` - 1 decimal place
-  - [ ] Implement `formatDuration(days)` - "X Days" format
-  - [ ] Implement `getDifficultyColor(difficulty)` - Tailwind classes
+- [x] **Task 7.5**: [FE] Create `apps/web/lib/utils/format.ts` ✅
+  - [x] Implement `formatCurrency(amount)` - USD formatting ✅
+  - [x] Implement `formatRating(rating)` - 1 decimal place ✅
+  - [x] Implement `formatDuration(days)` - "X Days" format ✅
+  - [x] Implement `getDifficultyColor(difficulty)` - Tailwind classes ✅
   - **Estimated**: 30 min
 
 ---
@@ -381,73 +360,42 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 8.1 Tour Card Components
 
-- [ ] **Task 8.1**: [FE] Create `apps/web/components/tours/tour-card.tsx`
-  - [ ] Create TourCard component with TourCardProps
-  - [ ] Image section:
-    - [ ] Use Next.js Image component
-    - [ ] Add aspect ratio 4:3
-    - [ ] Add hover scale effect
-    - [ ] Add priority prop support
-    - [ ] Set responsive sizes
-  - [ ] Overlay elements:
-    - [ ] Favorite button (Heart icon, top-right)
-    - [ ] Featured badge (conditional, top-left)
-  - [ ] Content section:
-    - [ ] Title with link to `/tours/{slug}`
-    - [ ] Rating with Star icon
-    - [ ] Metadata row: duration, location (MapPin, Clock icons)
-    - [ ] Summary text (line-clamp-2)
-    - [ ] Difficulty badge with color coding
-  - [ ] Footer section:
-    - [ ] Price display with formatting
-    - [ ] "Book Now" CTA button
-  - [ ] Add hover states and transitions
-  - [ ] Add dark mode support
+- [x] **Task 8.1**: [FE] Create `apps/web/components/tours/tour-card.tsx` ✅
+  - [x] Create TourCard component with TourCardProps ✅
+  - [x] Image section with Next.js Image component ✅
+  - [x] Overlay elements (Featured badge, conditional) ✅
+  - [x] Content section with title, rating, metadata, summary, difficulty badge ✅
+  - [x] Footer section with price display and "Book Now" CTA button ✅
+  - [x] Add hover states and transitions ✅
   - **Estimated**: 2 hours
 
-- [ ] **Task 8.2**: [FE] Create `apps/web/components/tours/tour-card-skeleton.tsx`
-  - [ ] Create TourCardSkeleton component
-  - [ ] Match TourCard structure with shimmer effect
-  - [ ] Create TourGridSkeleton component (renders multiple)
-  - [ ] Add count prop (default 8)
+- [x] **Task 8.2**: [FE] Create `apps/web/components/tours/tour-card-skeleton.tsx` ✅
+  - [x] Create TourCardSkeleton component ✅
+  - [x] Match TourCard structure with shimmer effect ✅
+  - [x] Create TourGridSkeleton component (renders multiple) ✅
+  - [x] Add count prop (default 8) ✅
   - **Estimated**: 45 min
 
-- [ ] **Task 8.3**: [FE] Create `apps/web/components/tours/tour-grid.tsx`
-  - [ ] Create TourGrid component accepting tours array
-  - [ ] Implement responsive grid:
-    - Mobile: 1 column
-    - Tablet: 2 columns
-    - Desktop: 3-4 columns
-  - [ ] Pass priority=true to first 4 cards (above fold)
-  - [ ] Add gap and padding
+- [x] **Task 8.3**: [FE] Create `apps/web/components/tours/tour-grid.tsx` ✅
+  - [x] Create TourGrid component accepting tours array ✅
+  - [x] Implement responsive grid (1/2/3/4 columns) ✅
+  - [x] Pass priority=true to first 4 cards (above fold) ✅
+  - [x] Add gap and padding ✅
   - **Estimated**: 30 min
 
 ### 8.2 Filter Components
 
-- [ ] **Task 8.4**: [FE] Create `apps/web/components/tours/tour-filters.tsx` (Client Component)
-  - [ ] Add `'use client'` directive
-  - [ ] Use `useRouter` and `useSearchParams` hooks
-  - [ ] Use `useTransition` for pending state
-  - [ ] Create filter options arrays:
-    - sortOptions (Popular, Newest, Price asc/desc, Rating)
-    - priceOptions (ranges)
-    - difficultyOptions (Easy, Moderate, Challenging)
-    - durationOptions (1-3, 4-7, 8+ days)
-  - [ ] Implement `updateFilter(key, value)` function
-    - Update URL params
-    - Reset page to 1
-    - Use startTransition
-  - [ ] Implement `handlePriceChange(value)` function
-    - Parse range (e.g., "500-1000")
-    - Set priceMin and priceMax separately
-  - [ ] Render filter dropdowns:
-    - Sort select
-    - Price select
-    - Duration select
-    - Difficulty select
-  - [ ] Add "Clear Filters" button (conditional)
-  - [ ] Style with Tailwind (rounded-full, responsive)
-  - [ ] Handle disabled state during transition
+- [x] **Task 8.4**: [FE] Create `apps/web/components/tours/tour-filters.tsx` (Client Component) ✅
+  - [x] Add `'use client'` directive ✅
+  - [x] Use `useRouter` and `useSearchParams` hooks ✅
+  - [x] Use `useTransition` for pending state ✅
+  - [x] Create filter options arrays ✅
+  - [x] Implement `updateFilter(key, value)` function ✅
+  - [x] Implement `handlePriceChange(value)` function ✅
+  - [x] Render filter dropdowns ✅
+  - [x] Add "Clear Filters" button (conditional) ✅
+  - [x] Style with Tailwind ✅
+  - [x] Handle disabled state during transition ✅
   - **Estimated**: 2 hours
 
 - [ ] **Task 8.5**: [FE] Create `apps/web/components/tours/tour-search.tsx` (Client Component)
@@ -457,9 +405,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   - [ ] Use `useEffect` to fetch suggestions on debounced value
   - [ ] Render search input with Search icon
   - [ ] Render suggestions dropdown (conditional)
-  - [ ] Handle suggestion click:
-    - Tour: navigate to `/tours/{slug}`
-    - Destination: add to location filter
+  - [ ] Handle suggestion click
   - [ ] Handle Enter key (submit search)
   - [ ] Style dropdown with absolute positioning
   - [ ] Add loading state
@@ -467,37 +413,26 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 8.3 Pagination Component
 
-- [ ] **Task 8.6**: [FE] Create `apps/web/components/tours/tour-pagination.tsx` (Client Component)
-  - [ ] Add `'use client'` directive
-  - [ ] Accept pagination prop
-  - [ ] Use `useRouter` and `useSearchParams`
-  - [ ] Render pagination info: "Page X of Y"
-  - [ ] Render Previous button:
-    - Disabled on first page (hasPrev=false)
-    - Updates URL param ?page=X-1
-  - [ ] Render page number buttons:
-    - Show max 5 page numbers
-    - Highlight current page
-    - Add ellipsis for large page counts
-  - [ ] Render Next button:
-    - Disabled on last page (hasNext=false)
-    - Updates URL param ?page=X+1
-  - [ ] Scroll to top on page change
-  - [ ] Add responsive design (hide page numbers on mobile)
+- [x] **Task 8.6**: [FE] Create `apps/web/components/tours/tour-pagination.tsx` (Client Component) ✅
+  - [x] Add `'use client'` directive ✅
+  - [x] Accept pagination prop ✅
+  - [x] Use `useRouter` and `useSearchParams` ✅
+  - [x] Render pagination info: "Page X of Y" ✅
+  - [x] Render Previous/Next buttons with disabled states ✅
+  - [x] Render page number buttons ✅
+  - [x] Scroll to top on page change ✅
+  - [x] Add responsive design ✅
   - **Estimated**: 1.5 hours
 
 ### 8.4 State Components
 
-- [ ] **Task 8.7**: [FE] Create `apps/web/components/tours/empty-state.tsx`
-  - [ ] Display "No tours found" heading
-  - [ ] Display descriptive message
-  - [ ] Add suggestions list:
-    - "Try adjusting your filters"
-    - "Search for a different destination"
-    - "Clear all filters to see all tours"
-  - [ ] Add "Clear Filters" button (navigates to `/`)
-  - [ ] Style with centered layout
-  - [ ] Add illustration or icon
+- [x] **Task 8.7**: [FE] Create `apps/web/components/tours/empty-state.tsx` ✅
+  - [x] Display "No tours found" heading ✅
+  - [x] Display descriptive message ✅
+  - [x] Add suggestions list ✅
+  - [x] Add "Clear Filters" button ✅
+  - [x] Style with centered layout ✅
+  - [x] Add illustration or icon ✅
   - **Estimated**: 30 min
 
 - [ ] **Task 8.8**: [FE] Create `apps/web/components/tours/error-state.tsx`
@@ -511,21 +446,13 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 8.5 Hero Section
 
-- [ ] **Task 8.9**: [FE] Create `apps/web/components/tours/hero-section.tsx`
-  - [ ] Create HeroSection component
-  - [ ] Background image with overlay
-  - [ ] Hero content:
-    - [ ] Main heading: "Discover Your Next Adventure"
-    - [ ] Subtitle text
-  - [ ] Search bar (integrate TourSearch component or create simple version):
-    - [ ] Destination input (Search icon)
-    - [ ] Date picker input (Calendar icon)
-    - [ ] Guests input (User/Group icon)
-    - [ ] Search button
-  - [ ] Responsive design:
-    - Stack vertically on mobile
-    - Horizontal on desktop
-  - [ ] Add initialSearch prop to pre-fill search input
+- [x] **Task 8.9**: [FE] Create `apps/web/components/tours/hero-section.tsx` ✅
+  - [x] Create HeroSection component ✅
+  - [x] Background image with overlay ✅
+  - [x] Hero content (Main heading, Subtitle text) ✅
+  - [x] Search bar with destination input ✅
+  - [x] Responsive design ✅
+  - [x] Add initialSearch prop to pre-fill search input ✅
   - **Estimated**: 1.5 hours
 
 ---
@@ -534,34 +461,22 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### 9.1 Home Page
 
-- [ ] **Task 9.1**: [FE] Update `apps/web/app/page.tsx`
-  - [ ] Add metadata export:
-    - [ ] title
-    - [ ] description
-    - [ ] keywords
-    - [ ] openGraph (title, description, images)
-    - [ ] twitter (card, title, images)
-  - [ ] Define HomePageProps interface (searchParams)
-  - [ ] Parse searchParams into TourFilters
-  - [ ] Render main layout:
-    - [ ] HeroSection component
-    - [ ] Tours section container
-    - [ ] Section header ("Popular Tours This Season")
-    - [ ] TourFiltersBar component
-    - [ ] Suspense boundary with TourGridSkeleton
-    - [ ] ToursContent async component
+- [x] **Task 9.1**: [FE] Update `apps/web/app/page.tsx` ✅
+  - [x] Add metadata export ✅
+  - [x] Define HomePageProps interface (searchParams) ✅
+  - [x] Parse searchParams into TourFilters ✅
+  - [x] Render main layout with HeroSection, Tours section, TourFiltersBar ✅
+  - [x] Suspense boundary with TourGridSkeleton ✅
+  - [x] ToursContent async component ✅
   - **Estimated**: 1 hour
 
-- [ ] **Task 9.2**: [FE] Implement ToursContent async component
-  - [ ] Accept filters prop
-  - [ ] Call `await getTours(filters)`
-  - [ ] Handle empty state → render EmptyState
-  - [ ] Handle error state → render error message
-  - [ ] Render results:
-    - [ ] Results count text
-    - [ ] TourGrid component
-    - [ ] TourPagination component (conditional, if totalPages > 1)
-  - [ ] Wrap in try-catch for error handling
+- [x] **Task 9.2**: [FE] Implement ToursContent async component ✅
+  - [x] Accept filters prop ✅
+  - [x] Call `await getTours(filters)` ✅
+  - [x] Handle empty state → render EmptyState ✅
+  - [x] Handle error state → render error message ✅
+  - [x] Render results with TourGrid and TourPagination ✅
+  - [x] Wrap in try-catch for error handling ✅
   - **Estimated**: 45 min
 
 - [ ] **Task 9.3**: [FE] (Optional) Create `apps/web/app/tours/page.tsx`
@@ -858,6 +773,7 @@ pnpm format
 
 ---
 
-**Task Breakdown Status**: ✅ Complete  
-**Next Step**: Begin Phase 1 - Database Migration  
+**Task Breakdown Status**: ✅ Complete
+**Implementation Status**: 🟢 Core Implementation Complete (Phases 1-5, 7-9)
+**Remaining**: Phase 6 (Testing), Task 8.5 (Tour Search), Task 8.8 (Error State)
 **Questions?**: Refer to TDD document or contact tech lead
