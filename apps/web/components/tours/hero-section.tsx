@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { Search, Calendar, Users } from 'lucide-react';
 
 const HERO_IMAGE =
   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80';
@@ -29,9 +30,9 @@ export function HeroSection({ initialSearch = '' }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative w-full">
+    <section className="relative w-full shrink-0">
       <div
-        className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-4 relative"
+        className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat items-center justify-center p-4 pb-16 md:pb-20 relative"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%), url("${HERO_IMAGE}")`,
         }}
@@ -48,61 +49,81 @@ export function HeroSection({ initialSearch = '' }: HeroSectionProps) {
           </p>
         </div>
 
-        {/* Search Bar - bám design: 4 ô ngang, nút Search bên phải */}
+        {/* Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="w-full max-w-[800px] z-10 mt-4 px-2"
+          className="w-full max-w-4xl z-10 mt-4 px-4"
         >
-          <div className="flex flex-col md:flex-row bg-white dark:bg-gray-800 p-2 rounded-xl shadow-xl gap-2">
-            <div className="flex-1 flex items-center px-3 h-12 md:h-14 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
-              <span className="material-symbols-outlined text-gray-400 mr-3">
-                search
-              </span>
+          <div className="flex flex-col md:flex-row md:items-center bg-white dark:bg-gray-900 rounded-[28px] shadow-2xl">
+            {/* Location Field */}
+            <div className="flex-[1.4] flex items-center gap-4 pl-6 pr-4 h-14 md:h-[72px] border-b md:border-b-0 border-gray-100 dark:border-gray-800">
+              <Search className="size-5 text-gray-400 flex-shrink-0" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Where do you want to go?"
-                className="w-full bg-transparent border-none focus:ring-0 text-[#111518] dark:text-white placeholder-gray-400 text-base outline-none"
+                className="w-full bg-transparent border-none focus:ring-0 text-gray-800 dark:text-white placeholder-gray-400 text-[15px] outline-none"
               />
             </div>
-            <div className="flex-1 flex items-center px-3 h-12 md:h-14 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
-              <span className="material-symbols-outlined text-gray-400 mr-3">
-                calendar_month
-              </span>
+
+            {/* Divider 1 */}
+            <div className="hidden md:flex items-center h-[72px]">
+              <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
+            </div>
+
+            {/* Dates Field */}
+            <div className="flex-[1.2] flex items-center gap-4 pl-6 pr-4 h-14 md:h-[72px] border-b md:border-b-0 border-gray-100 dark:border-gray-800">
+              <Calendar className="size-5 text-gray-400 flex-shrink-0" />
               <input
                 type="text"
                 onFocus={(e) => (e.target.type = 'date')}
                 onBlur={(e) => {
-                  e.target.type = 'text';
+                  if (!e.target.value) e.target.type = 'text';
                   setDates(e.target.value);
                 }}
                 onChange={(e) => setDates(e.target.value)}
                 placeholder="Add dates"
-                className="w-full bg-transparent border-none focus:ring-0 text-[#111518] dark:text-white placeholder-gray-400 text-base outline-none"
+                className="w-full bg-transparent border-none focus:ring-0 text-gray-800 dark:text-white placeholder-gray-400 text-[15px] outline-none"
                 style={{ colorScheme: 'light' }}
               />
             </div>
-            <div className="flex-1 flex items-center px-3 h-12 md:h-14">
-              <span className="material-symbols-outlined text-gray-400 mr-3">
-                group
-              </span>
+
+            {/* Divider 2 */}
+            <div className="hidden md:flex items-center h-[72px]">
+              <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
+            </div>
+
+            {/* Guests Field */}
+            <div className="flex-1 flex items-center gap-4 pl-6 pr-4 h-14 md:h-[72px]">
+              <Users className="size-5 text-gray-400 flex-shrink-0" />
               <input
                 type="number"
                 min={1}
                 value={guests || ''}
                 onChange={(e) => setGuests(e.target.value)}
                 placeholder="Guests"
-                className="w-full bg-transparent border-none focus:ring-0 text-[#111518] dark:text-white placeholder-gray-400 text-base outline-none"
+                className="w-full bg-transparent border-none focus:ring-0 text-gray-800 dark:text-white placeholder-gray-400 text-[15px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
-            <button
-              type="submit"
-              disabled={isPending}
-              className="bg-[#1392ec] hover:bg-blue-600 text-white font-bold rounded-lg px-8 h-12 md:h-14 transition-all shadow-md md:ml-2 mt-2 md:mt-0 w-full md:w-auto disabled:opacity-70"
-            >
-              {isPending ? 'Searching...' : 'Search'}
-            </button>
+
+            {/* Search Button */}
+            <div className="p-3">
+              <button
+                type="submit"
+                disabled={isPending}
+                className="w-full md:w-auto bg-primary hover:bg-[#0d7ed4] !text-white font-semibold rounded-full px-10 h-12 md:h-[48px] transition-all duration-200 disabled:opacity-70 flex items-center justify-center gap-2 text-[15px]"
+              >
+                {isPending ? (
+                  <>
+                    <span className="size-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Searching...
+                  </>
+                ) : (
+                  'Search'
+                )}
+              </button>
+            </div>
           </div>
         </form>
       </div>

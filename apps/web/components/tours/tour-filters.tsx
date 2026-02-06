@@ -47,18 +47,18 @@ function FilterPill({
   disabled: boolean;
 }) {
   return (
-    <label className="relative flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 hover:border-[#1392ec] dark:hover:border-[#1392ec] transition-colors cursor-pointer">
+    <label className="relative flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 px-4 min-w-[100px] hover:border-gray-300 dark:hover:border-gray-500 transition-colors cursor-pointer shadow-sm">
       <span className="text-[#111518] dark:text-gray-200 text-sm font-medium pointer-events-none whitespace-nowrap">
         {label}
       </span>
-      <span className="material-symbols-outlined text-gray-500 text-[18px] pointer-events-none shrink-0">
+      <span className="material-symbols-outlined text-gray-500 dark:text-gray-400 text-[18px] pointer-events-none shrink-0">
         expand_more
       </span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer rounded-full"
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer rounded-lg"
         aria-label={label}
       >
         <option value="">All</option>
@@ -118,7 +118,7 @@ export function TourFiltersBar() {
       : "";
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+    <div className="flex flex-wrap gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
       <FilterPill
         label="Price"
         value={currentPrice}

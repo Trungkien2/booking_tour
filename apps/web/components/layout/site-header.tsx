@@ -1,67 +1,66 @@
 import Link from "next/link";
+import { Globe, ShoppingCart, User, Menu } from "lucide-react";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-white dark:bg-background-dark border-b border-[#f0f3f4] dark:border-gray-800">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-background-dark border-b border-gray-100 dark:border-gray-800/50 shadow-sm">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-4 text-[#111518] dark:text-white"
+            className="flex items-center gap-3 text-[#111518] dark:text-white group"
           >
-            <div className="size-8 flex items-center justify-center text-primary">
-              <span className="material-symbols-outlined !text-3xl">
-                travel_explore
-              </span>
+            <div className="size-9 flex items-center justify-center text-primary">
+              <Globe className="size-7 stroke-[1.5]" />
             </div>
-            <h2 className="text-lg font-bold leading-tight tracking-[-0.015em]">
+            <span className="text-lg font-bold leading-tight tracking-[-0.015em]">
               TravelCo
-            </h2>
+            </span>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex flex-1 justify-end gap-8 items-center">
-            <div className="flex items-center gap-6 lg:gap-9">
+            <div className="flex items-center gap-8">
               <Link
                 href="/tours"
-                className="text-[#111518] dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors"
+                className="text-[#111518] dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors duration-200"
               >
                 Destinations
               </Link>
               <Link
                 href="/about"
-                className="text-[#111518] dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors"
+                className="text-[#111518] dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors duration-200"
               >
                 About
               </Link>
               <Link
                 href="/contact"
-                className="text-[#111518] dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors"
+                className="text-[#111518] dark:text-gray-200 text-sm font-medium hover:text-primary transition-colors duration-200"
               >
                 Contact
               </Link>
             </div>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="hidden lg:flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary hover:bg-blue-600 text-white text-sm font-bold transition-colors"
+                className="hidden lg:inline-flex items-center w-[100px] justify-center rounded-xl h-10 px-5 bg-primary hover:bg-primary/90 text-white text-sm font-semibold shadow-sm transition-all duration-200 hover:shadow-md"
               >
-                <span className="truncate">Sign In</span>
+                Sign In
               </Link>
               <button
                 type="button"
-                className="flex items-center justify-center rounded-lg size-10 bg-[#f0f3f4] dark:bg-gray-800 text-[#111518] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-center rounded-xl size-10 bg-gray-100 dark:bg-gray-800 text-[#111518] dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
                 aria-label="Shopping cart"
               >
-                <span className="material-symbols-outlined">shopping_cart</span>
+                <ShoppingCart className="size-5 stroke-[1.5]" />
               </button>
               <button
                 type="button"
-                className="flex items-center justify-center rounded-lg size-10 bg-[#f0f3f4] dark:bg-gray-800 text-[#111518] dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="flex items-center justify-center rounded-xl size-10 bg-gray-100 dark:bg-gray-800 text-[#111518] dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
                 aria-label="Account"
               >
-                <span className="material-symbols-outlined">person</span>
+                <User className="size-5 stroke-[1.5]" />
               </button>
             </div>
           </nav>
@@ -69,10 +68,10 @@ export function SiteHeader() {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            className="md:hidden flex items-center p-2 text-gray-600 dark:text-gray-300"
+            className="md:hidden flex items-center justify-center size-10 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
             aria-label="Menu"
           >
-            <span className="material-symbols-outlined">menu</span>
+            <Menu className="size-5 stroke-[1.5]" />
           </button>
         </div>
       </div>

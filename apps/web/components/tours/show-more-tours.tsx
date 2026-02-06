@@ -26,7 +26,7 @@ export function ShowMoreTours({ pagination }: ShowMoreToursProps) {
   };
 
   return (
-    <div className="mt-12 flex justify-center">
+    <div className="flex justify-center pt-2">
       <button
         type="button"
         onClick={goToNextPage}
