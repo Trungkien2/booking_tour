@@ -41,6 +41,20 @@
 - Price snapshot trong BookingTraveler
 - Transactions cho booking flow
 
+## MCP & Context Optimization (Serena) — BẮT BUỘC
+
+**Khi nào**: Bất kỳ khi user yêu cầu đọc code, tìm kiếm codebase, sửa code, hoặc phân tích cấu trúc project — **luôn bắt đầu bằng Serena**, không cần user nhắc "dùng serena".
+
+- **Bắt buộc**: Trước khi dùng `read_file`/`Grep`/`SemanticSearch` cho code trong repo này, **phải** dùng công cụ Serena tương ứng (list_dir, find_file, search_for_pattern, get_symbols_overview, find_symbol, find_referencing_symbols) trừ khi task không liên quan code (ví dụ chỉ hỏi conceptual).
+- **Công cụ Serena dùng trước**:
+  - Cấu trúc thư mục / file → `mcp_serena_list_dir`, `mcp_serena_find_file`
+  - Tìm pattern / text trong code → `mcp_serena_search_for_pattern`
+  - Overview symbols trong file → `mcp_serena_get_symbols_overview`
+  - Tìm symbol (class, function, method) → `mcp_serena_find_symbol`
+  - Tìm chỗ gọi symbol → `mcp_serena_find_referencing_symbols`
+- **Workflow**: (1) Serena lấy overview/tìm đúng chỗ → (2) Chỉ khi cần mới đọc full file bằng read_file.
+- **Token**: Ưu tiên snippet từ Serena thay vì đọc nhiều file lớn bằng read_file.
+
 ## Quick Commands (Aliases)
 
 ### Scaffold Commands

@@ -62,7 +62,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     <main className="grow w-full flex flex-col gap-12 sm:gap-16 pb-12 sm:pb-20">
       <HeroSection initialSearch={filters.search} />
 
-      <section className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 sm:pb-24">
+      <section className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
           <div className="min-w-0">
             <h2 className="text-[#111518] dark:text-white text-2xl sm:text-3xl font-bold leading-tight tracking-tight">

@@ -18,8 +18,12 @@ import { TourDeleteDialog } from "@/components/admin/tours/tour-delete-dialog";
 import { TourFormData } from "@/lib/validations/tour";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/hooks/use-auth";
 
 export default function AdminToursPage() {
+  const { accessToken } = useAuth();
+  const token = accessToken ?? "";
+
   const [tours, setTours] = useState<Tour[]>([]);
   const [meta, setMeta] = useState<TourListResponse["meta"]>({
     total: 0,
@@ -37,12 +41,6 @@ export default function AdminToursPage() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
-
-  // TODO: Get real token
-  const token =
-    typeof window !== "undefined"
-      ? localStorage.getItem("accessToken") || ""
-      : "";
 
   const fetchTours = useCallback(async () => {
     if (!token) {
@@ -65,13 +63,14 @@ export default function AdminToursPage() {
     fetchTours();
   }, [fetchTours]);
 
-  const handleSearchChange = (search: string) => {
+  // Stable callbacks so TourFilters' useEffect doesn't re-run every render (avoids infinite API loop)
+  const handleSearchChange = useCallback((search: string) => {
     setQueryParams((prev) => ({ ...prev, search, page: 1 }));
-  };
+  }, []);
 
-  const handleStatusChange = (status: string) => {
+  const handleStatusChange = useCallback((status: string) => {
     setQueryParams((prev) => ({ ...prev, status, page: 1 }));
-  };
+  }, []);
 
   const handleEdit = (tour: Tour) => {
     setSelectedTour(tour);

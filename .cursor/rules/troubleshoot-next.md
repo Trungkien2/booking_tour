@@ -125,7 +125,45 @@ Trước khi tạo hoặc sửa component, tự hỏi:
 
 ---
 
-## 5. Tham chiếu
+## 5. Tailwind v4: padding/margin reset ghi đè utility
+
+### Triệu chứng
+
+- `px-4`, `sm:px-6`, `lg:px-8` (hoặc bất kỳ class padding/margin nào) không có tác dụng.
+- `mx-auto` không căn giữa (container vẫn sát lề).
+- `text-white`, `text-primary` (hoặc class màu chữ khác) trên thẻ `<a>` không ăn — chữ vẫn màu inherit.
+- Container/section không có khoảng cách hai bên theo breakpoint.
+
+### Nguyên nhân
+
+- Tailwind v4 dùng **CSS cascade layers**. Style đặt **ngoài** layer (unlayered) có thứ tự ưu tiên cao hơn utility của Tailwind (nằm trong layer).
+- Nếu trong `globals.css` có reset **padding/margin** hoặc style **color** (vd. `* { margin: 0; }`, `a { color: inherit; }`) **không** nằm trong `@layer base` → unlayered thắng → utility `px-*`/`py-*`, `mx-auto`, `text-*` không áp dụng.
+
+### Cách xử lý
+
+- Đưa toàn bộ **reset padding và margin** (ảnh hưởng đến layout) vào **`@layer base`** trong `globals.css`:
+
+```css
+@layer base {
+  * { margin: 0; }
+  *::before, *::after { margin: 0; }
+  *:where(:not(input, textarea, select, button)) { padding: 0; }
+  a { color: inherit; text-decoration: none; }  /* để text-white, text-primary... override được trên <a> */
+  /* ... other base styles ... */
+}
+```
+
+- Chỉ đặt trong `@layer base` những gì thực sự là base/reset; utility của Tailwind sẽ override đúng.
+
+### Container có padding responsive
+
+- Sau khi sửa layer, dùng lại bình thường: `px-4 sm:px-6 lg:px-8` hoặc `max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8`.
+- Nên thêm `w-full` (và nếu cần `box-border`) cho wrapper để padding tính đúng:  
+  `className="w-full max-w-[1280px] mx-auto box-border px-4 sm:px-6 lg:px-8"`.
+
+---
+
+## 6. Tham chiếu
 
 - [Next.js: Client Components](https://nextjs.org/docs/app/building-your-application/rendering/client-components)
 - [Next.js: Server Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components)

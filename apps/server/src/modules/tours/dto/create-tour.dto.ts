@@ -2,12 +2,13 @@ import {
   IsNotEmpty,
   IsString,
   IsInt,
-  IsDecimal,
+  IsNumber,
   IsOptional,
   IsEnum,
   Min,
   IsArray,
   IsUrl,
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -45,6 +46,7 @@ export class CreateTourDto {
     description: 'URL ảnh bìa',
   })
   @IsOptional()
+  @ValidateIf((o) => o.coverImage != null && o.coverImage !== '')
   @IsUrl()
   coverImage?: string;
 
@@ -55,6 +57,7 @@ export class CreateTourDto {
   })
   @IsOptional()
   @IsArray()
+  @ValidateIf((o) => Array.isArray(o.images) && o.images.length > 0)
   @IsUrl({}, { each: true })
   images?: string[];
 
@@ -75,7 +78,8 @@ export class CreateTourDto {
   })
   @IsNotEmpty()
   @Type(() => Number)
-  @IsDecimal()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
   priceAdult: number;
 
   @ApiProperty({
@@ -84,7 +88,8 @@ export class CreateTourDto {
   })
   @IsNotEmpty()
   @Type(() => Number)
-  @IsDecimal()
+  @IsNumber({ maxDecimalPlaces: 2 })
+  @Min(0)
   priceChild: number;
 
   @ApiPropertyOptional({

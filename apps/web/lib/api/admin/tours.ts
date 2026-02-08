@@ -133,6 +133,16 @@ export async function createTour(
   return response.json();
 }
 
+/** Chuẩn hóa payload update: bỏ URL rỗng để backend validation không lỗi. */
+function sanitizeUpdatePayload(
+  data: Partial<Tour> & { coverImage?: string; images?: string[] }
+): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...data };
+  if (out.coverImage === "") delete out.coverImage;
+  if (Array.isArray(out.images) && out.images.length === 0) delete out.images;
+  return out;
+}
+
 /**
  * Update tour.
  */
@@ -141,13 +151,14 @@ export async function updateTour(
   data: Partial<Tour>,
   token: string,
 ): Promise<Tour> {
+  const body = sanitizeUpdatePayload(data);
   const response = await fetch(`${API_BASE_URL}/api/admin/tours/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {

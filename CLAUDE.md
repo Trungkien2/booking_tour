@@ -94,6 +94,16 @@ Available slash commands (in `.claude/commands/`):
 /review @auth.service.ts             # Review code
 ```
 
+## MCP & Context Optimization
+
+- **Priority tooling**: Always prefer the **serena** MCP server for context gathering, project indexing, and code search.
+- **Token efficiency**: Before reading many files manually (e.g. with `ls` or `cat`), use serena’s search/indexing tools to find and load only the relevant code snippets.
+- **Workflow**:
+  1. Use serena to get a high-level overview of the project structure when it’s not already in context.
+  2. Use serena to find specific logic or variable definitions across the codebase instead of doing broad file reads.
+  3. Request full file content only when serena’s summaries are not enough for the task.
+- **Context maintenance**: Use serena to update or refresh context when switching between different parts of the project.
+
 ## Environment Variables
 
 Server (`apps/server/.env`):

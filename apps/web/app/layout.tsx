@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,9 +44,7 @@ export default function RootLayout({
         className={`font-sans antialiased min-h-screen flex flex-col bg-background-light dark:bg-background-dark ${geistSans.variable} ${geistMono.variable}`}
         style={{ fontFamily: "var(--font-display), var(--font-geist-sans), sans-serif" }}
       >
-        <SiteHeader />
-        <div className="grow flex flex-col">{children}</div>
-        <SiteFooter />
+        {children}
       </body>
     </html>
   );

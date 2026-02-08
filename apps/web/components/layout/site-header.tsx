@@ -4,7 +4,7 @@ import { Globe, ShoppingCart, User, Menu } from "lucide-react";
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white dark:bg-background-dark border-b border-gray-100 dark:border-gray-800/50 shadow-sm">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" max-w-[1280px] mx-auto box-border px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link
