@@ -11,12 +11,12 @@ Admin page for managing all bookings with comprehensive filtering, status update
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-012` |
-| Route | `/admin/bookings` |
-| Access | ADMIN only |
-| Layout | Admin Layout |
+| Item      | Value             |
+| --------- | ----------------- |
+| Screen ID | `SCR-012`         |
+| Route     | `/admin/bookings` |
+| Access    | ADMIN only        |
+| Layout    | Admin Layout      |
 
 ## Key Features
 
@@ -31,6 +31,7 @@ Admin page for managing all bookings with comprehensive filtering, status update
 ## UI Components
 
 ### Page Header
+
 ```yaml
 breadcrumb:
   - label: "Dashboard"
@@ -53,6 +54,7 @@ actions:
 ```
 
 ### Statistics Cards
+
 ```yaml
 cards:
   - label: "Total Revenue"
@@ -74,6 +76,7 @@ cards:
 ```
 
 ### Filters
+
 ```yaml
 search:
   placeholder: "Search booking ID, customer name..."
@@ -102,6 +105,7 @@ tour_filter:
 ```
 
 ### Bookings Table
+
 ```yaml
 columns:
   - id: "checkbox"
@@ -170,12 +174,14 @@ pagination:
 ## Actions
 
 ### Update Booking Status
+
 - Open modal with status options
 - Update via API
 - Show success toast
 - Refresh table row
 
 ### Process Refund
+
 - Open refund modal
 - Show payment details
 - Enter refund amount (full/partial)
@@ -183,11 +189,13 @@ pagination:
 - Update booking status to REFUNDED
 
 ### Export Bookings
+
 - Export filtered results to CSV
 - Include all booking details
 - Date range in filename
 
 ### Create Manual Booking
+
 - Navigate to create booking form
 - Admin can book on behalf of customer
 

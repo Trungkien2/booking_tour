@@ -40,6 +40,7 @@ app/
 ## Component Patterns
 
 1. **Server Components** (default):
+
    ```tsx
    // app/tours/page.tsx
    export default async function ToursPage() {
@@ -49,6 +50,7 @@ app/
    ```
 
 2. **Client Components**:
+
    ```tsx
    "use client";
    export function BookingForm() {

@@ -5,6 +5,7 @@ Thư mục này chứa các quy tắc và hướng dẫn cho Cursor AI khi làm 
 ## Cấu trúc
 
 ### Core Rules
+
 - `project-rules.md` - Quy tắc chung cho toàn bộ project
 - `backend-rules.md` - Quy tắc riêng cho backend (NestJS)
 - `frontend-rules.md` - Quy tắc riêng cho frontend (Next.js)
@@ -12,6 +13,7 @@ Thư mục này chứa các quy tắc và hướng dẫn cho Cursor AI khi làm 
 - `troubleshoot-next.md` - Troubleshoot Next.js App Router (Server/Client, event handlers, barrel export) – tránh tái phạm lỗi thường gặp
 
 ### Workflow Rules (`.mdc`)
+
 - `tdd-generation-rules.mdc` - Quy tắc tạo Technical Design Document
 - `task-breakdown-rules.mdc` - Quy tắc breakdown tasks từ TDD
 - `implementation-rules.mdc` - Quy tắc implement tasks theo TDD và checklist

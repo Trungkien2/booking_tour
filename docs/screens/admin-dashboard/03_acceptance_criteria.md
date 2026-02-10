@@ -3,6 +3,7 @@
 ## Feature: Admin Dashboard Overview
 
 ### Scenario 1: View dashboard as admin
+
 ```gherkin
 Given I am logged in as an admin
 When I navigate to "/admin/dashboard"
@@ -16,6 +17,7 @@ And I should see top performing tours list
 ```
 
 ### Scenario 2: Statistics cards display correctly
+
 ```gherkin
 Given I am on the admin dashboard
 Then I should see the "Total Revenue" card with a dollar value
@@ -27,6 +29,7 @@ And each card should show the comparison text "vs last month"
 ```
 
 ### Scenario 3: Revenue trend chart interaction
+
 ```gherkin
 Given I am on the admin dashboard
 When I hover over a point on the revenue chart
@@ -37,6 +40,7 @@ Then I should be navigated to "/admin/reports"
 ```
 
 ### Scenario 4: Quick action - Add New Tour
+
 ```gherkin
 Given I am on the admin dashboard
 When I click the "Add New Tour" button
@@ -44,6 +48,7 @@ Then I should be navigated to "/admin/tours/new"
 ```
 
 ### Scenario 5: Quick action - Create Booking
+
 ```gherkin
 Given I am on the admin dashboard
 When I click the "Create Booking" button
@@ -51,6 +56,7 @@ Then I should be navigated to "/admin/bookings/new"
 ```
 
 ### Scenario 6: Quick action - Invite User
+
 ```gherkin
 Given I am on the admin dashboard
 When I click the "Invite User" button
@@ -58,6 +64,7 @@ Then a modal should open with the invite user form
 ```
 
 ### Scenario 7: Recent bookings table
+
 ```gherkin
 Given I am on the admin dashboard
 Then I should see the recent bookings table with columns:
@@ -73,6 +80,7 @@ Then I should be navigated to "/admin/bookings"
 ```
 
 ### Scenario 8: Top performing tours list
+
 ```gherkin
 Given I am on the admin dashboard
 Then I should see the top performing tours list
@@ -85,6 +93,7 @@ And tours should be sorted by revenue descending
 ```
 
 ### Scenario 9: Dashboard auto-refresh
+
 ```gherkin
 Given I am on the admin dashboard
 And the data was loaded at "10:30:00"
@@ -95,6 +104,7 @@ And there should be no loading indicator during auto-refresh
 ```
 
 ### Scenario 10: Loading state
+
 ```gherkin
 Given I am logged in as admin
 When I navigate to "/admin/dashboard"
@@ -108,6 +118,7 @@ And the skeletons should be replaced with data when loaded
 ```
 
 ### Scenario 11: Error state
+
 ```gherkin
 Given I am on the admin dashboard
 And the API returns an error
@@ -118,6 +129,7 @@ Then the data should be fetched again
 ```
 
 ### Scenario 12: Access denied - Non-admin user
+
 ```gherkin
 Given I am logged in as a regular USER
 When I navigate to "/admin/dashboard"
@@ -126,6 +138,7 @@ And I should see a toast message "Access denied"
 ```
 
 ### Scenario 13: Access denied - Not logged in
+
 ```gherkin
 Given I am not logged in
 When I navigate to "/admin/dashboard"
@@ -134,6 +147,7 @@ And the return URL should be saved
 ```
 
 ### Scenario 14: Sidebar navigation
+
 ```gherkin
 Given I am on the admin dashboard
 Then the "Dashboard" menu item should be highlighted
@@ -145,6 +159,7 @@ And I should be redirected to "/login"
 ```
 
 ### Scenario 15: Responsive - Tablet view
+
 ```gherkin
 Given I am viewing the admin dashboard on a tablet (768px - 1280px)
 Then the sidebar should be collapsed (icons only)
@@ -153,6 +168,7 @@ And the chart and quick actions should be stacked
 ```
 
 ### Scenario 16: Responsive - Mobile view
+
 ```gherkin
 Given I am viewing the admin dashboard on mobile (< 768px)
 Then the sidebar should be hidden
@@ -163,6 +179,7 @@ And the statistics cards should be in 1 column
 ```
 
 ### Scenario 17: Empty state - No bookings
+
 ```gherkin
 Given I am on the admin dashboard
 And there are no bookings yet

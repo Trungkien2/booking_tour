@@ -26,25 +26,25 @@ Error: Event handlers cannot be passed to Client Component props.
 
 ### Component cần `'use client'` khi có ít nhất một trong các thứ sau
 
-| Dấu hiệu | Ví dụ |
-|----------|--------|
-| Event handlers | `onClick`, `onSubmit`, `onChange`, `onBlur`, `onFocus` |
+| Dấu hiệu                | Ví dụ                                                  |
+| ----------------------- | ------------------------------------------------------ |
+| Event handlers          | `onClick`, `onSubmit`, `onChange`, `onBlur`, `onFocus` |
 | React hooks client-only | `useState`, `useReducer`, `useEffect`, `useTransition` |
-| Next client APIs | `useRouter`, `useSearchParams`, `usePathname` |
-| Browser APIs | `window`, `document`, `localStorage` |
-| Form có `onSubmit` | `<form onSubmit={handleSubmit}>` |
+| Next client APIs        | `useRouter`, `useSearchParams`, `usePathname`          |
+| Browser APIs            | `window`, `document`, `localStorage`                   |
+| Form có `onSubmit`      | `<form onSubmit={handleSubmit}>`                       |
 
 ### Ví dụ đúng
 
 ```tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function HeroSection({ initialSearch }: { initialSearch?: string }) {
   const router = useRouter();
-  const [search, setSearch] = useState(initialSearch ?? '');
+  const [search, setSearch] = useState(initialSearch ?? "");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,7 +84,7 @@ export function HeroSection({ initialSearch }: { initialSearch?: string }) {
 
 - **Ưu tiên**: Import trực tiếp từ file component khi component đó là Client:
   ```ts
-  import { HeroSection } from '@/components/tours/hero-section';
+  import { HeroSection } from "@/components/tours/hero-section";
   ```
 - Giữ barrel cho component **không** có event/hooks (Server-safe).
 - Nếu vẫn lỗi: xóa cache và chạy lại: `rm -rf apps/web/.next && pnpm dev`.
@@ -114,14 +114,14 @@ Trước khi tạo hoặc sửa component, tự hỏi:
 
 ## 4. Tóm tắt nhanh
 
-| Tình huống | Hành động |
-|------------|-----------|
-| Component có form với `onSubmit` | Thêm `'use client'` |
-| Component có `useState` / `useRouter` / `useSearchParams` | Thêm `'use client'` |
-| Component có `<button onClick={...}>` (kể cả preventDefault) | Thêm `'use client'` |
-| Layout (Header/Footer) có form hoặc nút có onClick | Thêm `'use client'` vào Header/Footer |
+| Tình huống                                                                  | Hành động                                                            |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Component có form với `onSubmit`                                            | Thêm `'use client'`                                                  |
+| Component có `useState` / `useRouter` / `useSearchParams`                   | Thêm `'use client'`                                                  |
+| Component có `<button onClick={...}>` (kể cả preventDefault)                | Thêm `'use client'`                                                  |
+| Layout (Header/Footer) có form hoặc nút có onClick                          | Thêm `'use client'` vào Header/Footer                                |
 | Lỗi "Event handlers cannot be passed..." nhưng component đã có 'use client' | Thử import trực tiếp từ file thay vì barrel; xóa `.next` và chạy lại |
-| Chỉ hiển thị dữ liệu, không event, không hooks | Giữ Server Component (không cần `'use client'`) |
+| Chỉ hiển thị dữ liệu, không event, không hooks                              | Giữ Server Component (không cần `'use client'`)                      |
 
 ---
 
@@ -145,10 +145,20 @@ Trước khi tạo hoặc sửa component, tự hỏi:
 
 ```css
 @layer base {
-  * { margin: 0; }
-  *::before, *::after { margin: 0; }
-  *:where(:not(input, textarea, select, button)) { padding: 0; }
-  a { color: inherit; text-decoration: none; }  /* để text-white, text-primary... override được trên <a> */
+  * {
+    margin: 0;
+  }
+  *::before,
+  *::after {
+    margin: 0;
+  }
+  *:where(:not(input, textarea, select, button)) {
+    padding: 0;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  } /* để text-white, text-primary... override được trên <a> */
   /* ... other base styles ... */
 }
 ```

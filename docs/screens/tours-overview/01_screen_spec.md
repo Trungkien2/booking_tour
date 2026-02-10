@@ -2,41 +2,47 @@
 
 ## 1. Screen Overview
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-003` |
-| Screen Name | Tours Overview |
-| Route | `/` or `/tours` |
-| Layout | Main Layout |
-| Access Level | Public |
+| Item         | Value           |
+| ------------ | --------------- |
+| Screen ID    | `SCR-003`       |
+| Screen Name  | Tours Overview  |
+| Route        | `/` or `/tours` |
+| Layout       | Main Layout     |
+| Access Level | Public          |
 
 ## 2. Screen States
 
 ### 2.1 Loading State
+
 - Show skeleton cards (8 items)
 - Hero section visible
 - Filters disabled
 
 ### 2.2 Success State
+
 - Display tour cards grid
 - Show total count
 - Enable filters and pagination
 
 ### 2.3 Empty State
+
 - Show "No tours found" message
 - Display search suggestions
 - Show "Clear filters" button
 
 ### 2.4 Error State
+
 - Show error message with retry button
 - Keep filters visible
 
 ### 2.5 403 State
+
 - N/A (public page)
 
 ## 3. UI Components
 
 ### 3.1 Header Navigation
+
 ```yaml
 logo:
   text: "TravelCo"
@@ -68,6 +74,7 @@ actions:
 ```
 
 ### 3.2 Hero Section
+
 ```yaml
 background:
   type: "image"
@@ -87,6 +94,7 @@ search:
 ```
 
 ### 3.3 Filter Bar
+
 ```yaml
 title: "Popular Tours This Season"
 subtitle: "Search through our most loved destinations for your next adventure."
@@ -131,6 +139,7 @@ filters:
 ```
 
 ### 3.4 Tour Card
+
 ```yaml
 card_layout:
   image:
@@ -168,6 +177,7 @@ card_layout:
 ```
 
 ### 3.5 Pagination
+
 ```yaml
 type: "numbered"
 show_total: true
@@ -190,6 +200,7 @@ load_more_option:
 ```
 
 ### 3.6 Footer
+
 ```yaml
 brand:
   logo: "TravelCo"
@@ -232,6 +243,7 @@ copyright: "© 2025 TravelCo. All rights reserved."
 ## 4. Actions & Events
 
 ### 4.1 Search Tours
+
 ```yaml
 trigger: "Type in search box and press Enter OR click search icon"
 debounce: 300ms
@@ -242,6 +254,7 @@ action:
 ```
 
 ### 4.2 Apply Filters
+
 ```yaml
 trigger: "Select filter option"
 action:
@@ -252,6 +265,7 @@ action:
 ```
 
 ### 4.3 Pagination
+
 ```yaml
 trigger: "Click page number or next/prev"
 action:
@@ -262,6 +276,7 @@ action:
 ```
 
 ### 4.4 Load More
+
 ```yaml
 trigger: "Click 'Show More Tours' button"
 action:

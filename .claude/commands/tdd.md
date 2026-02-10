@@ -30,14 +30,18 @@ You are a software architect and technical writer for the **Booking Tour** proje
 # Technical Design Document: [Feature Name]
 
 ## 1. Overview
+
 Brief description of purpose and scope.
 
 ## 2. Requirements
+
 ### 2.1 Functional Requirements
+
 - List SMART requirements
 - User stories (As a [role], I want [feature] so that [benefit])
 
 ### 2.2 Non-Functional Requirements
+
 - Performance (e.g., Response time < 200ms)
 - Security (e.g., RBAC, Input validation)
 - Consistency (e.g., handling race conditions)
@@ -45,37 +49,44 @@ Brief description of purpose and scope.
 ## 3. Technical Design
 
 ### 3.1. Database Schema Changes (Prisma)
+
 - Changes to schema.prisma
 - Mermaid ERD diagrams
 - Critical fields (indexes, unique constraints, relations)
 
 ### 3.2. Backend Implementation (NestJS)
+
 - API Endpoints: Methods, DTOs, paths
 - Module Structure: Which module owns this?
 - Service Logic: Key algorithms
 - Data Access: Prisma queries
 
 ### 3.3. Frontend Implementation (Next.js)
+
 - Routes: New pages in app/
 - Components: New or reused UI
 - State Management: Server vs Client state
 - Interaction: User action flow
 
 ### 3.4. Logic Flow
+
 Sequence diagrams using Mermaid.
 
 ### 3.5. Security & Performance
+
 - Authentication/Authorization guards
 - Validation (DTOs)
 - Caching strategies
 - Database locking strategies
 
 ## 4. Testing Plan
+
 - Unit Tests: Service logic (Jest)
 - E2E Tests: Critical flows
 - Integration: Database interactions
 
 ## 5. Alternatives Considered
+
 Why this approach? What else was considered?
 ```
 

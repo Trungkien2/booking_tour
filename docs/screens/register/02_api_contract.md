@@ -3,11 +3,13 @@
 ## 1. Register New User
 
 ### Endpoint
+
 ```
 POST /auth/register
 ```
 
 ### Request Headers
+
 ```json
 {
   "Content-Type": "application/json"
@@ -15,6 +17,7 @@ POST /auth/register
 ```
 
 ### Request Body
+
 ```json
 {
   "fullName": "string (required, min 2 chars)",
@@ -26,6 +29,7 @@ POST /auth/register
 ```
 
 ### Success Response (201)
+
 ```json
 {
   "success": true,
@@ -44,6 +48,7 @@ POST /auth/register
 ```
 
 ### Alternative: Auto-login Response (201)
+
 ```json
 {
   "success": true,
@@ -64,6 +69,7 @@ POST /auth/register
 ### Error Responses
 
 #### 400 Bad Request - Validation Error
+
 ```json
 {
   "success": false,
@@ -85,6 +91,7 @@ POST /auth/register
 ```
 
 #### 409 Conflict - Email Already Exists
+
 ```json
 {
   "success": false,
@@ -100,11 +107,13 @@ POST /auth/register
 ## 2. Check Email Availability
 
 ### Endpoint
+
 ```
 GET /auth/check-email?email={email}
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -115,6 +124,7 @@ GET /auth/check-email?email={email}
 ```
 
 ### Email Taken Response (200)
+
 ```json
 {
   "success": true,
@@ -130,11 +140,13 @@ GET /auth/check-email?email={email}
 ## 3. Social Registration (Google)
 
 ### Endpoint
+
 ```
 POST /auth/google
 ```
 
 ### Request Body
+
 ```json
 {
   "idToken": "string (Google ID token)"
@@ -142,6 +154,7 @@ POST /auth/google
 ```
 
 ### Success Response (200/201)
+
 ```json
 {
   "success": true,
@@ -164,11 +177,13 @@ POST /auth/google
 ## 4. Get Countries List
 
 ### Endpoint
+
 ```
 GET /api/countries
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -193,10 +208,10 @@ GET /api/countries
 
 ## 5. Error Code Reference
 
-| Code | HTTP Status | Description | UI Action |
-|------|-------------|-------------|-----------|
-| `VALIDATION_ERROR` | 400 | Invalid input data | Show field errors |
-| `EMAIL_EXISTS` | 409 | Email already registered | Show error, suggest login |
-| `WEAK_PASSWORD` | 400 | Password too weak | Show password requirements |
-| `INVALID_PHONE` | 400 | Invalid phone format | Show phone format hint |
-| `SERVER_ERROR` | 500 | Server error | Show generic error |
+| Code               | HTTP Status | Description              | UI Action                  |
+| ------------------ | ----------- | ------------------------ | -------------------------- |
+| `VALIDATION_ERROR` | 400         | Invalid input data       | Show field errors          |
+| `EMAIL_EXISTS`     | 409         | Email already registered | Show error, suggest login  |
+| `WEAK_PASSWORD`    | 400         | Password too weak        | Show password requirements |
+| `INVALID_PHONE`    | 400         | Invalid phone format     | Show phone format hint     |
+| `SERVER_ERROR`     | 500         | Server error             | Show generic error         |

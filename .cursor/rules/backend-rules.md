@@ -37,11 +37,12 @@ src/
 ## Prisma Best Practices
 
 1. **Service Pattern**:
+
    ```typescript
    @Injectable()
    export class TourService {
      constructor(private prisma: PrismaService) {}
-     
+
      async findOne(id: number) {
        return this.prisma.tour.findUnique({ where: { id } });
      }

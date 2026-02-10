@@ -10,7 +10,18 @@ describe('ToursPublicService', () => {
   const mockPrismaService = {
     tour: {
       findMany: jest.fn(),
+      findUnique: jest.fn(),
       count: jest.fn(),
+    },
+    tourSchedule: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+    },
+    review: {
+      findMany: jest.fn(),
+      count: jest.fn(),
+      groupBy: jest.fn(),
+      aggregate: jest.fn(),
     },
   };
 
@@ -411,6 +422,244 @@ describe('ToursPublicService', () => {
           take: 5,
         }),
       );
+    });
+  });
+
+  describe('findBySlug', () => {
+    const mockDetailTour = {
+      id: 1,
+      name: 'Test Tour',
+      slug: 'test-tour',
+      summary: 'A test tour',
+      description: 'Full description',
+      coverImage: 'https://example.com/image.jpg',
+      images: ['img1.jpg', 'img2.jpg'],
+      durationDays: 3,
+      priceAdult: new Prisma.Decimal(299.99),
+      priceChild: new Prisma.Decimal(149.99),
+      location: 'Bali, Indonesia',
+      coordinates: { lat: -8.4095, lng: 115.1889 },
+      ratingAverage: new Prisma.Decimal(4.5),
+      reviewCount: 10,
+      difficulty: 'EASY',
+      maxGroupSize: 12,
+      highlights: [{ icon: 'beach', label: 'Beach' }],
+      itinerary: [{ day: 1, title: 'Day 1', description: 'Arrive' }],
+      included: ['Transport'],
+      notIncluded: ['Insurance'],
+      meetingPoint: {
+        name: 'Airport',
+        address: '123 Street',
+        coordinates: { lat: 0, lng: 0 },
+        instructions: 'Meet at gate',
+      },
+      cancellationPolicy: 'Free cancellation 48h before',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    it('should return tour detail for valid published slug', async () => {
+      mockPrismaService.tour.findUnique.mockResolvedValue(mockDetailTour);
+
+      const result = await service.findBySlug('test-tour');
+
+      expect(result.id).toBe(1);
+      expect(result.name).toBe('Test Tour');
+      expect(result.priceAdult).toBe(299.99);
+      expect(result.highlights).toHaveLength(1);
+      expect(result.itinerary).toHaveLength(1);
+      expect(mockPrismaService.tour.findUnique).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            slug: 'test-tour',
+            status: 'PUBLISHED',
+            deletedAt: null,
+          }),
+        }),
+      );
+    });
+
+    it('should throw NotFoundException for non-existent slug', async () => {
+      mockPrismaService.tour.findUnique.mockResolvedValue(null);
+
+      await expect(service.findBySlug('no-such-tour')).rejects.toThrow(
+        'Tour not found',
+      );
+    });
+  });
+
+  describe('getSchedules', () => {
+    const mockTourForSchedule = {
+      id: 1,
+      status: 'PUBLISHED',
+      deletedAt: null,
+      priceAdult: new Prisma.Decimal(199.99),
+      priceChild: new Prisma.Decimal(99.99),
+    };
+
+    it('should return schedules for a valid tour', async () => {
+      mockPrismaService.tour.findUnique.mockResolvedValue(mockTourForSchedule);
+      mockPrismaService.tourSchedule.findMany.mockResolvedValue([
+        {
+          id: 1,
+          tourId: 1,
+          startDate: new Date('2026-04-01'),
+          maxCapacity: 20,
+          currentCapacity: 5,
+          status: 'OPEN',
+        },
+        {
+          id: 2,
+          tourId: 1,
+          startDate: new Date('2026-04-08'),
+          maxCapacity: 15,
+          currentCapacity: 15,
+          status: 'SOLD_OUT',
+        },
+      ]);
+
+      const result = await service.getSchedules(1);
+
+      expect(result.schedules).toHaveLength(2);
+      expect(result.schedules[0].availableSpots).toBe(15);
+      expect(result.schedules[1].availableSpots).toBe(0);
+      expect(result.schedules[0].priceAdult).toBe(199.99);
+    });
+
+    it('should throw NotFoundException for non-existent tour', async () => {
+      mockPrismaService.tour.findUnique.mockResolvedValue(null);
+
+      await expect(service.getSchedules(999)).rejects.toThrow('Tour not found');
+    });
+  });
+
+  describe('getReviews', () => {
+    it('should return paginated reviews with distribution', async () => {
+      mockPrismaService.review.findMany.mockResolvedValue([
+        {
+          id: 1,
+          rating: 5,
+          comment: 'Great!',
+          helpful: 3,
+          createdAt: new Date(),
+          user: { id: 1, fullName: 'Jane', avatarUrl: null },
+        },
+      ]);
+      mockPrismaService.review.count.mockResolvedValue(1);
+      mockPrismaService.review.groupBy.mockResolvedValue([
+        { rating: 5, _count: 1 },
+      ]);
+      mockPrismaService.review.aggregate.mockResolvedValue({
+        _avg: { rating: 5 },
+      });
+
+      const result = await service.getReviews(1, {
+        page: 1,
+        limit: 5,
+        sort: 'recent',
+      });
+
+      expect(result.summary.averageRating).toBe(5);
+      expect(result.summary.totalReviews).toBe(1);
+      expect(result.summary.distribution['5']).toBe(1);
+      expect(result.reviews).toHaveLength(1);
+      expect(result.reviews[0].user.fullName).toBe('Jane');
+      expect(result.pagination.hasNext).toBe(false);
+    });
+
+    it('should sort by rating when requested', async () => {
+      mockPrismaService.review.findMany.mockResolvedValue([]);
+      mockPrismaService.review.count.mockResolvedValue(0);
+      mockPrismaService.review.groupBy.mockResolvedValue([]);
+      mockPrismaService.review.aggregate.mockResolvedValue({
+        _avg: { rating: null },
+      });
+
+      await service.getReviews(1, { sort: 'rating_desc' });
+
+      expect(mockPrismaService.review.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          orderBy: { rating: 'desc' },
+        }),
+      );
+    });
+  });
+
+  describe('checkAvailability', () => {
+    it('should return available true when capacity exists', async () => {
+      mockPrismaService.tourSchedule.findUnique.mockResolvedValue({
+        id: 1,
+        maxCapacity: 20,
+        currentCapacity: 5,
+        status: 'OPEN',
+        tour: {
+          priceAdult: new Prisma.Decimal(100),
+          priceChild: new Prisma.Decimal(50),
+        },
+      });
+
+      const result = await service.checkAvailability(1, {
+        adults: 2,
+        children: 1,
+      });
+
+      expect(result.available).toBe(true);
+      expect(result.priceBreakdown).toBeDefined();
+      expect(result.priceBreakdown!.adults.total).toBe(200);
+      expect(result.priceBreakdown!.children.total).toBe(50);
+      expect(result.priceBreakdown!.subtotal).toBe(250);
+      expect(result.priceBreakdown!.taxes).toBe(25);
+      expect(result.priceBreakdown!.total).toBe(275);
+    });
+
+    it('should return available false when sold out', async () => {
+      mockPrismaService.tourSchedule.findUnique.mockResolvedValue({
+        id: 1,
+        maxCapacity: 10,
+        currentCapacity: 10,
+        status: 'SOLD_OUT',
+        tour: {
+          priceAdult: new Prisma.Decimal(100),
+          priceChild: new Prisma.Decimal(50),
+        },
+      });
+
+      const result = await service.checkAvailability(1, {
+        adults: 2,
+        children: 0,
+      });
+
+      expect(result.available).toBe(false);
+      expect(result.message).toBeDefined();
+    });
+
+    it('should return available false when not enough spots', async () => {
+      mockPrismaService.tourSchedule.findUnique.mockResolvedValue({
+        id: 1,
+        maxCapacity: 10,
+        currentCapacity: 9,
+        status: 'OPEN',
+        tour: {
+          priceAdult: new Prisma.Decimal(100),
+          priceChild: new Prisma.Decimal(50),
+        },
+      });
+
+      const result = await service.checkAvailability(1, {
+        adults: 2,
+        children: 0,
+      });
+
+      expect(result.available).toBe(false);
+      expect(result.availableSpots).toBe(1);
+    });
+
+    it('should throw NotFoundException for non-existent schedule', async () => {
+      mockPrismaService.tourSchedule.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.checkAvailability(999, { adults: 1, children: 0 }),
+      ).rejects.toThrow('Schedule not found');
     });
   });
 });

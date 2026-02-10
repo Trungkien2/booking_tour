@@ -1,9 +1,9 @@
-import { Metadata } from 'next';
-import { RegisterForm } from '@/components/auth/register-form';
+import { Metadata } from "next";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export const metadata: Metadata = {
-  title: 'Register | TourBooker',
-  description: 'Create your account to book exclusive tours around the world',
+  title: "Register | TourBooker",
+  description: "Create your account to book exclusive tours around the world",
 };
 
 /**

@@ -3,11 +3,13 @@
 ## 1. Login with Email/Password
 
 ### Endpoint
+
 ```
 POST /auth/login
 ```
 
 ### Request Headers
+
 ```json
 {
   "Content-Type": "application/json"
@@ -15,6 +17,7 @@ POST /auth/login
 ```
 
 ### Request Body
+
 ```json
 {
   "email": "string (required, email format)",
@@ -23,6 +26,7 @@ POST /auth/login
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -43,6 +47,7 @@ POST /auth/login
 ### Error Responses
 
 #### 400 Bad Request - Validation Error
+
 ```json
 {
   "success": false,
@@ -60,6 +65,7 @@ POST /auth/login
 ```
 
 #### 401 Unauthorized - Invalid Credentials
+
 ```json
 {
   "success": false,
@@ -71,6 +77,7 @@ POST /auth/login
 ```
 
 #### 403 Forbidden - Account Disabled
+
 ```json
 {
   "success": false,
@@ -86,11 +93,13 @@ POST /auth/login
 ## 2. Social Login (Google)
 
 ### Endpoint
+
 ```
 POST /auth/google
 ```
 
 ### Request Body
+
 ```json
 {
   "idToken": "string (Google ID token)"
@@ -98,6 +107,7 @@ POST /auth/google
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -120,11 +130,13 @@ POST /auth/google
 ## 3. Social Login (Apple)
 
 ### Endpoint
+
 ```
 POST /auth/apple
 ```
 
 ### Request Body
+
 ```json
 {
   "idToken": "string (Apple ID token)",
@@ -138,6 +150,7 @@ POST /auth/apple
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -159,11 +172,11 @@ POST /auth/apple
 
 ## 4. Error Code Reference
 
-| Code | HTTP Status | Description | UI Action |
-|------|-------------|-------------|-----------|
-| `VALIDATION_ERROR` | 400 | Invalid input data | Show field errors |
-| `INVALID_CREDENTIALS` | 401 | Wrong email/password | Show error toast |
-| `ACCOUNT_DISABLED` | 403 | Account is disabled | Show error message |
-| `ACCOUNT_NOT_VERIFIED` | 403 | Email not verified | Show verify prompt |
-| `TOO_MANY_ATTEMPTS` | 429 | Rate limited | Show retry message |
-| `SERVER_ERROR` | 500 | Server error | Show generic error |
+| Code                   | HTTP Status | Description          | UI Action          |
+| ---------------------- | ----------- | -------------------- | ------------------ |
+| `VALIDATION_ERROR`     | 400         | Invalid input data   | Show field errors  |
+| `INVALID_CREDENTIALS`  | 401         | Wrong email/password | Show error toast   |
+| `ACCOUNT_DISABLED`     | 403         | Account is disabled  | Show error message |
+| `ACCOUNT_NOT_VERIFIED` | 403         | Email not verified   | Show verify prompt |
+| `TOO_MANY_ATTEMPTS`    | 429         | Rate limited         | Show retry message |
+| `SERVER_ERROR`         | 500         | Server error         | Show generic error |

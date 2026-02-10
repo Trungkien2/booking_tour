@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, MapPin, Compass, X, Loader2 } from 'lucide-react';
-import { Suggestion } from '@/lib/types/tour';
-import { getSearchSuggestions } from '@/lib/api/tours';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Search, MapPin, Compass, X, Loader2 } from "lucide-react";
+import { Suggestion } from "@/lib/types/tour";
+import { getSearchSuggestions } from "@/lib/api/tours";
 
 interface TourSearchProps {
   initialValue?: string;
@@ -13,9 +13,9 @@ interface TourSearchProps {
 }
 
 export function TourSearch({
-  initialValue = '',
-  placeholder = 'Search tours or destinations...',
-  className = '',
+  initialValue = "",
+  placeholder = "Search tours or destinations...",
+  className = "",
 }: TourSearchProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,7 +46,7 @@ export function TourSearch({
         setIsOpen(results.length > 0);
         setActiveIndex(-1);
       } catch (error) {
-        console.error('Failed to fetch suggestions:', error);
+        console.error("Failed to fetch suggestions:", error);
         setSuggestions([]);
       } finally {
         setIsLoading(false);
@@ -69,19 +69,19 @@ export function TourSearch({
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSearch = useCallback(
     (searchQuery: string) => {
       const params = new URLSearchParams(searchParams.toString());
       if (searchQuery.trim()) {
-        params.set('search', searchQuery.trim());
+        params.set("search", searchQuery.trim());
       } else {
-        params.delete('search');
+        params.delete("search");
       }
-      params.delete('page'); // Reset to page 1
+      params.delete("page"); // Reset to page 1
       router.push(`/?${params.toString()}`);
       setIsOpen(false);
     },
@@ -90,12 +90,12 @@ export function TourSearch({
 
   const handleSuggestionClick = useCallback(
     (suggestion: Suggestion) => {
-      if (suggestion.type === 'tour' && suggestion.slug) {
+      if (suggestion.type === "tour" && suggestion.slug) {
         router.push(`/tours/${suggestion.slug}`);
-      } else if (suggestion.type === 'destination') {
+      } else if (suggestion.type === "destination") {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('location', suggestion.name);
-        params.delete('page');
+        params.set("location", suggestion.name);
+        params.delete("page");
         router.push(`/?${params.toString()}`);
       }
       setQuery(suggestion.name);
@@ -106,24 +106,24 @@ export function TourSearch({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isOpen) {
-      if (e.key === 'Enter') {
+      if (e.key === "Enter") {
         handleSearch(query);
       }
       return;
     }
 
     switch (e.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
         setActiveIndex((prev) =>
           prev < suggestions.length - 1 ? prev + 1 : prev,
         );
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
         setActiveIndex((prev) => (prev > 0 ? prev - 1 : -1));
         break;
-      case 'Enter':
+      case "Enter":
         e.preventDefault();
         if (activeIndex >= 0 && suggestions[activeIndex]) {
           handleSuggestionClick(suggestions[activeIndex]);
@@ -131,7 +131,7 @@ export function TourSearch({
           handleSearch(query);
         }
         break;
-      case 'Escape':
+      case "Escape":
         setIsOpen(false);
         setActiveIndex(-1);
         break;
@@ -139,7 +139,7 @@ export function TourSearch({
   };
 
   const clearSearch = () => {
-    setQuery('');
+    setQuery("");
     setSuggestions([]);
     setIsOpen(false);
     inputRef.current?.focus();
@@ -189,12 +189,12 @@ export function TourSearch({
               onClick={() => handleSuggestionClick(suggestion)}
               onMouseEnter={() => setActiveIndex(index)}
               className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
-                index === activeIndex ? 'bg-emerald-50' : 'hover:bg-gray-50'
+                index === activeIndex ? "bg-emerald-50" : "hover:bg-gray-50"
               }`}
               role="option"
               aria-selected={index === activeIndex}
             >
-              {suggestion.type === 'tour' ? (
+              {suggestion.type === "tour" ? (
                 <Compass className="h-5 w-5 flex-shrink-0 text-emerald-600" />
               ) : (
                 <MapPin className="h-5 w-5 flex-shrink-0 text-blue-600" />
@@ -204,7 +204,7 @@ export function TourSearch({
                   {suggestion.name}
                 </p>
                 <p className="text-sm text-gray-500">
-                  {suggestion.type === 'tour' ? 'Tour' : 'Destination'}
+                  {suggestion.type === "tour" ? "Tour" : "Destination"}
                 </p>
               </div>
             </button>

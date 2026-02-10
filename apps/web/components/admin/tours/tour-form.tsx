@@ -19,6 +19,7 @@ export function TourForm({ initialData, onSubmit, loading }: TourFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<TourFormData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(tourSchema) as any,
     defaultValues: initialData
       ? {

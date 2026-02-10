@@ -5,6 +5,7 @@ Nền tảng đặt tour du lịch full-stack với kiến trúc monorepo hiện
 ## Tổng quan
 
 Booking Tour là ứng dụng đặt tour du lịch trực tuyến bao gồm:
+
 - **Backend API**: NestJS với Prisma ORM
 - **Frontend Web**: Next.js với React
 - **Database**: PostgreSQL
@@ -13,17 +14,20 @@ Booking Tour là ứng dụng đặt tour du lịch trực tuyến bao gồm:
 ## Tech Stack
 
 ### Backend (Server)
+
 - **NestJS** - Framework Node.js cho ứng dụng server-side
 - **Prisma** - ORM type-safe cho database
 - **PostgreSQL** - Cơ sở dữ liệu quan hệ
 - **TypeScript** - Ngôn ngữ lập trình
 
 ### Frontend (Web)
+
 - **Next.js 16** - React framework với App Router
 - **React 19** - UI library
 - **TypeScript** - Ngôn ngữ lập trình
 
 ### DevOps
+
 - **Docker** - Containerization
 - **Turborepo** - Monorepo build system
 - **pnpm** - Package manager
@@ -51,20 +55,24 @@ booking-tour/
 ## Tính năng chính
 
 ### Quản lý Tour
+
 - Danh sách tour với thông tin chi tiết (giá, thời gian, địa điểm)
 - Hỗ trợ nhiều hình ảnh cho mỗi tour
 - Hệ thống đánh giá và rating
 
 ### Đặt tour
+
 - Quản lý lịch tour với số lượng chỗ
 - Optimistic locking để tránh race condition
 - Hỗ trợ nhiều loại khách (người lớn, trẻ em, em bé)
 
 ### Thanh toán
+
 - Tích hợp đa cổng thanh toán (Stripe, PayPal)
 - Quản lý hoàn tiền
 
 ### Người dùng
+
 - Phân quyền (User, Admin, Guide)
 - Lịch sử đặt tour và thanh toán
 
@@ -96,6 +104,7 @@ docker-compose up -d
 ```
 
 Dịch vụ sẽ chạy tại:
+
 - PostgreSQL: `localhost:5432`
 - Redis: `localhost:6380`
 
@@ -129,23 +138,23 @@ pnpm turbo dev --filter=web     # Frontend tại http://localhost:3000
 
 ### Root level
 
-| Script | Mô tả |
-|--------|-------|
-| `pnpm dev` | Chạy tất cả apps ở chế độ development |
-| `pnpm build` | Build tất cả apps |
-| `pnpm lint` | Kiểm tra code với ESLint |
-| `pnpm format` | Format code với Prettier |
-| `pnpm check-types` | Kiểm tra TypeScript types |
+| Script             | Mô tả                                 |
+| ------------------ | ------------------------------------- |
+| `pnpm dev`         | Chạy tất cả apps ở chế độ development |
+| `pnpm build`       | Build tất cả apps                     |
+| `pnpm lint`        | Kiểm tra code với ESLint              |
+| `pnpm format`      | Format code với Prettier              |
+| `pnpm check-types` | Kiểm tra TypeScript types             |
 
 ### Server
 
-| Script | Mô tả |
-|--------|-------|
-| `pnpm start:dev` | Chạy server với hot reload |
-| `pnpm start:prod` | Chạy server production |
-| `pnpm test` | Chạy unit tests |
-| `pnpm test:e2e` | Chạy E2E tests |
-| `pnpm test:cov` | Chạy tests với coverage |
+| Script            | Mô tả                      |
+| ----------------- | -------------------------- |
+| `pnpm start:dev`  | Chạy server với hot reload |
+| `pnpm start:prod` | Chạy server production     |
+| `pnpm test`       | Chạy unit tests            |
+| `pnpm test:e2e`   | Chạy E2E tests             |
+| `pnpm test:cov`   | Chạy tests với coverage    |
 
 ### Prisma
 

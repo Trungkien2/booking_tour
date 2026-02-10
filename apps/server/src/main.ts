@@ -38,6 +38,10 @@ function setupSwagger(app: INestApplication): void {
     .setDescription('API documentation for Booking Tour application')
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
+    .addTag('bookings', 'Booking management endpoints')
+    .addTag('admin/bookings', 'Admin booking management endpoints')
+    .addTag('payments', 'Payment processing endpoints')
+    .addTag('webhooks', 'Webhook endpoints')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
       'access-token',

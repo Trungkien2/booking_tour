@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useDebouncedCallback } from 'use-debounce';
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useDebouncedCallback } from "use-debounce";
 
-import { registerSchema, type RegisterFormData } from '@/lib/validations/auth';
-import { register as registerUser, checkEmail } from '@/lib/api/auth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { SocialButtons } from './social-buttons';
-import { PasswordStrength } from './password-strength';
-import { CountrySelect } from './country-select';
+import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
+import { register as registerUser, checkEmail } from "@/lib/api/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { SocialButtons } from "./social-buttons";
+import { PasswordStrength } from "./password-strength";
+import { CountrySelect } from "./country-select";
 
-type EmailStatus = 'idle' | 'checking' | 'available' | 'taken';
+type EmailStatus = "idle" | "checking" | "available" | "taken";
 
 /**
  * Registration form component with email availability check,
@@ -28,7 +28,7 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [emailStatus, setEmailStatus] = useState<EmailStatus>('idle');
+  const [emailStatus, setEmailStatus] = useState<EmailStatus>("idle");
   const [selectedCountry, setSelectedCountry] = useState<{
     code: string;
     dialCode: string;
@@ -42,47 +42,47 @@ export function RegisterForm() {
     formState: { errors, isValid },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
-      fullName: '',
-      email: '',
-      phone: '',
-      country: '',
-      password: '',
-      confirmPassword: '',
+      fullName: "",
+      email: "",
+      phone: "",
+      country: "",
+      password: "",
+      confirmPassword: "",
       agreeTerms: false,
     },
   });
 
-  const password = watch('password');
-  const email = watch('email');
+  const password = watch("password");
+  const email = watch("email");
 
   // Debounced email availability check (500ms)
   const checkEmailAvailability = useDebouncedCallback(
     async (emailValue: string) => {
       // Don't check if email is invalid or empty
       if (!emailValue || errors.email) {
-        setEmailStatus('idle');
+        setEmailStatus("idle");
         return;
       }
 
       // Basic email format check before API call
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(emailValue)) {
-        setEmailStatus('idle');
+        setEmailStatus("idle");
         return;
       }
 
-      setEmailStatus('checking');
+      setEmailStatus("checking");
       try {
         const result = await checkEmail(emailValue);
-        setEmailStatus(result.available ? 'available' : 'taken');
+        setEmailStatus(result.available ? "available" : "taken");
       } catch {
         // On error, don't block the user - just reset status
-        setEmailStatus('idle');
+        setEmailStatus("idle");
       }
     },
-    500
+    500,
   );
 
   // Check email when it changes
@@ -90,7 +90,7 @@ export function RegisterForm() {
     if (email) {
       checkEmailAvailability(email);
     } else {
-      setEmailStatus('idle');
+      setEmailStatus("idle");
     }
   }, [email, checkEmailAvailability]);
 
@@ -98,16 +98,18 @@ export function RegisterForm() {
   const handleCountryChange = useCallback(
     (country: { code: string; dialCode: string }) => {
       setSelectedCountry(country);
-      setValue('country', country.code);
+      setValue("country", country.code);
     },
-    [setValue]
+    [setValue],
   );
 
   // Form submission handler
   const onSubmit = async (data: RegisterFormData) => {
     // Prevent submission if email is taken
-    if (emailStatus === 'taken') {
-      setApiError('This email is already registered. Please use a different email.');
+    if (emailStatus === "taken") {
+      setApiError(
+        "This email is already registered. Please use a different email.",
+      );
       return;
     }
 
@@ -130,12 +132,12 @@ export function RegisterForm() {
       });
 
       // Success - redirect to login with success indicator
-      router.push('/login?registered=true');
+      router.push("/login?registered=true");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);
       } else {
-        setApiError('An unexpected error occurred. Please try again.');
+        setApiError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -145,7 +147,7 @@ export function RegisterForm() {
   // Email status indicator icon
   const renderEmailStatusIcon = () => {
     switch (emailStatus) {
-      case 'checking':
+      case "checking":
         return (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[#617989]">
             <svg
@@ -170,13 +172,13 @@ export function RegisterForm() {
             </svg>
           </span>
         );
-      case 'available':
+      case "available":
         return (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500 text-lg">
             ✓
           </span>
         );
-      case 'taken':
+      case "taken":
         return (
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500 text-lg">
             ✗
@@ -211,11 +213,13 @@ export function RegisterForm() {
           <Input
             type="text"
             placeholder="e.g. Jane Doe"
-            {...register('fullName')}
+            {...register("fullName")}
             className="h-12 rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white px-4 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec]"
           />
           {errors.fullName && (
-            <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.fullName.message}
+            </p>
           )}
         </label>
 
@@ -228,7 +232,7 @@ export function RegisterForm() {
             <Input
               type="email"
               placeholder="e.g. jane@example.com"
-              {...register('email')}
+              {...register("email")}
               className="h-12 pr-10 rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white px-4 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec]"
             />
             {renderEmailStatusIcon()}
@@ -236,9 +240,9 @@ export function RegisterForm() {
           {errors.email && (
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
           )}
-          {emailStatus === 'taken' && !errors.email && (
+          {emailStatus === "taken" && !errors.email && (
             <p className="mt-1 text-sm text-red-600">
-              This email is already registered.{' '}
+              This email is already registered.{" "}
               <Link href="/login" className="text-[#1392ec] hover:underline">
                 Log in instead
               </Link>
@@ -266,17 +270,19 @@ export function RegisterForm() {
             </p>
             <div className="flex">
               <span className="flex items-center px-3 bg-gray-100 dark:bg-[#22303c] border border-r-0 border-[#dbe1e6] dark:border-[#22303c] rounded-l-lg text-sm text-[#617989] dark:text-gray-400 min-w-[60px] justify-center">
-                {selectedCountry?.dialCode || '+1'}
+                {selectedCountry?.dialCode || "+1"}
               </span>
               <Input
                 type="tel"
                 placeholder="5550000000"
-                {...register('phone')}
+                {...register("phone")}
                 className="h-12 rounded-l-none rounded-r-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white px-4 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec]"
               />
             </div>
             {errors.phone && (
-              <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.phone.message}
+              </p>
             )}
           </label>
         </div>
@@ -288,16 +294,16 @@ export function RegisterForm() {
           </p>
           <div className="relative">
             <Input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="••••••••"
-              {...register('password')}
+              {...register("password")}
               className="h-12 pr-12 rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white px-4 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec]"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#617989] hover:text-[#111518] dark:hover:text-white transition-colors"
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
                 <svg
@@ -338,7 +344,9 @@ export function RegisterForm() {
             </button>
           </div>
           {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.password.message}
+            </p>
           )}
           {/* Password Strength Indicator */}
           {password && <PasswordStrength password={password} />}
@@ -351,16 +359,18 @@ export function RegisterForm() {
           </p>
           <div className="relative">
             <Input
-              type={showConfirmPassword ? 'text' : 'password'}
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="••••••••"
-              {...register('confirmPassword')}
+              {...register("confirmPassword")}
               className="h-12 pr-12 rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white px-4 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50 focus:border-[#1392ec]"
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#617989] hover:text-[#111518] dark:hover:text-white transition-colors"
-              aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              aria-label={
+                showConfirmPassword ? "Hide password" : "Show password"
+              }
             >
               {showConfirmPassword ? (
                 <svg
@@ -411,22 +421,22 @@ export function RegisterForm() {
         <div className="flex items-start gap-3">
           <Checkbox
             id="agreeTerms"
-            {...register('agreeTerms')}
+            {...register("agreeTerms")}
             className="mt-1"
           />
           <label
             htmlFor="agreeTerms"
             className="text-sm text-[#617989] dark:text-gray-400 cursor-pointer"
           >
-            By creating an account, I agree to the{' '}
+            By creating an account, I agree to the{" "}
             <Link
               href="/terms"
               target="_blank"
               className="text-[#1392ec] hover:underline"
             >
               Terms of Use
-            </Link>{' '}
-            and{' '}
+            </Link>{" "}
+            and{" "}
             <Link
               href="/privacy"
               target="_blank"
@@ -454,7 +464,7 @@ export function RegisterForm() {
         <Button
           type="submit"
           className="w-full h-12 bg-[#1392ec] hover:bg-blue-600 text-white text-base font-bold mt-2 rounded-lg transition-colors"
-          disabled={isLoading || !isValid || emailStatus === 'taken'}
+          disabled={isLoading || !isValid || emailStatus === "taken"}
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
@@ -481,7 +491,7 @@ export function RegisterForm() {
               Creating account...
             </span>
           ) : (
-            'Create Account'
+            "Create Account"
           )}
         </Button>
       </form>
@@ -489,8 +499,11 @@ export function RegisterForm() {
       {/* Login Link */}
       <div className="text-center">
         <p className="text-[#617989] dark:text-gray-400 text-sm">
-          Already have an account?{' '}
-          <Link href="/login" className="text-[#1392ec] font-bold hover:underline">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-[#1392ec] font-bold hover:underline"
+          >
             Log in
           </Link>
         </p>

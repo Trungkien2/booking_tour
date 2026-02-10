@@ -11,12 +11,12 @@ User's booking history page showing upcoming, completed, and cancelled bookings 
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-008` |
-| Route | `/bookings` |
-| Access | Authenticated (USER, ADMIN, GUIDE) |
-| Layout | Main Layout |
+| Item      | Value                              |
+| --------- | ---------------------------------- |
+| Screen ID | `SCR-008`                          |
+| Route     | `/bookings`                        |
+| Access    | Authenticated (USER, ADMIN, GUIDE) |
+| Layout    | Main Layout                        |
 
 ## Key Features
 
@@ -30,12 +30,14 @@ User's booking history page showing upcoming, completed, and cancelled bookings 
 ## UI Components
 
 ### Page Header
+
 ```yaml
 title: "My Bookings"
 subtitle: "Manage your travel itinerary, view details, and modify upcoming trips."
 ```
 
 ### Tab Navigation
+
 ```yaml
 tabs:
   - id: "upcoming"
@@ -51,6 +53,7 @@ tabs:
 ```
 
 ### Search & Filters
+
 ```yaml
 search:
   placeholder: "Search by tour name or location"
@@ -68,6 +71,7 @@ filters:
 ```
 
 ### Booking Card
+
 ```yaml
 layout: "horizontal"
 
@@ -124,6 +128,7 @@ actions:
 ```
 
 ### Empty State
+
 ```yaml
 upcoming_empty:
   icon: "Calendar"
@@ -144,19 +149,23 @@ cancelled_empty:
 ## Actions
 
 ### Cancel Booking
+
 - Confirm dialog with cancellation policy
 - Call PATCH /bookings/{id}/cancel
 - Show refund information
 - Update booking status
 
 ### View Details
+
 - Navigate to /bookings/{id}
 
 ### Complete Payment
+
 - Navigate to payment page
 - Resume booking flow
 
 ### Modify Booking
+
 - Open modification dialog
 - Change date or travelers
 - Show price difference

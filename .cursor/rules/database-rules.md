@@ -20,24 +20,29 @@
 ## Critical Patterns
 
 ### 1. Optimistic Locking (TourSchedule)
+
 ```prisma
 model TourSchedule {
   version Int @default(1)  // Prevent race conditions
 }
 ```
+
 - Luôn increment version khi update capacity
 - Check version trong transaction để prevent double booking
 
 ### 2. Price Snapshot (BookingTraveler)
+
 ```prisma
 model BookingTraveler {
   price Decimal @db.Decimal(10, 2)  // Snapshot tại thời điểm đặt
 }
 ```
+
 - Lưu giá tại thời điểm booking, không phải current price
 - Đảm bảo tính nhất quán khi giá tour thay đổi
 
 ### 3. Status Enums
+
 - BookingStatus: PENDING → PAID → CANCELLED/REFUNDED
 - PaymentStatus: PENDING → SUCCESS/FAILED
 - ScheduleStatus: OPEN → SOLD_OUT/CLOSED/COMPLETED
@@ -45,11 +50,13 @@ model BookingTraveler {
 ## Migration Strategy
 
 1. **Development**:
+
    ```bash
    pnpm prisma migrate dev --name migration_name
    ```
 
 2. **Production**:
+
    ```bash
    pnpm prisma migrate deploy
    ```
@@ -62,18 +69,20 @@ model BookingTraveler {
 ## Query Best Practices
 
 1. **Select only needed fields**:
+
    ```typescript
    prisma.tour.findMany({
-     select: { id: true, name: true, priceAdult: true }
-   })
+     select: { id: true, name: true, priceAdult: true },
+   });
    ```
 
 2. **Use includes wisely**:
+
    ```typescript
    prisma.booking.findUnique({
      where: { id },
-     include: { travelers: true, schedule: { include: { tour: true } } }
-   })
+     include: { travelers: true, schedule: { include: { tour: true } } },
+   });
    ```
 
 3. **Transactions for critical operations**:

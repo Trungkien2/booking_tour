@@ -3,6 +3,7 @@
 ## Feature: View Tour Details
 
 ### Scenario 1: View tour detail page
+
 ```gherkin
 Given I navigate to "/tours/3-day-kayaking-adventure-norway"
 Then I should see the tour title "3-Day Kayaking Adventure in Norway"
@@ -13,6 +14,7 @@ And I should see the price starting from "$1,200"
 ```
 
 ### Scenario 2: Image gallery interaction
+
 ```gherkin
 Given I am on a tour detail page
 When I click on a thumbnail image
@@ -23,6 +25,7 @@ And I should be able to navigate between images
 ```
 
 ### Scenario 3: Read tour description
+
 ```gherkin
 Given I am on a tour detail page
 And the description is longer than 6 lines
@@ -34,6 +37,7 @@ And the button should change to "Show less"
 ```
 
 ### Scenario 4: View itinerary
+
 ```gherkin
 Given I am on a tour detail page
 Then I should see the itinerary section
@@ -44,6 +48,7 @@ And Day 1 should collapse
 ```
 
 ### Scenario 5: Select schedule date
+
 ```gherkin
 Given I am on a tour detail page
 When I click on the date picker
@@ -56,6 +61,7 @@ And the "Book Now" button should be enabled
 ```
 
 ### Scenario 6: Schedule sold out
+
 ```gherkin
 Given I am on a tour detail page
 And I click on a date that is sold out
@@ -64,6 +70,7 @@ And I should not be able to select that date
 ```
 
 ### Scenario 7: Update traveler count
+
 ```gherkin
 Given I am on a tour detail page
 And I have selected a schedule
@@ -76,6 +83,7 @@ And the total price should update
 ```
 
 ### Scenario 8: Minimum traveler validation
+
 ```gherkin
 Given I am on a tour detail page
 And I have 1 adult selected
@@ -85,6 +93,7 @@ And I should see a message "Minimum 1 adult required"
 ```
 
 ### Scenario 9: Maximum capacity validation
+
 ```gherkin
 Given I am on a tour detail page
 And I have selected a schedule with 4 available spots
@@ -94,6 +103,7 @@ And the traveler count should not exceed available spots
 ```
 
 ### Scenario 10: Price breakdown
+
 ```gherkin
 Given I am on a tour detail page
 And I have selected 2 adults and 1 child
@@ -106,6 +116,7 @@ Then I should see the price breakdown:
 ```
 
 ### Scenario 11: Book Now - Authenticated user
+
 ```gherkin
 Given I am logged in
 And I am on a tour detail page
@@ -117,6 +128,7 @@ And my booking details should be preserved
 ```
 
 ### Scenario 12: Book Now - Anonymous user
+
 ```gherkin
 Given I am not logged in
 And I am on a tour detail page
@@ -128,6 +140,7 @@ And my selections should be preserved
 ```
 
 ### Scenario 13: View reviews
+
 ```gherkin
 Given I am on a tour detail page with reviews
 Then I should see the review summary
@@ -137,6 +150,7 @@ And I should see a list of reviews
 ```
 
 ### Scenario 14: Load more reviews
+
 ```gherkin
 Given I am on a tour detail page
 And there are more than 5 reviews
@@ -148,6 +162,7 @@ And appended to the list
 ```
 
 ### Scenario 15: Sort reviews
+
 ```gherkin
 Given I am on a tour detail page
 When I select "Highest Rated" from the sort dropdown
@@ -155,6 +170,7 @@ Then reviews should be sorted by rating descending
 ```
 
 ### Scenario 16: View meeting point on map
+
 ```gherkin
 Given I am on a tour detail page
 Then I should see the meeting point section
@@ -164,6 +180,7 @@ And I should see the address and instructions
 ```
 
 ### Scenario 17: Share tour
+
 ```gherkin
 Given I am on a tour detail page
 When I click the "Share" button
@@ -177,6 +194,7 @@ And I should see options to share via:
 ```
 
 ### Scenario 18: Save to favorites
+
 ```gherkin
 Given I am logged in
 And I am on a tour detail page
@@ -188,6 +206,7 @@ Then the tour should be removed from favorites
 ```
 
 ### Scenario 19: Tour not found
+
 ```gherkin
 Given I navigate to "/tours/non-existent-tour"
 Then I should see a 404 error page
@@ -196,6 +215,7 @@ And I should see a link to browse all tours
 ```
 
 ### Scenario 20: Responsive - Mobile booking
+
 ```gherkin
 Given I am viewing a tour on mobile
 Then the booking card should be a fixed bar at the bottom

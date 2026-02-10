@@ -11,12 +11,12 @@ The login screen allows users to authenticate using email/password or social pro
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-001` |
-| Route | `/login` |
-| Access | Anonymous only (redirect if authenticated) |
-| Layout | Auth Layout (no header/sidebar) |
+| Item      | Value                                      |
+| --------- | ------------------------------------------ |
+| Screen ID | `SCR-001`                                  |
+| Route     | `/login`                                   |
+| Access    | Anonymous only (redirect if authenticated) |
+| Layout    | Auth Layout (no header/sidebar)            |
 
 ## Key Features
 

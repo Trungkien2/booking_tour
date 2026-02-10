@@ -29,6 +29,7 @@ Phase: [Phase number, e.g., "Phase 1"]
 ### 1. File Structure
 
 Create files following this pattern:
+
 ```
 apps/server/src/modules/<feature>/
 ├── <feature>.module.ts
@@ -43,33 +44,37 @@ apps/server/src/modules/<feature>/
 
 ### 2. Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| File names | kebab-case | `register-response.dto.ts` |
-| Classes | PascalCase | `RegisterDto`, `AuthService` |
-| Methods | camelCase | `checkEmailAvailability()` |
-| Variables | camelCase | `hashedPassword` |
+| Type       | Convention | Example                      |
+| ---------- | ---------- | ---------------------------- |
+| File names | kebab-case | `register-response.dto.ts`   |
+| Classes    | PascalCase | `RegisterDto`, `AuthService` |
+| Methods    | camelCase  | `checkEmailAvailability()`   |
+| Variables  | camelCase  | `hashedPassword`             |
 
 ### 3. What to Include
 
 **DTOs:**
+
 - Define all fields with proper decorators from `class-validator`
 - Add validation messages
 - Use JSDoc for complex DTOs
 
 **Service:**
+
 - Define method signatures with proper return types
 - Import necessary dependencies
 - Add JSDoc comments describing what the method should do
 - Use `// TODO: Implement business logic` for complex logic OR implement if straightforward
 
 **Controller:**
+
 - Define routes with proper decorators (`@Get`, `@Post`, etc.)
 - Add `@HttpCode`, `@Throttle` as specified in TDD
 - Inject DTOs via `@Body()`, `@Query()`, `@Param()`
 - Add JSDoc for each endpoint
 
 **Module:**
+
 - Register controllers and providers
 - Import required modules (PrismaModule, etc.)
 
@@ -83,6 +88,7 @@ apps/server/src/modules/<feature>/
 ### 5. Code Templates
 
 **DTO Template:**
+
 ```typescript
 import { IsNotEmpty, IsString, IsEmail } from 'class-validator';
 
@@ -97,6 +103,7 @@ export class [Name]Dto {
 ```
 
 **Service Template:**
+
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -118,6 +125,7 @@ export class [Feature]Service {
 ```
 
 **Controller Template:**
+
 ```typescript
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';

@@ -11,12 +11,12 @@ Success page displayed after a booking is completed, showing booking summary and
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-005` |
-| Route | `/bookings/[id]/confirmation` |
-| Access | Authenticated (booking owner only) |
-| Layout | Main Layout |
+| Item      | Value                              |
+| --------- | ---------------------------------- |
+| Screen ID | `SCR-005`                          |
+| Route     | `/bookings/[id]/confirmation`      |
+| Access    | Authenticated (booking owner only) |
+| Layout    | Main Layout                        |
 
 ## Key Features
 
@@ -31,11 +31,13 @@ Success page displayed after a booking is completed, showing booking summary and
 ## UI Components
 
 ### Success Header
+
 - Green checkmark icon
 - "Booking Confirmed!" title
 - Confirmation email message
 
 ### Booking Summary Card
+
 - Booking ID (e.g., #TRV-40912)
 - Status badge (Confirmed)
 - Map preview with location
@@ -47,16 +49,19 @@ Success page displayed after a booking is completed, showing booking summary and
 - Cancellation policy link
 
 ### What Happens Next Section
+
 1. Check your email - E-ticket and receipt sent
 2. Review meeting point - Check itinerary for location
 3. Prepare for pickup - Be ready 10 minutes early
 
 ### Action Buttons
+
 - Manage Booking (primary)
 - Download Invoice
 - Print
 
 ### Support Section
+
 - Need help message
 - Contact Support button
 

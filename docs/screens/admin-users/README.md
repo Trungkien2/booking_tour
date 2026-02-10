@@ -11,12 +11,12 @@ Admin page for managing platform users including customers, guides, and other ad
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-013` |
-| Route | `/admin/users` |
-| Access | ADMIN only |
-| Layout | Admin Layout |
+| Item      | Value          |
+| --------- | -------------- |
+| Screen ID | `SCR-013`      |
+| Route     | `/admin/users` |
+| Access    | ADMIN only     |
+| Layout    | Admin Layout   |
 
 ## Key Features
 
@@ -31,6 +31,7 @@ Admin page for managing platform users including customers, guides, and other ad
 ## UI Components
 
 ### Page Header
+
 ```yaml
 title: "User Management"
 subtitle: "Manage access, roles, and account statuses for all platform users."
@@ -43,6 +44,7 @@ actions:
 ```
 
 ### Search & Filters
+
 ```yaml
 search:
   placeholder: "Search users by name or email..."
@@ -88,6 +90,7 @@ filters:
 ```
 
 ### Users Table
+
 ```yaml
 columns:
   - id: "checkbox"
@@ -160,6 +163,7 @@ pagination:
 ```
 
 ### Add User Modal
+
 ```yaml
 title: "Add New User"
 
@@ -196,6 +200,7 @@ actions:
 ```
 
 ### Change Role Modal
+
 ```yaml
 title: "Change User Role"
 user_info: "display current user"

@@ -11,12 +11,12 @@ Detailed view of a specific tour including description, itinerary, pricing, sche
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-004` |
-| Route | `/tours/[slug]` |
-| Access | Public (booking requires auth) |
-| Layout | Main Layout |
+| Item      | Value                          |
+| --------- | ------------------------------ |
+| Screen ID | `SCR-004`                      |
+| Route     | `/tours/[slug]`                |
+| Access    | Public (booking requires auth) |
+| Layout    | Main Layout                    |
 
 ## Key Features
 

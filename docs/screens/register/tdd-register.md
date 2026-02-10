@@ -5,12 +5,15 @@
 Tài liệu này mô tả thiết kế kỹ thuật cho chức năng **User Registration** của hệ thống Booking Tour. Chức năng cho phép người dùng mới tạo tài khoản bằng email/password hoặc thông qua social providers (Google, Facebook).
 
 ### 1.1 Purpose
+
 - Cho phép người dùng mới đăng ký tài khoản để sử dụng các tính năng booking
 - Hỗ trợ đăng ký qua email/password và social login
 - Thu thập thông tin cơ bản: tên, email, phone, country
 
 ### 1.2 Scope
+
 **Bao gồm:**
+
 - Form đăng ký với validation
 - Password strength indicator
 - Country/phone selection với dial code
@@ -19,6 +22,7 @@ Tài liệu này mô tả thiết kế kỹ thuật cho chức năng **User Regi
 - Email availability check
 
 **Không bao gồm:**
+
 - Email verification flow
 - Admin user creation
 - Multi-factor authentication
@@ -27,37 +31,37 @@ Tài liệu này mô tả thiết kế kỹ thuật cho chức năng **User Regi
 
 ### 2.1 Functional Requirements
 
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| FR-001 | User có thể đăng ký bằng email/password | Must |
-| FR-002 | User phải nhập: Full Name, Email, Password, Confirm Password | Must |
-| FR-003 | User có thể nhập optional: Phone, Country | Should |
-| FR-004 | System hiển thị password strength indicator | Must |
-| FR-005 | User phải đồng ý Terms of Use để đăng ký | Must |
-| FR-006 | System kiểm tra email availability real-time | Should |
-| FR-007 | User có thể đăng ký qua Google/Facebook | Should |
-| FR-008 | System redirect user đã authenticated về homepage | Must |
+| ID     | Requirement                                                  | Priority |
+| ------ | ------------------------------------------------------------ | -------- |
+| FR-001 | User có thể đăng ký bằng email/password                      | Must     |
+| FR-002 | User phải nhập: Full Name, Email, Password, Confirm Password | Must     |
+| FR-003 | User có thể nhập optional: Phone, Country                    | Should   |
+| FR-004 | System hiển thị password strength indicator                  | Must     |
+| FR-005 | User phải đồng ý Terms of Use để đăng ký                     | Must     |
+| FR-006 | System kiểm tra email availability real-time                 | Should   |
+| FR-007 | User có thể đăng ký qua Google/Facebook                      | Should   |
+| FR-008 | System redirect user đã authenticated về homepage            | Must     |
 
 ### 2.2 User Stories
 
-| Story | Description |
-|-------|-------------|
-| US-001 | As a visitor, I want to create an account so that I can book tours |
-| US-002 | As a visitor, I want to see password strength so that I create a secure password |
+| Story  | Description                                                                                    |
+| ------ | ---------------------------------------------------------------------------------------------- |
+| US-001 | As a visitor, I want to create an account so that I can book tours                             |
+| US-002 | As a visitor, I want to see password strength so that I create a secure password               |
 | US-003 | As a visitor, I want to register with Google so that I don't need to remember another password |
-| US-004 | As a visitor, I want to see if my email is taken so that I know to use another email |
+| US-004 | As a visitor, I want to see if my email is taken so that I know to use another email           |
 
 ### 2.3 Non-Functional Requirements
 
-| Category | Requirement |
-|----------|-------------|
-| **Performance** | Registration API response < 500ms |
-| **Performance** | Email check API response < 200ms |
-| **Security** | Password hashed với bcrypt (salt rounds: 10) |
-| **Security** | Rate limiting: 5 requests/minute cho register endpoint |
-| **Security** | Input validation server-side |
-| **Availability** | Page load time < 2s |
-| **Accessibility** | WCAG 2.1 AA compliance |
+| Category          | Requirement                                            |
+| ----------------- | ------------------------------------------------------ |
+| **Performance**   | Registration API response < 500ms                      |
+| **Performance**   | Email check API response < 200ms                       |
+| **Security**      | Password hashed với bcrypt (salt rounds: 10)           |
+| **Security**      | Rate limiting: 5 requests/minute cho register endpoint |
+| **Security**      | Input validation server-side                           |
+| **Availability**  | Page load time < 2s                                    |
+| **Accessibility** | WCAG 2.1 AA compliance                                 |
 
 ## 3. Technical Design
 
@@ -85,6 +89,7 @@ model User {
 ```
 
 **Consideration cho tương lai:**
+
 - Thêm field `country` vào User model
 - Thêm field `emailVerified` cho email verification
 - Thêm field `provider` để track social login
@@ -103,35 +108,42 @@ model User {
 
 #### 3.2.1 API Endpoints
 
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/auth/register` | Register new user | Public |
-| GET | `/auth/check-email` | Check email availability | Public |
-| POST | `/auth/google` | Google OAuth login/register | Public |
-| GET | `/api/countries` | Get countries list | Public |
+| Method | Endpoint            | Description                 | Auth   |
+| ------ | ------------------- | --------------------------- | ------ |
+| POST   | `/auth/register`    | Register new user           | Public |
+| GET    | `/auth/check-email` | Check email availability    | Public |
+| POST   | `/auth/google`      | Google OAuth login/register | Public |
+| GET    | `/api/countries`    | Get countries list          | Public |
 
 #### 3.2.2 DTOs
 
 **File: `apps/server/src/modules/auth/dto/register.dto.ts`**
 
 ```typescript
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+  Matches,
+} from "class-validator";
 
 export class RegisterDto {
-  @IsNotEmpty({ message: 'Full name is required' })
+  @IsNotEmpty({ message: "Full name is required" })
   @IsString()
-  @MinLength(2, { message: 'Name must be at least 2 characters' })
+  @MinLength(2, { message: "Name must be at least 2 characters" })
   fullName: string;
 
-  @IsNotEmpty({ message: 'Email is required' })
-  @IsEmail({}, { message: 'Please enter a valid email' })
+  @IsNotEmpty({ message: "Email is required" })
+  @IsEmail({}, { message: "Please enter a valid email" })
   email: string;
 
-  @IsNotEmpty({ message: 'Password is required' })
+  @IsNotEmpty({ message: "Password is required" })
   @IsString()
-  @MinLength(8, { message: 'Password must be at least 8 characters' })
+  @MinLength(8, { message: "Password must be at least 8 characters" })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
-    message: 'Password must contain uppercase, lowercase, and number',
+    message: "Password must contain uppercase, lowercase, and number",
   })
   password: string;
 
@@ -167,7 +179,7 @@ export class RegisterResponseDto {
 **File: `apps/server/src/modules/auth/dto/check-email.dto.ts`**
 
 ```typescript
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty } from "class-validator";
 
 export class CheckEmailDto {
   @IsNotEmpty()
@@ -188,10 +200,10 @@ export class CheckEmailResponseDto {
 ```typescript
 // Thêm vào AuthService hiện có
 
-import { ConflictException, BadRequestException } from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
-import { RegisterResponseDto } from './dto/register-response.dto';
-import { CheckEmailResponseDto } from './dto/check-email.dto';
+import { ConflictException, BadRequestException } from "@nestjs/common";
+import { RegisterDto } from "./dto/register.dto";
+import { RegisterResponseDto } from "./dto/register-response.dto";
+import { CheckEmailResponseDto } from "./dto/check-email.dto";
 
 @Injectable()
 export class AuthService {
@@ -212,7 +224,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('An account with this email already exists');
+      throw new ConflictException("An account with this email already exists");
     }
 
     // Hash password
@@ -227,7 +239,7 @@ export class AuthService {
         fullName: fullName.trim(),
         phone: phone?.trim(),
         // country: country, // Future: add to schema
-        role: 'USER',
+        role: "USER",
       },
       select: {
         id: true,
@@ -241,7 +253,7 @@ export class AuthService {
 
     return {
       user,
-      message: 'Account created successfully. Please log in.',
+      message: "Account created successfully. Please log in.",
     };
   }
 
@@ -259,7 +271,7 @@ export class AuthService {
     if (existingUser) {
       return {
         available: false,
-        message: 'This email is already registered',
+        message: "This email is already registered",
       };
     }
 
@@ -275,22 +287,22 @@ export class AuthService {
 ```typescript
 // Thêm vào AuthController hiện có
 
-import { Query, Get } from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
-import { CheckEmailDto } from './dto/check-email.dto';
+import { Query, Get } from "@nestjs/common";
+import { RegisterDto } from "./dto/register.dto";
+import { CheckEmailDto } from "./dto/check-email.dto";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
   // ... existing code ...
 
-  @Post('register')
+  @Post("register")
   @HttpCode(HttpStatus.CREATED)
   @Throttle({ default: { limit: 5, ttl: 60 } })
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
 
-  @Get('check-email')
+  @Get("check-email")
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 10, ttl: 60 } })
   async checkEmail(@Query() checkEmailDto: CheckEmailDto) {
@@ -304,9 +316,9 @@ export class AuthController {
 **File: `apps/server/src/modules/countries/countries.controller.ts`**
 
 ```typescript
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from "@nestjs/common";
 
-@Controller('api/countries')
+@Controller("api/countries")
 export class CountriesController {
   @Get()
   getCountries() {
@@ -314,11 +326,11 @@ export class CountriesController {
     return {
       success: true,
       data: [
-        { code: 'US', name: 'United States', dialCode: '+1', flag: '🇺🇸' },
-        { code: 'VN', name: 'Vietnam', dialCode: '+84', flag: '🇻🇳' },
-        { code: 'JP', name: 'Japan', dialCode: '+81', flag: '🇯🇵' },
-        { code: 'KR', name: 'South Korea', dialCode: '+82', flag: '🇰🇷' },
-        { code: 'TH', name: 'Thailand', dialCode: '+66', flag: '🇹🇭' },
+        { code: "US", name: "United States", dialCode: "+1", flag: "🇺🇸" },
+        { code: "VN", name: "Vietnam", dialCode: "+84", flag: "🇻🇳" },
+        { code: "JP", name: "Japan", dialCode: "+81", flag: "🇯🇵" },
+        { code: "KR", name: "South Korea", dialCode: "+82", flag: "🇰🇷" },
+        { code: "TH", name: "Thailand", dialCode: "+66", flag: "🇹🇭" },
         // ... more countries
       ],
     };
@@ -330,8 +342,8 @@ export class CountriesController {
 
 #### 3.3.1 Routes & Pages
 
-| Route | Page | Description |
-|-------|------|-------------|
+| Route       | Page                           | Description       |
+| ----------- | ------------------------------ | ----------------- |
 | `/register` | `app/(auth)/register/page.tsx` | Registration page |
 
 #### 3.3.2 Components Structure
@@ -360,12 +372,12 @@ apps/web/
 **File: `apps/web/app/(auth)/register/page.tsx`**
 
 ```tsx
-import { Metadata } from 'next';
-import { RegisterForm } from '@/components/auth/register-form';
+import { Metadata } from "next";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export const metadata: Metadata = {
-  title: 'Register | TourBooker',
-  description: 'Create your account to book tours',
+  title: "Register | TourBooker",
+  description: "Create your account to book tours",
 };
 
 export default function RegisterPage() {
@@ -393,22 +405,22 @@ export default function RegisterPage() {
 **File: `apps/web/components/auth/register-form.tsx`**
 
 ```tsx
-'use client';
+"use client";
 
-import { useState, Suspense, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { registerSchema, type RegisterFormData } from '@/lib/validations/auth';
-import { register as registerUser, checkEmail } from '@/lib/api/auth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { SocialButtons } from './social-buttons';
-import { PasswordStrength } from './password-strength';
-import { CountrySelect } from './country-select';
-import { useDebouncedCallback } from 'use-debounce';
+import { useState, Suspense, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
+import { register as registerUser, checkEmail } from "@/lib/api/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { SocialButtons } from "./social-buttons";
+import { PasswordStrength } from "./password-strength";
+import { CountrySelect } from "./country-select";
+import { useDebouncedCallback } from "use-debounce";
 
 function RegisterFormContent() {
   const router = useRouter();
@@ -416,8 +428,13 @@ function RegisterFormContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [emailStatus, setEmailStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
-  const [selectedCountry, setSelectedCountry] = useState<{ code: string; dialCode: string } | null>(null);
+  const [emailStatus, setEmailStatus] = useState<
+    "idle" | "checking" | "available" | "taken"
+  >("idle");
+  const [selectedCountry, setSelectedCountry] = useState<{
+    code: string;
+    dialCode: string;
+  } | null>(null);
 
   const {
     register,
@@ -427,27 +444,30 @@ function RegisterFormContent() {
     formState: { errors, isValid },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    mode: 'onChange',
+    mode: "onChange",
   });
 
-  const password = watch('password');
-  const email = watch('email');
+  const password = watch("password");
+  const email = watch("email");
 
   // Debounced email check
-  const checkEmailAvailability = useDebouncedCallback(async (emailValue: string) => {
-    if (!emailValue || errors.email) {
-      setEmailStatus('idle');
-      return;
-    }
-    
-    setEmailStatus('checking');
-    try {
-      const result = await checkEmail(emailValue);
-      setEmailStatus(result.available ? 'available' : 'taken');
-    } catch {
-      setEmailStatus('idle');
-    }
-  }, 500);
+  const checkEmailAvailability = useDebouncedCallback(
+    async (emailValue: string) => {
+      if (!emailValue || errors.email) {
+        setEmailStatus("idle");
+        return;
+      }
+
+      setEmailStatus("checking");
+      try {
+        const result = await checkEmail(emailValue);
+        setEmailStatus(result.available ? "available" : "taken");
+      } catch {
+        setEmailStatus("idle");
+      }
+    },
+    500,
+  );
 
   useEffect(() => {
     if (email) {
@@ -456,14 +476,17 @@ function RegisterFormContent() {
   }, [email, checkEmailAvailability]);
 
   // Handle country change
-  const handleCountryChange = useCallback((country: { code: string; dialCode: string }) => {
-    setSelectedCountry(country);
-    setValue('country', country.code);
-  }, [setValue]);
+  const handleCountryChange = useCallback(
+    (country: { code: string; dialCode: string }) => {
+      setSelectedCountry(country);
+      setValue("country", country.code);
+    },
+    [setValue],
+  );
 
   const onSubmit = async (data: RegisterFormData) => {
-    if (emailStatus === 'taken') {
-      setApiError('This email is already registered');
+    if (emailStatus === "taken") {
+      setApiError("This email is already registered");
       return;
     }
 
@@ -472,9 +495,10 @@ function RegisterFormContent() {
 
     try {
       // Format phone with country code
-      const phone = data.phone && selectedCountry 
-        ? `${selectedCountry.dialCode}${data.phone}` 
-        : data.phone;
+      const phone =
+        data.phone && selectedCountry
+          ? `${selectedCountry.dialCode}${data.phone}`
+          : data.phone;
 
       await registerUser({
         fullName: data.fullName.trim(),
@@ -485,12 +509,12 @@ function RegisterFormContent() {
       });
 
       // Success - redirect to login with success message
-      router.push('/login?registered=true');
+      router.push("/login?registered=true");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);
       } else {
-        setApiError('An unexpected error occurred. Please try again.');
+        setApiError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -521,11 +545,13 @@ function RegisterFormContent() {
           <Input
             type="text"
             placeholder="e.g. Jane Doe"
-            {...register('fullName')}
+            {...register("fullName")}
             className="h-12"
           />
           {errors.fullName && (
-            <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.fullName.message}
+            </p>
           )}
         </label>
 
@@ -538,27 +564,31 @@ function RegisterFormContent() {
             <Input
               type="email"
               placeholder="e.g. jane@example.com"
-              {...register('email')}
+              {...register("email")}
               className="h-12 pr-10"
             />
-            {emailStatus === 'checking' && (
+            {emailStatus === "checking" && (
               <span className="absolute right-3 top-1/2 -translate-y-1/2">
                 <span className="animate-spin">⏳</span>
               </span>
             )}
-            {emailStatus === 'available' && (
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500">✓</span>
+            {emailStatus === "available" && (
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500">
+                ✓
+              </span>
             )}
-            {emailStatus === 'taken' && (
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500">✗</span>
+            {emailStatus === "taken" && (
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-red-500">
+                ✗
+              </span>
             )}
           </div>
           {errors.email && (
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
           )}
-          {emailStatus === 'taken' && (
+          {emailStatus === "taken" && (
             <p className="mt-1 text-sm text-red-600">
-              This email is already registered.{' '}
+              This email is already registered.{" "}
               <Link href="/login" className="text-[#1392ec] hover:underline">
                 Log in instead
               </Link>
@@ -586,17 +616,19 @@ function RegisterFormContent() {
             </p>
             <div className="flex">
               <span className="flex items-center px-3 bg-gray-100 dark:bg-[#22303c] border border-r-0 border-[#dbe1e6] dark:border-[#22303c] rounded-l-lg text-sm">
-                {selectedCountry?.dialCode || '+1'}
+                {selectedCountry?.dialCode || "+1"}
               </span>
               <Input
                 type="tel"
                 placeholder="(555) 000-0000"
-                {...register('phone')}
+                {...register("phone")}
                 className="h-12 rounded-l-none"
               />
             </div>
             {errors.phone && (
-              <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+              <p className="mt-1 text-sm text-red-600">
+                {errors.phone.message}
+              </p>
             )}
           </label>
         </div>
@@ -608,9 +640,9 @@ function RegisterFormContent() {
           </p>
           <div className="relative">
             <Input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="••••••••"
-              {...register('password')}
+              {...register("password")}
               className="h-12 pr-12"
             />
             <button
@@ -619,12 +651,14 @@ function RegisterFormContent() {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#617989] hover:text-[#111518] dark:hover:text-white"
             >
               <span className="material-symbols-outlined text-xl">
-                {showPassword ? 'visibility_off' : 'visibility'}
+                {showPassword ? "visibility_off" : "visibility"}
               </span>
             </button>
           </div>
           {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.password.message}
+            </p>
           )}
           {password && <PasswordStrength password={password} />}
         </label>
@@ -636,9 +670,9 @@ function RegisterFormContent() {
           </p>
           <div className="relative">
             <Input
-              type={showConfirmPassword ? 'text' : 'password'}
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="••••••••"
-              {...register('confirmPassword')}
+              {...register("confirmPassword")}
               className="h-12 pr-12"
             />
             <button
@@ -647,12 +681,14 @@ function RegisterFormContent() {
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[#617989] hover:text-[#111518] dark:hover:text-white"
             >
               <span className="material-symbols-outlined text-xl">
-                {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                {showConfirmPassword ? "visibility_off" : "visibility"}
               </span>
             </button>
           </div>
           {errors.confirmPassword && (
-            <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.confirmPassword.message}
+            </p>
           )}
         </label>
 
@@ -660,16 +696,27 @@ function RegisterFormContent() {
         <div className="flex items-start gap-3">
           <Checkbox
             id="agreeTerms"
-            {...register('agreeTerms')}
+            {...register("agreeTerms")}
             className="mt-1"
           />
-          <label htmlFor="agreeTerms" className="text-sm text-[#617989] dark:text-gray-400">
-            By creating an account, I agree to the{' '}
-            <Link href="/terms" target="_blank" className="text-[#1392ec] hover:underline">
+          <label
+            htmlFor="agreeTerms"
+            className="text-sm text-[#617989] dark:text-gray-400"
+          >
+            By creating an account, I agree to the{" "}
+            <Link
+              href="/terms"
+              target="_blank"
+              className="text-[#1392ec] hover:underline"
+            >
               Terms of Use
-            </Link>{' '}
-            and{' '}
-            <Link href="/privacy" target="_blank" className="text-[#1392ec] hover:underline">
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/privacy"
+              target="_blank"
+              className="text-[#1392ec] hover:underline"
+            >
               Privacy Policy
             </Link>
             .
@@ -690,17 +737,20 @@ function RegisterFormContent() {
         <Button
           type="submit"
           className="w-full h-12 bg-[#1392ec] hover:bg-blue-600 text-white text-base font-bold mt-2"
-          disabled={isLoading || !isValid || emailStatus === 'taken'}
+          disabled={isLoading || !isValid || emailStatus === "taken"}
         >
-          {isLoading ? 'Creating account...' : 'Register Account'}
+          {isLoading ? "Creating account..." : "Register Account"}
         </Button>
       </form>
 
       {/* Login Link */}
       <div className="text-center">
         <p className="text-[#617989] dark:text-gray-400 text-sm">
-          Already have an account?{' '}
-          <Link href="/login" className="text-[#1392ec] font-bold hover:underline">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-[#1392ec] font-bold hover:underline"
+          >
             Log in
           </Link>
         </p>
@@ -723,16 +773,16 @@ export function RegisterForm() {
 **File: `apps/web/components/auth/password-strength.tsx`**
 
 ```tsx
-'use client';
+"use client";
 
-import { useMemo } from 'react';
-import { cn } from '@/lib/utils';
+import { useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 interface PasswordStrengthProps {
   password: string;
 }
 
-type StrengthLevel = 'weak' | 'medium' | 'strong';
+type StrengthLevel = "weak" | "medium" | "strong";
 
 interface StrengthResult {
   score: number;
@@ -753,50 +803,73 @@ function calculatePasswordStrength(password: string): StrengthResult {
   if (/[^a-zA-Z0-9]/.test(password)) score++;
 
   if (score <= 2) {
-    return { score, level: 'weak', color: 'bg-red-500', label: 'Weak', percentage: 33 };
+    return {
+      score,
+      level: "weak",
+      color: "bg-red-500",
+      label: "Weak",
+      percentage: 33,
+    };
   } else if (score <= 4) {
-    return { score, level: 'medium', color: 'bg-yellow-500', label: 'Medium Strength', percentage: 66 };
+    return {
+      score,
+      level: "medium",
+      color: "bg-yellow-500",
+      label: "Medium Strength",
+      percentage: 66,
+    };
   } else {
-    return { score, level: 'strong', color: 'bg-green-500', label: 'Strong', percentage: 100 };
+    return {
+      score,
+      level: "strong",
+      color: "bg-green-500",
+      label: "Strong",
+      percentage: 100,
+    };
   }
 }
 
 export function PasswordStrength({ password }: PasswordStrengthProps) {
-  const strength = useMemo(() => calculatePasswordStrength(password), [password]);
+  const strength = useMemo(
+    () => calculatePasswordStrength(password),
+    [password],
+  );
 
   return (
     <div className="mt-2 space-y-2">
       {/* Progress Bar */}
       <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <div
-          className={cn('h-full transition-all duration-300', strength.color)}
+          className={cn("h-full transition-all duration-300", strength.color)}
           style={{ width: `${strength.percentage}%` }}
         />
       </div>
 
       {/* Label */}
-      <p className={cn(
-        'text-sm font-medium',
-        strength.level === 'weak' && 'text-red-500',
-        strength.level === 'medium' && 'text-yellow-600',
-        strength.level === 'strong' && 'text-green-500',
-      )}>
+      <p
+        className={cn(
+          "text-sm font-medium",
+          strength.level === "weak" && "text-red-500",
+          strength.level === "medium" && "text-yellow-600",
+          strength.level === "strong" && "text-green-500",
+        )}
+      >
         Password Strength: {strength.label}
       </p>
 
       {/* Requirements */}
       <ul className="text-xs text-[#617989] space-y-1">
-        <li className={cn(password.length >= 8 && 'text-green-500')}>
-          {password.length >= 8 ? '✓' : '○'} At least 8 characters
+        <li className={cn(password.length >= 8 && "text-green-500")}>
+          {password.length >= 8 ? "✓" : "○"} At least 8 characters
         </li>
-        <li className={cn(/[A-Z]/.test(password) && 'text-green-500')}>
-          {/[A-Z]/.test(password) ? '✓' : '○'} One uppercase letter
+        <li className={cn(/[A-Z]/.test(password) && "text-green-500")}>
+          {/[A-Z]/.test(password) ? "✓" : "○"} One uppercase letter
         </li>
-        <li className={cn(/[a-z]/.test(password) && 'text-green-500')}>
-          {/[a-z]/.test(password) ? '✓' : '○'} One lowercase letter
+        <li className={cn(/[a-z]/.test(password) && "text-green-500")}>
+          {/[a-z]/.test(password) ? "✓" : "○"} One lowercase letter
         </li>
-        <li className={cn(/[0-9]/.test(password) && 'text-green-500')}>
-          {/[0-9]/.test(password) ? '✓' : '○'} One number
+        <li className={cn(/[0-9]/.test(password) && "text-green-500")}>
+          {/[0-9]/.test(password) ? "✓" : "○"} One number
         </li>
       </ul>
     </div>
@@ -809,10 +882,10 @@ export function PasswordStrength({ password }: PasswordStrengthProps) {
 **File: `apps/web/components/auth/country-select.tsx`**
 
 ```tsx
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { getCountries, type Country } from '@/lib/api/countries';
+import { useState, useEffect } from "react";
+import { getCountries, type Country } from "@/lib/api/countries";
 
 interface CountrySelectProps {
   value?: string;
@@ -829,7 +902,7 @@ export function CountrySelect({ value, onChange }: CountrySelectProps) {
         const data = await getCountries();
         setCountries(data);
       } catch (error) {
-        console.error('Failed to fetch countries:', error);
+        console.error("Failed to fetch countries:", error);
       } finally {
         setIsLoading(false);
       }
@@ -839,7 +912,7 @@ export function CountrySelect({ value, onChange }: CountrySelectProps) {
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = countries.find(c => c.code === e.target.value);
+    const selected = countries.find((c) => c.code === e.target.value);
     if (selected) {
       onChange({ code: selected.code, dialCode: selected.dialCode });
     }
@@ -847,7 +920,10 @@ export function CountrySelect({ value, onChange }: CountrySelectProps) {
 
   if (isLoading) {
     return (
-      <select disabled className="h-12 w-full rounded-lg border border-[#dbe1e6] bg-gray-100">
+      <select
+        disabled
+        className="h-12 w-full rounded-lg border border-[#dbe1e6] bg-gray-100"
+      >
         <option>Loading...</option>
       </select>
     );
@@ -855,7 +931,7 @@ export function CountrySelect({ value, onChange }: CountrySelectProps) {
 
   return (
     <select
-      value={value || ''}
+      value={value || ""}
       onChange={handleChange}
       className="h-12 w-full rounded-lg border border-[#dbe1e6] dark:border-[#22303c] bg-white dark:bg-[#1a2630] text-[#111518] dark:text-white px-3 focus:outline-none focus:ring-2 focus:ring-[#1392ec]/50"
     >
@@ -877,47 +953,47 @@ export function CountrySelect({ value, onChange }: CountrySelectProps) {
 ```typescript
 // Thêm vào file hiện có
 
-export const registerSchema = z.object({
-  fullName: z
-    .string()
-    .min(1, 'Full name is required')
-    .min(2, 'Name must be at least 2 characters'),
+export const registerSchema = z
+  .object({
+    fullName: z
+      .string()
+      .min(1, "Full name is required")
+      .min(2, "Name must be at least 2 characters"),
 
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email'),
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Please enter a valid email"),
 
-  phone: z
-    .string()
-    .optional()
-    .refine(
-      (val) => !val || /^[0-9]{7,15}$/.test(val),
-      'Please enter a valid phone number'
-    ),
+    phone: z
+      .string()
+      .optional()
+      .refine(
+        (val) => !val || /^[0-9]{7,15}$/.test(val),
+        "Please enter a valid phone number",
+      ),
 
-  country: z.string().optional(),
+    country: z.string().optional(),
 
-  password: z
-    .string()
-    .min(1, 'Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      'Password must contain uppercase, lowercase, and number'
-    ),
+    password: z
+      .string()
+      .min(1, "Password is required")
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain uppercase, lowercase, and number",
+      ),
 
-  confirmPassword: z
-    .string()
-    .min(1, 'Please confirm your password'),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
 
-  agreeTerms: z
-    .boolean()
-    .refine((val) => val === true, 'You must agree to the terms'),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword'],
-});
+    agreeTerms: z
+      .boolean()
+      .refine((val) => val === true, "You must agree to the terms"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export type RegisterFormData = z.infer<typeof registerSchema>;
 ```
@@ -953,16 +1029,18 @@ export interface CheckEmailResponse {
   message?: string;
 }
 
-export async function register(data: RegisterRequest): Promise<RegisterResponse> {
+export async function register(
+  data: RegisterRequest,
+): Promise<RegisterResponse> {
   const response = await fetch(`${API_URL}/auth/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error?.message || 'Registration failed');
+    throw new Error(error.error?.message || "Registration failed");
   }
 
   const result = await response.json();
@@ -971,11 +1049,11 @@ export async function register(data: RegisterRequest): Promise<RegisterResponse>
 
 export async function checkEmail(email: string): Promise<CheckEmailResponse> {
   const response = await fetch(
-    `${API_URL}/auth/check-email?email=${encodeURIComponent(email)}`
+    `${API_URL}/auth/check-email?email=${encodeURIComponent(email)}`,
   );
 
   if (!response.ok) {
-    throw new Error('Failed to check email');
+    throw new Error("Failed to check email");
   }
 
   const result = await response.json();
@@ -986,7 +1064,7 @@ export async function checkEmail(email: string): Promise<CheckEmailResponse> {
 **File: `apps/web/lib/api/countries.ts`**
 
 ```typescript
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export interface Country {
   code: string;
@@ -997,9 +1075,9 @@ export interface Country {
 
 export async function getCountries(): Promise<Country[]> {
   const response = await fetch(`${API_URL}/api/countries`);
-  
+
   if (!response.ok) {
-    throw new Error('Failed to fetch countries');
+    throw new Error("Failed to fetch countries");
   }
 
   const result = await response.json();
@@ -1020,7 +1098,7 @@ sequenceDiagram
 
     User->>NextJS: Fill registration form
     NextJS->>NextJS: Client-side validation (Zod)
-    
+
     alt Email check (on blur)
         NextJS->>NestJS: GET /auth/check-email?email=xxx
         NestJS->>DB: SELECT user WHERE email = xxx
@@ -1031,21 +1109,21 @@ sequenceDiagram
 
     User->>NextJS: Click Register
     NextJS->>NestJS: POST /auth/register
-    
+
     NestJS->>NestJS: Validate DTO (class-validator)
-    
+
     alt Validation Error
         NestJS-->>NextJS: 400 VALIDATION_ERROR
         NextJS->>User: Show field errors
     end
-    
+
     NestJS->>DB: Check email exists
-    
+
     alt Email exists
         NestJS-->>NextJS: 409 EMAIL_EXISTS
         NextJS->>User: Show "Email already exists"
     end
-    
+
     NestJS->>NestJS: Hash password (bcrypt)
     NestJS->>DB: INSERT INTO users
     DB-->>NestJS: Created user
@@ -1069,19 +1147,19 @@ sequenceDiagram
     User->>Google: Authenticate
     Google-->>NextJS: Redirect with ID token
     NextJS->>NestJS: POST /auth/google { idToken }
-    
+
     NestJS->>Google: Verify ID token
     Google-->>NestJS: User profile
-    
+
     NestJS->>DB: Find user by email
-    
+
     alt User exists
         DB-->>NestJS: Existing user
     else User not exists
         NestJS->>DB: Create new user (JIT provisioning)
         DB-->>NestJS: New user
     end
-    
+
     NestJS->>NestJS: Generate JWT tokens
     NestJS-->>NextJS: 200/201 { user, tokens, isNewUser }
     NextJS->>NextJS: Store auth state
@@ -1092,33 +1170,33 @@ sequenceDiagram
 
 #### 3.5.1 Security Measures
 
-| Measure | Implementation |
-|---------|----------------|
-| **Password Hashing** | bcrypt với salt rounds = 10 |
-| **Rate Limiting** | 5 requests/minute cho register endpoint |
+| Measure              | Implementation                             |
+| -------------------- | ------------------------------------------ |
+| **Password Hashing** | bcrypt với salt rounds = 10                |
+| **Rate Limiting**    | 5 requests/minute cho register endpoint    |
 | **Input Validation** | Server-side validation với class-validator |
-| **SQL Injection** | Prisma parameterized queries |
-| **XSS Prevention** | React auto-escaping, sanitize input |
-| **CSRF** | SameSite cookies (khi dùng cookies) |
+| **SQL Injection**    | Prisma parameterized queries               |
+| **XSS Prevention**   | React auto-escaping, sanitize input        |
+| **CSRF**             | SameSite cookies (khi dùng cookies)        |
 
 #### 3.5.2 Performance Optimizations
 
-| Optimization | Implementation |
-|--------------|----------------|
-| **Debounced Email Check** | 500ms debounce trước khi call API |
-| **Client-side Validation** | Zod validation trước khi submit |
-| **Lazy Loading** | Countries list loaded on component mount |
-| **Optimistic UI** | Show loading states immediately |
+| Optimization               | Implementation                           |
+| -------------------------- | ---------------------------------------- |
+| **Debounced Email Check**  | 500ms debounce trước khi call API        |
+| **Client-side Validation** | Zod validation trước khi submit          |
+| **Lazy Loading**           | Countries list loaded on component mount |
+| **Optimistic UI**          | Show loading states immediately          |
 
 ### 3.6 Error Handling
 
-| Error Code | HTTP Status | User Message | Action |
-|------------|-------------|--------------|--------|
-| `VALIDATION_ERROR` | 400 | Field-specific errors | Highlight fields |
-| `EMAIL_EXISTS` | 409 | "Email already registered" | Show login link |
-| `WEAK_PASSWORD` | 400 | "Password too weak" | Show requirements |
-| `RATE_LIMITED` | 429 | "Too many attempts" | Show retry timer |
-| `SERVER_ERROR` | 500 | "Something went wrong" | Show retry button |
+| Error Code         | HTTP Status | User Message               | Action            |
+| ------------------ | ----------- | -------------------------- | ----------------- |
+| `VALIDATION_ERROR` | 400         | Field-specific errors      | Highlight fields  |
+| `EMAIL_EXISTS`     | 409         | "Email already registered" | Show login link   |
+| `WEAK_PASSWORD`    | 400         | "Password too weak"        | Show requirements |
+| `RATE_LIMITED`     | 429         | "Too many attempts"        | Show retry timer  |
+| `SERVER_ERROR`     | 500         | "Something went wrong"     | Show retry button |
 
 ## 4. Testing Plan
 
@@ -1127,45 +1205,48 @@ sequenceDiagram
 **File: `apps/server/src/modules/auth/auth.service.spec.ts`**
 
 ```typescript
-describe('AuthService - Register', () => {
-  describe('register', () => {
-    it('should create a new user successfully', async () => {
+describe("AuthService - Register", () => {
+  describe("register", () => {
+    it("should create a new user successfully", async () => {
       // Arrange
       const registerDto = {
-        fullName: 'Jane Doe',
-        email: 'jane@example.com',
-        password: 'Password123!',
+        fullName: "Jane Doe",
+        email: "jane@example.com",
+        password: "Password123!",
       };
 
       // Act
       const result = await authService.register(registerDto);
 
       // Assert
-      expect(result.user.email).toBe('jane@example.com');
-      expect(result.message).toBe('Account created successfully. Please log in.');
+      expect(result.user.email).toBe("jane@example.com");
+      expect(result.message).toBe(
+        "Account created successfully. Please log in.",
+      );
     });
 
-    it('should throw ConflictException if email exists', async () => {
+    it("should throw ConflictException if email exists", async () => {
       // Arrange
-      const existingEmail = 'existing@example.com';
-      
+      const existingEmail = "existing@example.com";
+
       // Act & Assert
-      await expect(authService.register({ ...registerDto, email: existingEmail }))
-        .rejects.toThrow(ConflictException);
+      await expect(
+        authService.register({ ...registerDto, email: existingEmail }),
+      ).rejects.toThrow(ConflictException);
     });
 
-    it('should hash password with bcrypt', async () => {
+    it("should hash password with bcrypt", async () => {
       // Verify password is hashed, not stored as plain text
     });
 
-    it('should normalize email to lowercase', async () => {
+    it("should normalize email to lowercase", async () => {
       // Verify Jane@Example.COM becomes jane@example.com
     });
   });
 
-  describe('checkEmailAvailability', () => {
-    it('should return available: true for new email', async () => {});
-    it('should return available: false for existing email', async () => {});
+  describe("checkEmailAvailability", () => {
+    it("should return available: true for new email", async () => {});
+    it("should return available: false for existing email", async () => {});
   });
 });
 ```
@@ -1222,29 +1303,29 @@ describe('Auth Register (e2e)', () => {
 **File: `apps/web/components/auth/__tests__/register-form.test.tsx`**
 
 ```typescript
-describe('RegisterForm', () => {
-  it('renders all form fields', () => {});
-  it('shows validation errors for empty required fields', () => {});
-  it('shows password strength indicator when typing', () => {});
-  it('shows error when passwords do not match', () => {});
-  it('disables submit when terms not checked', () => {});
-  it('calls register API on valid submit', () => {});
-  it('shows API error message on failure', () => {});
-  it('redirects to login on success', () => {});
+describe("RegisterForm", () => {
+  it("renders all form fields", () => {});
+  it("shows validation errors for empty required fields", () => {});
+  it("shows password strength indicator when typing", () => {});
+  it("shows error when passwords do not match", () => {});
+  it("disables submit when terms not checked", () => {});
+  it("calls register API on valid submit", () => {});
+  it("shows API error message on failure", () => {});
+  it("redirects to login on success", () => {});
 });
 
-describe('PasswordStrength', () => {
-  it('shows Weak for short passwords', () => {});
-  it('shows Medium for decent passwords', () => {});
-  it('shows Strong for complex passwords', () => {});
+describe("PasswordStrength", () => {
+  it("shows Weak for short passwords", () => {});
+  it("shows Medium for decent passwords", () => {});
+  it("shows Strong for complex passwords", () => {});
 });
 ```
 
 ### 4.4 Integration Tests
 
 ```typescript
-describe('Registration Flow Integration', () => {
-  it('should complete full registration flow', async () => {
+describe("Registration Flow Integration", () => {
+  it("should complete full registration flow", async () => {
     // 1. Load register page
     // 2. Fill form
     // 3. Submit
@@ -1259,10 +1340,12 @@ describe('Registration Flow Integration', () => {
 ### 5.1 Auto-login after Registration
 
 **Option A (Chosen):** Redirect to login page
+
 - Pros: Simpler flow, user confirms credentials work
 - Cons: Extra step for user
 
 **Option B:** Auto-login with tokens
+
 - Pros: Better UX, fewer steps
 - Cons: More complex, security considerations
 
@@ -1271,10 +1354,12 @@ describe('Registration Flow Integration', () => {
 ### 5.2 Email Verification
 
 **Option A (Chosen):** No email verification (Phase 1)
+
 - Pros: Faster onboarding, simpler implementation
 - Cons: Risk of fake emails
 
 **Option B:** Required email verification
+
 - Pros: Verified users, less spam
 - Cons: More friction, complex flow
 
@@ -1283,10 +1368,12 @@ describe('Registration Flow Integration', () => {
 ### 5.3 Password Requirements
 
 **Option A (Chosen):** Min 8 chars + uppercase + lowercase + number
+
 - Pros: Good security, not too restrictive
 - Cons: Some users may find it annoying
 
 **Option B:** More strict (special chars required)
+
 - Pros: Stronger passwords
 - Cons: Higher friction
 
@@ -1295,6 +1382,7 @@ describe('Registration Flow Integration', () => {
 ## 6. Implementation Checklist
 
 ### Backend
+
 - [ ] Create `RegisterDto` và `RegisterResponseDto`
 - [ ] Create `CheckEmailDto` và `CheckEmailResponseDto`
 - [ ] Implement `AuthService.register()`
@@ -1305,6 +1393,7 @@ describe('Registration Flow Integration', () => {
 - [ ] Write E2E tests
 
 ### Frontend
+
 - [ ] Create `/register` page
 - [ ] Create `RegisterForm` component
 - [ ] Create `PasswordStrength` component
@@ -1315,6 +1404,7 @@ describe('Registration Flow Integration', () => {
 - [ ] Write component tests
 
 ### Integration
+
 - [ ] Test full registration flow
 - [ ] Test error scenarios
 - [ ] Test responsive design
@@ -1323,6 +1413,7 @@ describe('Registration Flow Integration', () => {
 ## 7. Dependencies
 
 ### NPM Packages (Existing)
+
 - `bcrypt` - Password hashing
 - `class-validator` - DTO validation
 - `@nestjs/throttler` - Rate limiting
@@ -1331,6 +1422,7 @@ describe('Registration Flow Integration', () => {
 - `use-debounce` - Debounced callbacks
 
 ### New Package (Frontend)
+
 ```bash
 cd apps/web
 pnpm add use-debounce

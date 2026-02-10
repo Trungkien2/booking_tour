@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export interface Country {
   code: string;
@@ -22,7 +22,7 @@ export async function getCountries(): Promise<Country[]> {
     const response = await fetch(`${API_BASE_URL}/api/countries`);
 
     if (!response.ok) {
-      throw new Error('Failed to fetch countries');
+      throw new Error("Failed to fetch countries");
     }
 
     const result: CountriesApiResponse = await response.json();
@@ -31,6 +31,6 @@ export async function getCountries(): Promise<Country[]> {
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error('Network error. Failed to load countries.');
+    throw new Error("Network error. Failed to load countries.");
   }
 }

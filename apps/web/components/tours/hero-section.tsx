@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { Search, Calendar, Users } from 'lucide-react';
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Search, Calendar, Users } from "lucide-react";
 
 const HERO_IMAGE =
-  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80';
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80";
 
 interface HeroSectionProps {
   initialSearch?: string;
 }
 
-export function HeroSection({ initialSearch = '' }: HeroSectionProps) {
+export function HeroSection({ initialSearch = "" }: HeroSectionProps) {
   const router = useRouter();
   const [search, setSearch] = useState(initialSearch);
-  const [dates, setDates] = useState('');
-  const [guests, setGuests] = useState('');
+  const [dates, setDates] = useState("");
+  const [guests, setGuests] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams();
-    if (search.trim()) params.set('search', search.trim());
-    if (dates) params.set('dates', dates);
-    if (guests) params.set('guests', guests);
+    if (search.trim()) params.set("search", search.trim());
+    if (dates) params.set("dates", dates);
+    if (guests) params.set("guests", guests);
     startTransition(() => {
       router.push(`/?${params.toString()}`);
     });
@@ -77,15 +77,15 @@ export function HeroSection({ initialSearch = '' }: HeroSectionProps) {
               <Calendar className="size-5 text-gray-400 flex-shrink-0" />
               <input
                 type="text"
-                onFocus={(e) => (e.target.type = 'date')}
+                onFocus={(e) => (e.target.type = "date")}
                 onBlur={(e) => {
-                  if (!e.target.value) e.target.type = 'text';
+                  if (!e.target.value) e.target.type = "text";
                   setDates(e.target.value);
                 }}
                 onChange={(e) => setDates(e.target.value)}
                 placeholder="Add dates"
                 className="w-full bg-transparent border-none focus:ring-0 text-gray-800 dark:text-white placeholder-gray-400 text-[15px] outline-none"
-                style={{ colorScheme: 'light' }}
+                style={{ colorScheme: "light" }}
               />
             </div>
 
@@ -100,7 +100,7 @@ export function HeroSection({ initialSearch = '' }: HeroSectionProps) {
               <input
                 type="number"
                 min={1}
-                value={guests || ''}
+                value={guests || ""}
                 onChange={(e) => setGuests(e.target.value)}
                 placeholder="Guests"
                 className="w-full bg-transparent border-none focus:ring-0 text-gray-800 dark:text-white placeholder-gray-400 text-[15px] outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
@@ -120,7 +120,7 @@ export function HeroSection({ initialSearch = '' }: HeroSectionProps) {
                     Searching...
                   </>
                 ) : (
-                  'Search'
+                  "Search"
                 )}
               </button>
             </div>

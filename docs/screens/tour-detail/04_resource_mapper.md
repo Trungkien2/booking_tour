@@ -4,26 +4,26 @@
 
 ### API → UI Components
 
-| API Field | UI Component | Transform |
-|-----------|--------------|-----------|
-| `name` | Page title, Hero title | Direct |
-| `slug` | URL | `/tours/${slug}` |
-| `summary` | Meta description | Direct |
-| `description` | About section | Render HTML/Markdown |
-| `coverImage` | Hero image | Direct |
-| `images` | Gallery thumbnails | Array of URLs |
-| `durationDays` | Duration badge | `${value} Days` |
-| `priceAdult` | Price display | `formatCurrency()` |
-| `priceChild` | Child price | `formatCurrency()` |
-| `location` | Location badge | Direct |
-| `coordinates` | Map center | `[lat, lng]` |
-| `ratingAverage` | Rating stars | `toFixed(1)` |
-| `reviewCount` | Review count | `(${value} reviews)` |
-| `highlights` | Highlight cards | Icon + label |
-| `itinerary` | Accordion items | Day + title + description |
-| `included` | Included list | Check icon + text |
-| `notIncluded` | Not included list | X icon + text |
-| `meetingPoint` | Map + address | Name, address, instructions |
+| API Field       | UI Component           | Transform                   |
+| --------------- | ---------------------- | --------------------------- |
+| `name`          | Page title, Hero title | Direct                      |
+| `slug`          | URL                    | `/tours/${slug}`            |
+| `summary`       | Meta description       | Direct                      |
+| `description`   | About section          | Render HTML/Markdown        |
+| `coverImage`    | Hero image             | Direct                      |
+| `images`        | Gallery thumbnails     | Array of URLs               |
+| `durationDays`  | Duration badge         | `${value} Days`             |
+| `priceAdult`    | Price display          | `formatCurrency()`          |
+| `priceChild`    | Child price            | `formatCurrency()`          |
+| `location`      | Location badge         | Direct                      |
+| `coordinates`   | Map center             | `[lat, lng]`                |
+| `ratingAverage` | Rating stars           | `toFixed(1)`                |
+| `reviewCount`   | Review count           | `(${value} reviews)`        |
+| `highlights`    | Highlight cards        | Icon + label                |
+| `itinerary`     | Accordion items        | Day + title + description   |
+| `included`      | Included list          | Check icon + text           |
+| `notIncluded`   | Not included list      | X icon + text               |
+| `meetingPoint`  | Map + address          | Name, address, instructions |
 
 ---
 
@@ -31,37 +31,38 @@
 
 ### API → Calendar/Picker
 
-| API Field | UI Field | Transform |
-|-----------|----------|-----------|
-| `id` | Schedule ID | Direct |
-| `startDate` | Calendar date | `formatDate()` |
+| API Field        | UI Field               | Transform            |
+| ---------------- | ---------------------- | -------------------- |
+| `id`             | Schedule ID            | Direct               |
+| `startDate`      | Calendar date          | `formatDate()`       |
 | `availableSpots` | Availability indicator | Number or "Sold Out" |
-| `status` | Date styling | Status → CSS class |
-| `priceAdult` | Price (may vary) | `formatCurrency()` |
+| `status`         | Date styling           | Status → CSS class   |
+| `priceAdult`     | Price (may vary)       | `formatCurrency()`   |
 
 ### Status Mapping
+
 ```typescript
 const scheduleStatusConfig = {
   OPEN: {
     selectable: true,
     className: "bg-green-100 text-green-800",
-    label: (spots: number) => `${spots} spots left`
+    label: (spots: number) => `${spots} spots left`,
   },
   SOLD_OUT: {
     selectable: false,
     className: "bg-red-100 text-red-800 cursor-not-allowed",
-    label: () => "Sold Out"
+    label: () => "Sold Out",
   },
   CLOSED: {
     selectable: false,
     className: "bg-gray-100 text-gray-500",
-    label: () => "Closed"
+    label: () => "Closed",
   },
   COMPLETED: {
     selectable: false,
     className: "bg-gray-100 text-gray-500",
-    label: () => "Completed"
-  }
+    label: () => "Completed",
+  },
 };
 ```
 
@@ -88,19 +89,27 @@ function calculateTotalPrice(input: BookingPriceCalculation) {
 
   return {
     breakdown: {
-      adults: { count: input.adults, unitPrice: input.priceAdult, total: adultsTotal },
-      children: { count: input.children, unitPrice: input.priceChild, total: childrenTotal },
+      adults: {
+        count: input.adults,
+        unitPrice: input.priceAdult,
+        total: adultsTotal,
+      },
+      children: {
+        count: input.children,
+        unitPrice: input.priceChild,
+        total: childrenTotal,
+      },
       subtotal,
       taxes,
-      total
+      total,
     },
     formatted: {
       adults: formatCurrency(adultsTotal),
       children: formatCurrency(childrenTotal),
       subtotal: formatCurrency(subtotal),
       taxes: formatCurrency(taxes),
-      total: formatCurrency(total)
-    }
+      total: formatCurrency(total),
+    },
   };
 }
 ```
@@ -109,28 +118,31 @@ function calculateTotalPrice(input: BookingPriceCalculation) {
 
 ## 4. Review Mapping
 
-| API Field | UI Component | Transform |
-|-----------|--------------|-----------|
-| `user.fullName` | Reviewer name | Direct |
-| `user.avatar` | Avatar image | URL or initials fallback |
-| `rating` | Star rating | Render stars |
-| `comment` | Review text | Direct |
-| `createdAt` | Review date | `formatRelativeDate()` |
-| `helpful` | Helpful count | `${value} people found this helpful` |
+| API Field       | UI Component  | Transform                            |
+| --------------- | ------------- | ------------------------------------ |
+| `user.fullName` | Reviewer name | Direct                               |
+| `user.avatar`   | Avatar image  | URL or initials fallback             |
+| `rating`        | Star rating   | Render stars                         |
+| `comment`       | Review text   | Direct                               |
+| `createdAt`     | Review date   | `formatRelativeDate()`               |
+| `helpful`       | Helpful count | `${value} people found this helpful` |
 
 ### Rating Distribution Transform
+
 ```typescript
 // API Response
 const distribution = { "5": 35, "4": 8, "3": 3, "2": 1, "1": 0 };
 const total = 47;
 
 // UI Display (percentage bars)
-const distributionUI = Object.entries(distribution).map(([stars, count]) => ({
-  stars: parseInt(stars),
-  count,
-  percentage: Math.round((count / total) * 100),
-  width: `${Math.round((count / total) * 100)}%`
-})).reverse(); // 5 stars first
+const distributionUI = Object.entries(distribution)
+  .map(([stars, count]) => ({
+    stars: parseInt(stars),
+    count,
+    percentage: Math.round((count / total) * 100),
+    width: `${Math.round((count / total) * 100)}%`,
+  }))
+  .reverse(); // 5 stars first
 ```
 
 ---
@@ -158,7 +170,7 @@ export interface TourDetail {
   };
   ratingAverage: number;
   reviewCount: number;
-  difficulty: 'easy' | 'moderate' | 'challenging';
+  difficulty: "easy" | "moderate" | "challenging";
   maxGroupSize: number;
   highlights: Highlight[];
   itinerary: ItineraryDay[];
@@ -196,7 +208,7 @@ export interface TourSchedule {
   maxCapacity: number;
   currentCapacity: number;
   availableSpots: number;
-  status: 'OPEN' | 'SOLD_OUT' | 'CLOSED' | 'COMPLETED';
+  status: "OPEN" | "SOLD_OUT" | "CLOSED" | "COMPLETED";
   priceAdult: number;
   priceChild: number;
 }
@@ -226,14 +238,14 @@ interface BookingIntent {
 
 // Save to sessionStorage before redirecting to login
 function saveBookingIntent(intent: BookingIntent) {
-  sessionStorage.setItem('bookingIntent', JSON.stringify(intent));
+  sessionStorage.setItem("bookingIntent", JSON.stringify(intent));
 }
 
 // Restore after login
 function restoreBookingIntent(): BookingIntent | null {
-  const stored = sessionStorage.getItem('bookingIntent');
+  const stored = sessionStorage.getItem("bookingIntent");
   if (stored) {
-    sessionStorage.removeItem('bookingIntent');
+    sessionStorage.removeItem("bookingIntent");
     return JSON.parse(stored);
   }
   return null;
@@ -248,7 +260,7 @@ function restoreBookingIntent(): BookingIntent | null {
 // hooks/use-tour.ts
 export function useTour(slug: string) {
   return useQuery({
-    queryKey: ['tour', slug],
+    queryKey: ["tour", slug],
     queryFn: () => tourService.getBySlug(slug),
     staleTime: 10 * 60 * 1000, // 10 minutes
   });
@@ -257,7 +269,7 @@ export function useTour(slug: string) {
 // hooks/use-tour-schedules.ts
 export function useTourSchedules(tourId: number) {
   return useQuery({
-    queryKey: ['tour-schedules', tourId],
+    queryKey: ["tour-schedules", tourId],
     queryFn: () => tourService.getSchedules(tourId),
     staleTime: 2 * 60 * 1000, // 2 minutes (availability changes)
     enabled: !!tourId,
@@ -271,7 +283,7 @@ export function useBookingSelection(tour: TourDetail | undefined) {
     schedule: null,
     adults: 2,
     children: 0,
-    totalPrice: 0
+    totalPrice: 0,
   });
 
   // Calculate total price whenever selection changes
@@ -283,9 +295,9 @@ export function useBookingSelection(tour: TourDetail | undefined) {
         children: selection.children,
         priceAdult: selection.schedule.priceAdult,
         priceChild: selection.schedule.priceChild,
-        taxRate: 0.10
+        taxRate: 0.1,
       });
-      setSelection(prev => ({ ...prev, totalPrice: total.breakdown.total }));
+      setSelection((prev) => ({ ...prev, totalPrice: total.breakdown.total }));
     }
   }, [selection.schedule, selection.adults, selection.children, tour]);
 
@@ -308,7 +320,7 @@ export const mockTourDetail: TourDetail = {
   images: [
     "/images/tours/norway-1.jpg",
     "/images/tours/norway-2.jpg",
-    "/images/tours/norway-3.jpg"
+    "/images/tours/norway-3.jpg",
   ],
   durationDays: 3,
   priceAdult: 1200,
@@ -322,12 +334,12 @@ export const mockTourDetail: TourDetail = {
   highlights: [
     { icon: "compass", label: "Paddle through fjords" },
     { icon: "sun", label: "Scenic hiking" },
-    { icon: "users", label: "Expert local guide" }
+    { icon: "users", label: "Expert local guide" },
   ],
   itinerary: [
     { day: 1, title: "Arrival & First Paddle", description: "..." },
     { day: 2, title: "Deep Fjord Exploration", description: "..." },
-    { day: 3, title: "Return & Farewell", description: "..." }
+    { day: 3, title: "Return & Farewell", description: "..." },
   ],
   included: ["Professional guide", "All equipment", "Meals"],
   notIncluded: ["Flights", "Travel insurance"],
@@ -335,8 +347,8 @@ export const mockTourDetail: TourDetail = {
     name: "Bergen Harbor Pier 7",
     address: "Bradbenken 5, 5003 Bergen",
     coordinates: { lat: 60.3943, lng: 5.3259 },
-    instructions: "Look for our guide with the orange flag"
+    instructions: "Look for our guide with the orange flag",
   },
-  cancellationPolicy: "Free cancellation up to 7 days before"
+  cancellationPolicy: "Free cancellation up to 7 days before",
 };
 ```

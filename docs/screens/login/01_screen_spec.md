@@ -2,41 +2,47 @@
 
 ## 1. Screen Overview
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-001` |
-| Screen Name | Login |
-| Route | `/login` |
-| Layout | Auth Layout |
+| Item         | Value          |
+| ------------ | -------------- |
+| Screen ID    | `SCR-001`      |
+| Screen Name  | Login          |
+| Route        | `/login`       |
+| Layout       | Auth Layout    |
 | Access Level | Anonymous only |
 
 ## 2. Screen States
 
 ### 2.1 Default State
+
 - Display login form with empty fields
 - Social login buttons enabled
 - Sign In button disabled until form is valid
 
 ### 2.2 Loading State
+
 - Show spinner on Sign In button
 - Disable all form inputs
 - Disable social login buttons
 
 ### 2.3 Success State
+
 - Redirect to `/` (home) or previous page
 - Store tokens in auth store
 
 ### 2.4 Error State
+
 - Display error message below form
 - Highlight invalid fields with red border
 - Keep form values (except password)
 
 ### 2.5 403/Unauthorized State
+
 - N/A (public page)
 
 ## 3. UI Components
 
 ### 3.1 Header
+
 ```yaml
 logo:
   text: "TourBooking"
@@ -54,6 +60,7 @@ navigation:
 ```
 
 ### 3.2 Login Form
+
 ```yaml
 title: "Welcome back"
 subtitle: "Plan your next adventure today"
@@ -107,6 +114,7 @@ signup_link:
 ```
 
 ### 3.3 Hero Section (Right Side)
+
 ```yaml
 background_image: "swiss-alps.jpg"
 overlay: true
@@ -122,6 +130,7 @@ content:
 ## 4. Actions & Events
 
 ### 4.1 Form Submit
+
 ```yaml
 trigger: "Click Sign In button OR press Enter"
 validation:
@@ -134,6 +143,7 @@ action:
 ```
 
 ### 4.2 Social Login
+
 ```yaml
 trigger: "Click Google/Apple button"
 action:
@@ -143,6 +153,7 @@ action:
 ```
 
 ### 4.3 Forgot Password
+
 ```yaml
 trigger: "Click 'Forgot Password?' link"
 action:

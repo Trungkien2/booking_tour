@@ -5,9 +5,11 @@ Thư mục này chứa các custom commands/aliases cho Cursor AI.
 ## Available Commands
 
 ### `/review`
+
 Review code với Senior Architect perspective.
 
 **Usage:**
+
 ```
 /review [file_path]
 /review @file.ts
@@ -15,11 +17,13 @@ Review code với Senior Architect perspective.
 ```
 
 **What it does:**
+
 - Applies `code-review-rules.mdc`
 - Reviews for: Performance, Security, Design Patterns, Edge Cases
 - Output format: [Problem] -> [Solution] -> [Why]
 
 **Examples:**
+
 ```bash
 /review @apps/server/src/modules/auth/auth.service.ts
 /review @apps/web/components/auth/login-form.tsx
@@ -27,9 +31,11 @@ Review code với Senior Architect perspective.
 ```
 
 ### `/audit`
+
 Comprehensive security & performance audit.
 
 **Usage:**
+
 ```
 /audit [file_path]
 /audit @file.ts
@@ -37,12 +43,14 @@ Comprehensive security & performance audit.
 ```
 
 **What it does:**
+
 - Deep dive security audit (SQL Injection, XSS, IDOR, etc.)
 - Performance analysis (N+1 queries, memory leaks)
 - Scalability concerns
 - Best practices violations
 
 **Examples:**
+
 ```bash
 /audit @apps/server/src/modules/auth/auth.service.ts
 /audit  # Audits current file
@@ -57,6 +65,7 @@ Comprehensive security & performance audit.
 ## Integration
 
 These commands automatically apply:
+
 - `code-review-rules.mdc` for review guidelines
 - Project-specific rules from `.cursor/rules/`
 - Best practices from `backend-rules.md`, `frontend-rules.md`, etc.

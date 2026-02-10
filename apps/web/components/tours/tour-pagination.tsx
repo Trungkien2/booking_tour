@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useTransition } from 'react';
-import { Pagination } from '@/lib/types/tour';
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useTransition } from "react";
+import { Pagination } from "@/lib/types/tour";
 
 interface TourPaginationProps {
   pagination: Pagination;
@@ -18,12 +18,12 @@ export function TourPagination({ pagination }: TourPaginationProps) {
   const goToPage = useCallback(
     (newPage: number) => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set('page', String(newPage));
+      params.set("page", String(newPage));
 
       startTransition(() => {
         router.push(`/?${params.toString()}`);
         // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
     },
     [router, searchParams],
@@ -44,7 +44,7 @@ export function TourPagination({ pagination }: TourPaginationProps) {
       pages.push(1);
 
       if (page > 3) {
-        pages.push('...');
+        pages.push("...");
       }
 
       // Show pages around current
@@ -56,7 +56,7 @@ export function TourPagination({ pagination }: TourPaginationProps) {
       }
 
       if (page < totalPages - 2) {
-        pages.push('...');
+        pages.push("...");
       }
 
       // Always show last page
@@ -93,7 +93,7 @@ export function TourPagination({ pagination }: TourPaginationProps) {
       {/* Page Numbers (hidden on mobile) */}
       <div className="hidden sm:flex items-center gap-1">
         {getPageNumbers().map((pageNum, index) =>
-          pageNum === '...' ? (
+          pageNum === "..." ? (
             <span
               key={`ellipsis-${index}`}
               className="px-3 py-2 text-gray-500 dark:text-gray-400"
@@ -107,11 +107,11 @@ export function TourPagination({ pagination }: TourPaginationProps) {
               disabled={isPending}
               className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 ${
                 pageNum === page
-                  ? 'bg-blue-600 text-white'
-                  : 'border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                  ? "bg-blue-600 text-white"
+                  : "border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               }`}
               aria-label={`Go to page ${pageNum}`}
-              aria-current={pageNum === page ? 'page' : undefined}
+              aria-current={pageNum === page ? "page" : undefined}
             >
               {pageNum}
             </button>

@@ -30,6 +30,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   - **Estimated**: 30 min
 
 - [x] **Task 1.2**: [DB] Add `Difficulty` enum to schema ✅
+
   ```prisma
   enum Difficulty {
     EASY
@@ -37,6 +38,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
     CHALLENGING
   }
   ```
+
   - **Estimated**: 10 min
 
 - [x] **Task 1.3**: [DB] Add database indexes for performance optimization ✅
@@ -51,11 +53,13 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 ### 1.2 Migration & Data Setup
 
 - [x] **Task 1.4**: [DB] Generate and run Prisma migration ✅
+
   ```bash
   cd apps/server
   pnpm prisma migrate dev --name add_tour_overview_fields
   pnpm prisma generate
   ```
+
   - Review generated SQL migration file
   - Verify all columns and indexes created correctly
   - **Estimated**: 30 min
@@ -87,6 +91,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 ### 2.1 Module Structure
 
 - [x] **Task 2.1**: [BE] Create `apps/server/src/modules/tours/` folder structure ✅ (Already exists from admin-tours)
+
   ```
   tours/
   ├── tours.module.ts
@@ -95,6 +100,7 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
   ├── tours.service.spec.ts
   └── dto/
   ```
+
   - **Estimated**: 10 min
 
 - [x] **Task 2.2**: [BE] Create `tours.module.ts` ✅ (Updated to include public service/controller)
@@ -644,20 +650,20 @@ This checklist breaks down the Tours Overview feature into actionable, granular 
 
 ### Task Summary by Phase
 
-| Phase | Tasks | Estimated Time |
-|-------|-------|----------------|
-| **Phase 1: Database** | 7 tasks | 2-3 hours |
-| **Phase 2: Backend Module Setup** | 3 tasks | 1-2 hours |
-| **Phase 3: Backend DTOs** | 3 tasks | 2-3 hours |
-| **Phase 4: Backend Service** | 7 tasks | 4-5 hours |
-| **Phase 5: Backend Controller** | 4 tasks | 1 hour |
-| **Phase 6: Backend Testing** | 7 tasks | 3-4 hours |
-| **Phase 7: Frontend Types & API** | 5 tasks | 2 hours |
-| **Phase 8: Frontend Components** | 9 tasks | 8-10 hours |
-| **Phase 9: Frontend Pages** | 5 tasks | 2-3 hours |
-| **Phase 10: Integration & QA** | 7 tasks | 4-5 hours |
-| **Phase 11: Deployment** | 4 tasks | 1-2 hours |
-| **TOTAL** | **61 tasks** | **30-40 hours** |
+| Phase                             | Tasks        | Estimated Time  |
+| --------------------------------- | ------------ | --------------- |
+| **Phase 1: Database**             | 7 tasks      | 2-3 hours       |
+| **Phase 2: Backend Module Setup** | 3 tasks      | 1-2 hours       |
+| **Phase 3: Backend DTOs**         | 3 tasks      | 2-3 hours       |
+| **Phase 4: Backend Service**      | 7 tasks      | 4-5 hours       |
+| **Phase 5: Backend Controller**   | 4 tasks      | 1 hour          |
+| **Phase 6: Backend Testing**      | 7 tasks      | 3-4 hours       |
+| **Phase 7: Frontend Types & API** | 5 tasks      | 2 hours         |
+| **Phase 8: Frontend Components**  | 9 tasks      | 8-10 hours      |
+| **Phase 9: Frontend Pages**       | 5 tasks      | 2-3 hours       |
+| **Phase 10: Integration & QA**    | 7 tasks      | 4-5 hours       |
+| **Phase 11: Deployment**          | 4 tasks      | 1-2 hours       |
+| **TOTAL**                         | **61 tasks** | **30-40 hours** |
 
 ### Dependencies Graph
 
@@ -698,22 +704,26 @@ The critical path (longest sequence of dependent tasks):
 ### Recommended Sprint Planning
 
 **Sprint 1 (Week 1)**:
+
 - Phase 1: Database (all tasks)
 - Phase 2-3: Backend setup and DTOs
 - Phase 4: Start Service implementation
 
 **Sprint 2 (Week 2)**:
+
 - Phase 4: Complete Service implementation
 - Phase 5: Controller implementation
 - Phase 6: Backend testing
 - Phase 7: Frontend types and API
 
 **Sprint 3 (Week 3)**:
+
 - Phase 8: Frontend components
 - Phase 9: Frontend pages
 - Phase 10: Start integration testing
 
 **Sprint 4 (Week 4)**:
+
 - Phase 10: Complete QA
 - Phase 11: Deployment preparation
 - Buffer time for bug fixes

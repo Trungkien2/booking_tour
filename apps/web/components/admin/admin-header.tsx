@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/hooks/use-auth';
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/hooks/use-auth";
 
 export function AdminHeader() {
   const router = useRouter();
@@ -9,7 +9,7 @@ export function AdminHeader() {
 
   const handleLogout = () => {
     clearAuth();
-    router.push('/admin/login');
+    router.push("/admin/login");
   };
 
   return (

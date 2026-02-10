@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { GetToursPublicDto, SortOption } from './dto/get-tours-public.dto';
 import {
@@ -9,6 +9,8 @@ import {
   GetSuggestionsDto,
   SuggestionsResponseDto,
 } from './dto/tour-suggestion.dto';
+import { ReviewQueryDto } from './dto/review-query.dto';
+import { CheckAvailabilityDto } from './dto/check-availability.dto';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -213,6 +215,230 @@ export class ToursPublicService {
     ];
 
     return { suggestions: suggestions.slice(0, limit) };
+  }
+
+  /**
+   * Get tour by slug (public detail view).
+   */
+  async findBySlug(slug: string) {
+    const tour = await this.prisma.tour.findUnique({
+      where: {
+        slug,
+        status: 'PUBLISHED',
+        deletedAt: null,
+      },
+    });
+
+    if (!tour) {
+      throw new NotFoundException('Tour not found');
+    }
+
+    return {
+      id: tour.id,
+      name: tour.name,
+      slug: tour.slug,
+      summary: tour.summary,
+      description: tour.description,
+      coverImage: tour.coverImage,
+      images: (tour.images as string[]) || [],
+      durationDays: tour.durationDays,
+      priceAdult: Number(tour.priceAdult),
+      priceChild: Number(tour.priceChild),
+      location: tour.location,
+      coordinates: tour.coordinates,
+      ratingAverage: Number(tour.ratingAverage),
+      reviewCount: tour.reviewCount,
+      difficulty: tour.difficulty,
+      maxGroupSize: tour.maxGroupSize,
+      highlights: (tour.highlights as any[]) || [],
+      itinerary: (tour.itinerary as any[]) || [],
+      included: (tour.included as string[]) || [],
+      notIncluded: (tour.notIncluded as string[]) || [],
+      meetingPoint: tour.meetingPoint,
+      cancellationPolicy: tour.cancellationPolicy,
+      createdAt: tour.createdAt,
+      updatedAt: tour.updatedAt,
+    };
+  }
+
+  /**
+   * Get schedules for a tour (public).
+   */
+  async getSchedules(tourId: number, from?: string, to?: string) {
+    // Verify tour exists
+    const tour = await this.prisma.tour.findUnique({
+      where: { id: tourId, status: 'PUBLISHED', deletedAt: null },
+    });
+
+    if (!tour) {
+      throw new NotFoundException('Tour not found');
+    }
+
+    const now = new Date();
+    const threeMonthsLater = new Date();
+    threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+    const schedules = await this.prisma.tourSchedule.findMany({
+      where: {
+        tourId,
+        startDate: {
+          gte: from ? new Date(from) : now,
+          lte: to ? new Date(to) : threeMonthsLater,
+        },
+        status: { in: ['OPEN', 'SOLD_OUT'] },
+      },
+      orderBy: { startDate: 'asc' },
+    });
+
+    return {
+      schedules: schedules.map((s) => ({
+        id: s.id,
+        tourId: s.tourId,
+        startDate: s.startDate.toISOString(),
+        maxCapacity: s.maxCapacity,
+        currentCapacity: s.currentCapacity,
+        availableSpots: s.maxCapacity - s.currentCapacity,
+        status: s.status,
+        priceAdult: Number(tour.priceAdult),
+        priceChild: Number(tour.priceChild),
+      })),
+    };
+  }
+
+  /**
+   * Get reviews for a tour with pagination.
+   */
+  async getReviews(tourId: number, query: ReviewQueryDto) {
+    const { page = 1, limit = 5, sort = 'recent' } = query;
+
+    let orderBy: Prisma.ReviewOrderByWithRelationInput = { createdAt: 'desc' };
+    if (sort === 'rating_desc') orderBy = { rating: 'desc' };
+    if (sort === 'rating_asc') orderBy = { rating: 'asc' };
+
+    const [reviews, total, ratingCounts, avgResult] = await Promise.all([
+      this.prisma.review.findMany({
+        where: { tourId },
+        include: {
+          user: {
+            select: { id: true, fullName: true, avatarUrl: true },
+          },
+        },
+        orderBy,
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.review.count({ where: { tourId } }),
+      this.prisma.review.groupBy({
+        by: ['rating'],
+        where: { tourId },
+        _count: true,
+      }),
+      this.prisma.review.aggregate({
+        where: { tourId },
+        _avg: { rating: true },
+      }),
+    ]);
+
+    const distribution: Record<string, number> = {
+      '5': 0,
+      '4': 0,
+      '3': 0,
+      '2': 0,
+      '1': 0,
+    };
+    ratingCounts.forEach((r) => {
+      distribution[String(r.rating)] = r._count;
+    });
+
+    return {
+      summary: {
+        averageRating: avgResult._avg.rating || 0,
+        totalReviews: total,
+        distribution,
+      },
+      reviews: reviews.map((r) => ({
+        id: r.id,
+        user: {
+          id: r.user.id,
+          fullName: r.user.fullName || 'Anonymous',
+          avatar: r.user.avatarUrl || undefined,
+        },
+        rating: r.rating,
+        comment: r.comment,
+        createdAt: r.createdAt.toISOString(),
+        helpful: r.helpful,
+      })),
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        hasNext: page * limit < total,
+      },
+    };
+  }
+
+  /**
+   * Check availability for a schedule.
+   */
+  async checkAvailability(scheduleId: number, dto: CheckAvailabilityDto) {
+    const schedule = await this.prisma.tourSchedule.findUnique({
+      where: { id: scheduleId },
+      include: { tour: true },
+    });
+
+    if (!schedule) {
+      throw new NotFoundException('Schedule not found');
+    }
+
+    const requestedSpots = dto.adults + dto.children;
+    const availableSpots = schedule.maxCapacity - schedule.currentCapacity;
+    const available =
+      availableSpots >= requestedSpots && schedule.status === 'OPEN';
+
+    if (!available) {
+      return {
+        available: false,
+        scheduleId,
+        requestedSpots,
+        availableSpots,
+        message:
+          availableSpots === 0
+            ? 'This date is sold out'
+            : `Only ${availableSpots} spots available for this date`,
+      };
+    }
+
+    const priceAdult = Number(schedule.tour.priceAdult);
+    const priceChild = Number(schedule.tour.priceChild);
+    const adultsTotal = dto.adults * priceAdult;
+    const childrenTotal = dto.children * priceChild;
+    const subtotal = adultsTotal + childrenTotal;
+    const taxRate = 0.1;
+    const taxes = Math.round(subtotal * taxRate * 100) / 100;
+    const total = Math.round((subtotal + taxes) * 100) / 100;
+
+    return {
+      available: true,
+      scheduleId,
+      requestedSpots,
+      availableSpots,
+      priceBreakdown: {
+        adults: {
+          count: dto.adults,
+          unitPrice: priceAdult,
+          total: adultsTotal,
+        },
+        children: {
+          count: dto.children,
+          unitPrice: priceChild,
+          total: childrenTotal,
+        },
+        subtotal,
+        taxes,
+        total,
+      },
+    };
   }
 
   /**

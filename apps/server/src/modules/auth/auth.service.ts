@@ -52,6 +52,7 @@ export class AuthService {
     }
 
     // Return user without password
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = user;
     return result;
   }
@@ -86,6 +87,7 @@ export class AuthService {
   }
 
   async validateOAuthLogin(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     socialLoginDto: SocialLoginDto,
   ): Promise<LoginResponseDto> {
     // TODO: Implement OAuth login logic

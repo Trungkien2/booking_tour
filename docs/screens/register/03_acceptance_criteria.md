@@ -3,6 +3,7 @@
 ## Feature: User Registration
 
 ### Scenario 1: Successful registration
+
 ```gherkin
 Given I am on the registration page
 When I enter "Jane Doe" in the full name field
@@ -19,6 +20,7 @@ And I should be redirected to the login page
 ```
 
 ### Scenario 2: Registration fails - email already exists
+
 ```gherkin
 Given I am on the registration page
 And an account with "existing@example.com" already exists
@@ -29,6 +31,7 @@ And I should see a link to "Log in instead"
 ```
 
 ### Scenario 3: Registration fails - validation errors
+
 ```gherkin
 Given I am on the registration page
 When I click the "Register Account" button without filling any fields
@@ -42,6 +45,7 @@ Then I should see error messages for all required fields:
 ```
 
 ### Scenario 4: Password strength indicator - Weak
+
 ```gherkin
 Given I am on the registration page
 When I enter "pass" in the password field
@@ -50,6 +54,7 @@ And it should show "Weak" in red color
 ```
 
 ### Scenario 5: Password strength indicator - Medium
+
 ```gherkin
 Given I am on the registration page
 When I enter "Password1" in the password field
@@ -58,6 +63,7 @@ And it should show "Medium Strength" in yellow color
 ```
 
 ### Scenario 6: Password strength indicator - Strong
+
 ```gherkin
 Given I am on the registration page
 When I enter "Password123!" in the password field
@@ -66,6 +72,7 @@ And it should show "Strong" in green color
 ```
 
 ### Scenario 7: Passwords do not match
+
 ```gherkin
 Given I am on the registration page
 When I enter "Password123!" in the password field
@@ -75,6 +82,7 @@ Then I should see an error message "Passwords do not match"
 ```
 
 ### Scenario 8: Invalid email format
+
 ```gherkin
 Given I am on the registration page
 When I enter "invalid-email" in the email field
@@ -83,6 +91,7 @@ Then I should see an error message "Please enter a valid email"
 ```
 
 ### Scenario 9: Terms not agreed
+
 ```gherkin
 Given I am on the registration page
 And I have filled all other fields correctly
@@ -93,6 +102,7 @@ And the form should not be submitted
 ```
 
 ### Scenario 10: Social registration with Google
+
 ```gherkin
 Given I am on the registration page
 When I click the "Google" button
@@ -104,6 +114,7 @@ And I should be redirected to the home page
 ```
 
 ### Scenario 11: Navigate to login
+
 ```gherkin
 Given I am on the registration page
 When I click the "Log in" link
@@ -111,6 +122,7 @@ Then I should be navigated to "/login"
 ```
 
 ### Scenario 12: Terms and Privacy links
+
 ```gherkin
 Given I am on the registration page
 When I click the "Terms of Use" link
@@ -120,6 +132,7 @@ Then a new tab should open with the privacy policy page
 ```
 
 ### Scenario 13: Phone number with country code
+
 ```gherkin
 Given I am on the registration page
 When I select "Vietnam" as the country
@@ -129,6 +142,7 @@ Then the full phone number should be "+84912345678"
 ```
 
 ### Scenario 14: Real-time email availability check
+
 ```gherkin
 Given I am on the registration page
 When I enter "existing@example.com" in the email field
@@ -138,6 +152,7 @@ And I should see a message "This email is already registered"
 ```
 
 ### Scenario 15: Already authenticated user
+
 ```gherkin
 Given I am already logged in
 When I navigate to the registration page

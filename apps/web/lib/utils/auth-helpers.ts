@@ -1,10 +1,10 @@
-import { User } from '@/lib/hooks/use-auth';
+import { User } from "@/lib/hooks/use-auth";
 
 /**
  * Check if user has admin role
  */
 export function isAdmin(user: User | null): boolean {
-  return user?.role === 'ADMIN';
+  return user?.role === "ADMIN";
 }
 
 /**
@@ -25,7 +25,7 @@ export function hasAnyRole(user: User | null, roles: string[]): boolean {
  * Get user initials for avatar
  */
 export function getUserInitials(user: User | null): string {
-  if (!user?.email) return '?';
+  if (!user?.email) return "?";
   return user.email[0].toUpperCase();
 }
 
@@ -33,6 +33,6 @@ export function getUserInitials(user: User | null): string {
  * Format user display name
  */
 export function getUserDisplayName(user: User | null): string {
-  if (!user) return 'Guest';
-  return user.email.split('@')[0];
+  if (!user) return "Guest";
+  return user.email.split("@")[0];
 }

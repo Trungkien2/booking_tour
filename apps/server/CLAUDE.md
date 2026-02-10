@@ -32,6 +32,7 @@ pnpm turbo dev --filter=server  # Run only server
 ## Architecture
 
 ### Module Structure
+
 ```
 src/
 ├── main.ts                 # Bootstrap: CORS, validation pipe, Swagger
@@ -49,19 +50,23 @@ src/
 ### Key Patterns
 
 **Authentication Flow**
+
 - Passport.js with three strategies: local (login), jwt (access), jwt-refresh (token rotation)
 - Guards: `JwtAuthGuard`, `JwtRefreshGuard`, `RolesGuard`
 - Decorators: `@Public()` for unauthenticated routes, `@Roles()` for role-based access
 
 **Optimistic Locking (Critical)**
+
 - `TourSchedule.version` field prevents race conditions on capacity updates
 - Always check and increment version within transactions when updating capacity
 
 **Price Snapshots**
+
 - `BookingTraveler.price` stores price at booking time, not current tour price
 - Never fetch current price for historical bookings
 
 **Transactions**
+
 - Use `prisma.$transaction()` for multi-step operations (booking creation, payment processing)
 
 ## Database Schema (Key Models)

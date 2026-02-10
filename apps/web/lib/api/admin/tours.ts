@@ -135,7 +135,7 @@ export async function createTour(
 
 /** Chuẩn hóa payload update: bỏ URL rỗng để backend validation không lỗi. */
 function sanitizeUpdatePayload(
-  data: Partial<Tour> & { coverImage?: string; images?: string[] }
+  data: Partial<Tour> & { coverImage?: string; images?: string[] },
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { ...data };
   if (out.coverImage === "") delete out.coverImage;

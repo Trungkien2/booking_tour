@@ -3,24 +3,27 @@
 ## 1. Get Tours List
 
 ### Endpoint
+
 ```
 GET /tours
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `page` | number | No | `1` | Page number |
-| `limit` | number | No | `8` | Items per page |
-| `search` | string | No | - | Search by name, location |
-| `sort` | string | No | `popular` | Sort field (popular, price_asc, price_desc, rating, newest) |
-| `priceMin` | number | No | - | Minimum price filter |
-| `priceMax` | number | No | - | Maximum price filter |
-| `difficulty` | string | No | - | Difficulty level (easy, moderate, challenging) |
-| `duration` | string | No | - | Duration filter (1-3, 4-7, 8+) |
-| `location` | string | No | - | Location filter |
+
+| Parameter    | Type   | Required | Default   | Description                                                 |
+| ------------ | ------ | -------- | --------- | ----------------------------------------------------------- |
+| `page`       | number | No       | `1`       | Page number                                                 |
+| `limit`      | number | No       | `8`       | Items per page                                              |
+| `search`     | string | No       | -         | Search by name, location                                    |
+| `sort`       | string | No       | `popular` | Sort field (popular, price_asc, price_desc, rating, newest) |
+| `priceMin`   | number | No       | -         | Minimum price filter                                        |
+| `priceMax`   | number | No       | -         | Maximum price filter                                        |
+| `difficulty` | string | No       | -         | Difficulty level (easy, moderate, challenging)              |
+| `duration`   | string | No       | -         | Duration filter (1-3, 4-7, 8+)                              |
+| `location`   | string | No       | -         | Location filter                                             |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -76,6 +79,7 @@ GET /tours
 ```
 
 ### Empty Response (200)
+
 ```json
 {
   "success": true,
@@ -99,16 +103,19 @@ GET /tours
 ## 2. Get Featured Tours
 
 ### Endpoint
+
 ```
 GET /tours/featured
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `limit` | number | No | `4` | Number of featured tours |
+
+| Parameter | Type   | Required | Default | Description              |
+| --------- | ------ | -------- | ------- | ------------------------ |
+| `limit`   | number | No       | `4`     | Number of featured tours |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -133,11 +140,13 @@ GET /tours/featured
 ## 3. Get Popular Destinations
 
 ### Endpoint
+
 ```
 GET /destinations/popular
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -167,17 +176,20 @@ GET /destinations/popular
 ## 4. Search Suggestions
 
 ### Endpoint
+
 ```
 GET /tours/suggestions
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `q` | string | Yes | Search query (min 2 chars) |
-| `limit` | number | No | Max suggestions (default: 5) |
+
+| Parameter | Type   | Required | Description                  |
+| --------- | ------ | -------- | ---------------------------- |
+| `q`       | string | Yes      | Search query (min 2 chars)   |
+| `limit`   | number | No       | Max suggestions (default: 5) |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -203,6 +215,7 @@ GET /tours/suggestions
 ## 5. Error Responses
 
 ### 400 Bad Request
+
 ```json
 {
   "success": false,
@@ -220,6 +233,7 @@ GET /tours/suggestions
 ```
 
 ### 500 Server Error
+
 ```json
 {
   "success": false,
@@ -234,7 +248,7 @@ GET /tours/suggestions
 
 ## 6. Error Code Reference
 
-| Code | HTTP Status | Description | UI Action |
-|------|-------------|-------------|-----------|
-| `INVALID_PARAMS` | 400 | Invalid query params | Reset filters |
-| `SERVER_ERROR` | 500 | Server error | Show retry button |
+| Code             | HTTP Status | Description          | UI Action         |
+| ---------------- | ----------- | -------------------- | ----------------- |
+| `INVALID_PARAMS` | 400         | Invalid query params | Reset filters     |
+| `SERVER_ERROR`   | 500         | Server error         | Show retry button |

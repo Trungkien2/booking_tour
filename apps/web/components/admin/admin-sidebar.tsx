@@ -1,44 +1,44 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   {
-    name: 'Dashboard',
-    href: '/admin',
-    icon: 'dashboard',
+    name: "Dashboard",
+    href: "/admin",
+    icon: "dashboard",
   },
   {
-    name: 'Tours',
-    href: '/admin/tours',
-    icon: 'tour',
+    name: "Tours",
+    href: "/admin/tours",
+    icon: "tour",
   },
   {
-    name: 'Bookings',
-    href: '/admin/bookings',
-    icon: 'book_online',
+    name: "Bookings",
+    href: "/admin/bookings",
+    icon: "book_online",
   },
   {
-    name: 'Users',
-    href: '/admin/users',
-    icon: 'group',
+    name: "Users",
+    href: "/admin/users",
+    icon: "group",
   },
   {
-    name: 'Reviews',
-    href: '/admin/reviews',
-    icon: 'star',
+    name: "Reviews",
+    href: "/admin/reviews",
+    icon: "star",
   },
   {
-    name: 'Payments',
-    href: '/admin/payments',
-    icon: 'payments',
+    name: "Payments",
+    href: "/admin/payments",
+    icon: "payments",
   },
   {
-    name: 'Settings',
-    href: '/admin/settings',
-    icon: 'settings',
+    name: "Settings",
+    href: "/admin/settings",
+    icon: "settings",
   },
 ];
 
@@ -58,24 +58,27 @@ export function AdminSidebar() {
           <h1 className="text-lg font-bold text-gray-900 dark:text-white">
             TravelCo
           </h1>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Admin Panel</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Admin Panel
+          </p>
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="p-4 space-y-1">
         {navigation.map((item) => {
-          const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
-          
+          const isActive =
+            pathname === item.href || pathname?.startsWith(item.href + "/");
+
           return (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all',
+                "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
                 isActive
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? "bg-primary text-white shadow-lg shadow-primary/25"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700",
               )}
             >
               <span className="material-symbols-outlined text-xl">

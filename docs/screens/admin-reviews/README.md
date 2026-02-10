@@ -11,12 +11,12 @@ Admin page for moderating and managing customer reviews across all tours.
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-014` |
-| Route | `/admin/reviews` |
-| Access | ADMIN only |
-| Layout | Admin Layout |
+| Item      | Value            |
+| --------- | ---------------- |
+| Screen ID | `SCR-014`        |
+| Route     | `/admin/reviews` |
+| Access    | ADMIN only       |
+| Layout    | Admin Layout     |
 
 ## Key Features
 
@@ -30,6 +30,7 @@ Admin page for moderating and managing customer reviews across all tours.
 ## UI Components
 
 ### Page Header
+
 ```yaml
 title: "Review Management"
 subtitle: "Moderate and respond to customer feedback across all tours."
@@ -41,6 +42,7 @@ actions:
 ```
 
 ### Statistics Cards
+
 ```yaml
 cards:
   - label: "Pending Approval"
@@ -59,6 +61,7 @@ cards:
 ```
 
 ### Filters
+
 ```yaml
 filters:
   - id: "tour"
@@ -91,6 +94,7 @@ search:
 ```
 
 ### Review List
+
 ```yaml
 layout: "card_list"
 
@@ -153,6 +157,7 @@ pagination:
 ```
 
 ### Reply Modal
+
 ```yaml
 title: "Reply to Review"
 
@@ -178,20 +183,24 @@ actions:
 ## Actions
 
 ### Approve Review
+
 - Update status to APPROVED
 - Review becomes visible on tour page
 - Notify user (optional)
 
 ### Reject Review
+
 - Update status to REJECTED
 - Review hidden from public
 - Optional: send reason to user
 
 ### Reply to Review
+
 - Add admin response
 - Visible below review on tour page
 
 ### Flag as Spam
+
 - Mark as spam
 - Hide from public
 - Add to spam filter training

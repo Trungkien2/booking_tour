@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { setTokens, clearTokens } from '@/lib/utils/token';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { setTokens, clearTokens } from "@/lib/utils/token";
 
 export interface User {
   id: number;
@@ -43,13 +43,13 @@ export const useAuth = create<AuthState>()(
       },
     }),
     {
-      name: 'auth-storage',
+      name: "auth-storage",
       // Only persist user and tokens, not functions
       partialize: (state) => ({
         user: state.user,
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,
       }),
-    }
-  )
+    },
+  ),
 );

@@ -8,8 +8,14 @@ import {
   Query,
   UseGuards,
   Req,
+  Logger,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -17,6 +23,7 @@ import { SocialLoginDto } from './dto/social-login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard';
 import {
   ApiLogin,
@@ -30,6 +37,8 @@ import {
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
+
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
@@ -81,5 +90,23 @@ export class AuthController {
     @Req() req: { user: { userId: number } },
   ) {
     return this.authService.refreshToken(req.user.userId);
+  }
+
+  @Post('send-verification')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @Throttle({ default: { limit: 3, ttl: 900 } })
+  @ApiOperation({ summary: 'Send email verification link' })
+  @ApiResponse({ status: 200, description: 'Verification email sent' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async sendVerification(
+    @Req() req: { user: { userId: number; email: string } },
+  ) {
+    // TODO: integrate real email service
+    this.logger.log(
+      `Verification email requested for user ${req.user.userId} (${req.user.email})`,
+    );
+    return { message: 'Verification email sent successfully' };
   }
 }

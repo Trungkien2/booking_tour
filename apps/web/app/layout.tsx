@@ -35,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={plusJakarta.variable}>
       <head>
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
@@ -42,7 +43,9 @@ export default function RootLayout({
       </head>
       <body
         className={`font-sans antialiased min-h-screen flex flex-col bg-background-light dark:bg-background-dark ${geistSans.variable} ${geistMono.variable}`}
-        style={{ fontFamily: "var(--font-display), var(--font-geist-sans), sans-serif" }}
+        style={{
+          fontFamily: "var(--font-display), var(--font-geist-sans), sans-serif",
+        }}
       >
         {children}
       </body>

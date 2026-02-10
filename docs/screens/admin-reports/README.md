@@ -11,12 +11,12 @@ Admin analytics dashboard with comprehensive reports on revenue, bookings, custo
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-015` |
-| Route | `/admin/reports` |
-| Access | ADMIN only |
-| Layout | Admin Layout |
+| Item      | Value            |
+| --------- | ---------------- |
+| Screen ID | `SCR-015`        |
+| Route     | `/admin/reports` |
+| Access    | ADMIN only       |
+| Layout    | Admin Layout     |
 
 ## Key Features
 
@@ -31,6 +31,7 @@ Admin analytics dashboard with comprehensive reports on revenue, bookings, custo
 ## UI Components
 
 ### Page Header
+
 ```yaml
 title: "Analytics Dashboard"
 subtitle: "Overview for {date}"
@@ -51,6 +52,7 @@ actions:
 ```
 
 ### Key Metrics Cards
+
 ```yaml
 cards:
   - label: "Total Revenue"
@@ -82,6 +84,7 @@ cards:
 ```
 
 ### Revenue & Bookings Chart
+
 ```yaml
 title: "Revenue & Bookings Trend"
 subtitle: "Monthly performance overview"
@@ -108,6 +111,7 @@ chart:
 ```
 
 ### Top Categories Chart
+
 ```yaml
 title: "Top Categories"
 value: "1.4k"
@@ -133,6 +137,7 @@ legend:
 ```
 
 ### Daily Engagement Chart
+
 ```yaml
 title: "Daily Engagement"
 
@@ -147,6 +152,7 @@ chart:
 ```
 
 ### Popular Tours Table
+
 ```yaml
 title: "Popular Tours"
 
@@ -184,6 +190,7 @@ pagination:
 ## Export Options
 
 ### Report Types
+
 ```yaml
 exports:
   - type: "revenue_report"

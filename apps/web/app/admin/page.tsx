@@ -1,8 +1,8 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Dashboard | Admin Panel',
-  description: 'TravelCo admin dashboard',
+  title: "Dashboard | Admin Panel",
+  description: "TravelCo admin dashboard",
 };
 
 export default function AdminDashboardPage() {

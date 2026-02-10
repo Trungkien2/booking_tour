@@ -1,6 +1,7 @@
 ## Task Checklist: Login Feature
 
 **Backend (NestJS)**
+
 - [x] Task 1: Create `AuthModule`, `AuthService`, and `AuthController`. ✅ (Scaffolded)
 - [x] Task 2: Implement `LoginDto` with class-validator rules (email, minLength). ✅ (Scaffolded)
 - [x] Task 3: Implement `validateUser` in `AuthService` (check email, compare password bcrypt). ✅ (Completed)
@@ -10,6 +11,7 @@
 - [x] Task 7: Unit tests for `AuthService`. ✅ (Completed)
 
 **Frontend (Next.js)**
+
 - [x] Task 8: Create `LoginForm` component (`apps/web/components/auth/login-form.tsx`) using React Hook Form and Zod. ✅ (Completed)
 - [x] Task 9: Implement `LoginPage` (`apps/web/app/(auth)/login/page.tsx`) integrating `LoginForm`. ✅ (Completed)
 - [x] Task 10: Implement API integration service (`apps/web/lib/api/auth.ts`) for calling `/auth/login`. ✅ (Completed)
@@ -18,12 +20,14 @@
 - [x] Task 13: Responsive styling (Mobile/Desktop views) matching design. ✅ (Completed - Tailwind responsive classes)
 
 **Integration & E2E**
+
 - [x] Task 14: Verify login flow from UI to Backend and DB. ✅ (Completed - e2e tests with Prisma mock)
 - [x] Task 15: Manual test: Invalid credentials, Rate limiting. ✅ (Completed - covered by e2e tests)
 
 ---
 
 ## 📝 Notes:
+
 - ✅ = Completed (fully implemented with business logic)
 - 🚧 = Needs implementation (TODO comments in code)
 - Tasks 7, 14, 15 require additional work (tests, E2E verification)
@@ -34,6 +38,7 @@
 ## ✅ Implementation Summary:
 
 ### Backend:
+
 - **Task 3**: `validateUser()` implemented with Prisma query and bcrypt password comparison
 - **Task 4**: `login()` implemented with JWT token generation (access + refresh tokens)
 - Created `PrismaService` and `PrismaModule` for database access
@@ -41,6 +46,7 @@
 - Updated `AppModule` to import `PrismaModule` and `AuthModule`
 
 ### Frontend:
+
 - **Task 8**: `LoginForm` fully implemented with form submission, error handling, and token storage
 - **Task 10**: API service implemented with proper error handling and response parsing
 - **Task 11**: Token storage implemented using Zustand + localStorage with error handling

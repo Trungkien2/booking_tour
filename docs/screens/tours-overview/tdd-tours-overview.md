@@ -19,6 +19,7 @@ This document describes the technical design for the **Tours Overview Screen** -
 ### 1.2 Scope
 
 **Included:**
+
 - Hero section with multi-field search bar (destination, dates, guests)
 - Tour cards grid with images, ratings, prices, and metadata
 - Advanced filter system (Price, Duration, Difficulty, Rating, Sort)
@@ -30,6 +31,7 @@ This document describes the technical design for the **Tours Overview Screen** -
 - SEO optimization with meta tags and structured data
 
 **Not Included:**
+
 - Tour detail page (separate feature - SCR-004)
 - Booking flow and payment processing
 - User reviews and ratings management
@@ -49,51 +51,51 @@ This document describes the technical design for the **Tours Overview Screen** -
 
 ### 2.1 Functional Requirements
 
-| ID | Requirement | Priority | Status |
-|----|-------------|----------|--------|
-| FR-001 | Display paginated tours list (8 items per page, configurable) | Must Have | ✅ |
-| FR-002 | Search tours by name, location, or description | Must Have | ✅ |
-| FR-003 | Filter tours by price range (Under $500, $500-$1K, $1K-$2K, $2K+) | Must Have | ✅ |
-| FR-004 | Filter tours by difficulty level (Easy, Moderate, Challenging) | Must Have | ✅ |
-| FR-005 | Sort tours (Popular, Newest, Price Asc/Desc, Rating) | Must Have | ✅ |
-| FR-006 | Display tour cards with image, title, rating, location, duration, price | Must Have | ✅ |
-| FR-007 | URL state persistence for filters, pagination, and search | Must Have | ✅ |
-| FR-008 | Responsive design (mobile, tablet, desktop, 4K) | Must Have | ✅ |
-| FR-009 | Hero section with multi-field search (destination, dates, guests) | Must Have | ✅ |
-| FR-010 | Search suggestions dropdown with debouncing | Should Have | ✅ |
-| FR-011 | "Load More" option as alternative to pagination | Should Have | ✅ |
-| FR-012 | Featured tours badge display | Should Have | ✅ |
-| FR-013 | Favorite/Wishlist toggle on cards | Could Have | 🔜 |
-| FR-014 | Filter by duration range (1-3 days, 4-7 days, 8+ days) | Could Have | 🔜 |
+| ID     | Requirement                                                             | Priority    | Status |
+| ------ | ----------------------------------------------------------------------- | ----------- | ------ |
+| FR-001 | Display paginated tours list (8 items per page, configurable)           | Must Have   | ✅     |
+| FR-002 | Search tours by name, location, or description                          | Must Have   | ✅     |
+| FR-003 | Filter tours by price range (Under $500, $500-$1K, $1K-$2K, $2K+)       | Must Have   | ✅     |
+| FR-004 | Filter tours by difficulty level (Easy, Moderate, Challenging)          | Must Have   | ✅     |
+| FR-005 | Sort tours (Popular, Newest, Price Asc/Desc, Rating)                    | Must Have   | ✅     |
+| FR-006 | Display tour cards with image, title, rating, location, duration, price | Must Have   | ✅     |
+| FR-007 | URL state persistence for filters, pagination, and search               | Must Have   | ✅     |
+| FR-008 | Responsive design (mobile, tablet, desktop, 4K)                         | Must Have   | ✅     |
+| FR-009 | Hero section with multi-field search (destination, dates, guests)       | Must Have   | ✅     |
+| FR-010 | Search suggestions dropdown with debouncing                             | Should Have | ✅     |
+| FR-011 | "Load More" option as alternative to pagination                         | Should Have | ✅     |
+| FR-012 | Featured tours badge display                                            | Should Have | ✅     |
+| FR-013 | Favorite/Wishlist toggle on cards                                       | Could Have  | 🔜     |
+| FR-014 | Filter by duration range (1-3 days, 4-7 days, 8+ days)                  | Could Have  | 🔜     |
 
 ### 2.2 User Stories
 
-| ID | Story |
-|----|-------|
-| US-001 | As a **visitor**, I want to browse available tours so that I can find one to book |
-| US-002 | As a **visitor**, I want to search for tours by destination so that I can find relevant options |
-| US-003 | As a **visitor**, I want to filter tours by price so that I can find affordable options within my budget |
+| ID     | Story                                                                                                     |
+| ------ | --------------------------------------------------------------------------------------------------------- |
+| US-001 | As a **visitor**, I want to browse available tours so that I can find one to book                         |
+| US-002 | As a **visitor**, I want to search for tours by destination so that I can find relevant options           |
+| US-003 | As a **visitor**, I want to filter tours by price so that I can find affordable options within my budget  |
 | US-004 | As a **visitor**, I want to filter tours by difficulty so that I can find tours matching my fitness level |
-| US-005 | As a **visitor**, I want to see tour ratings and reviews so that I can choose quality tours |
-| US-006 | As a **visitor**, I want to share filtered results URL so that others can see the same results |
-| US-007 | As a **mobile user**, I want a responsive design so that I can browse tours on my phone |
-| US-008 | As a **returning visitor**, I want URL state persistence so that my filters remain when I refresh |
+| US-005 | As a **visitor**, I want to see tour ratings and reviews so that I can choose quality tours               |
+| US-006 | As a **visitor**, I want to share filtered results URL so that others can see the same results            |
+| US-007 | As a **mobile user**, I want a responsive design so that I can browse tours on my phone                   |
+| US-008 | As a **returning visitor**, I want URL state persistence so that my filters remain when I refresh         |
 
 ### 2.3 Non-Functional Requirements
 
-| Category | Requirement | Target | Measurement |
-|----------|-------------|--------|-------------|
-| **Performance** | API response time | < 200ms | P95 |
-| **Performance** | Page load time (LCP) | < 2s | Lighthouse |
-| **Performance** | Time to Interactive (TTI) | < 3s | Lighthouse |
-| **Performance** | First Contentful Paint (FCP) | < 1.5s | Lighthouse |
-| **SEO** | Lighthouse SEO score | > 95 | Lighthouse |
-| **SEO** | Server-side rendering | 100% | Code Review |
-| **Caching** | Tours list cache TTL | 5 minutes | Redis/ISR |
-| **Caching** | Static assets cache | 1 year | CDN Headers |
-| **Availability** | API uptime | 99.9% | Monitoring |
-| **Scalability** | Concurrent users | 10,000+ | Load Testing |
-| **Accessibility** | WCAG 2.1 Level AA | 100% compliance | Axe DevTools |
+| Category          | Requirement                  | Target          | Measurement  |
+| ----------------- | ---------------------------- | --------------- | ------------ |
+| **Performance**   | API response time            | < 200ms         | P95          |
+| **Performance**   | Page load time (LCP)         | < 2s            | Lighthouse   |
+| **Performance**   | Time to Interactive (TTI)    | < 3s            | Lighthouse   |
+| **Performance**   | First Contentful Paint (FCP) | < 1.5s          | Lighthouse   |
+| **SEO**           | Lighthouse SEO score         | > 95            | Lighthouse   |
+| **SEO**           | Server-side rendering        | 100%            | Code Review  |
+| **Caching**       | Tours list cache TTL         | 5 minutes       | Redis/ISR    |
+| **Caching**       | Static assets cache          | 1 year          | CDN Headers  |
+| **Availability**  | API uptime                   | 99.9%           | Monitoring   |
+| **Scalability**   | Concurrent users             | 10,000+         | Load Testing |
+| **Accessibility** | WCAG 2.1 Level AA            | 100% compliance | Axe DevTools |
 
 ## 3. Technical Design
 
@@ -118,7 +120,7 @@ model Tour {
   priceChild    Decimal  @map("price_child") @db.Decimal(10, 2)
   location      String?
   ratingAverage Decimal  @default(0) @map("rating_average") @db.Decimal(2, 1)
-  
+
   schedules     TourSchedule[]
   reviews       Review[]
 
@@ -133,7 +135,7 @@ model Tour {
 ```prisma
 model Tour {
   // ... existing fields ...
-  
+
   // New fields for tours overview
   difficulty    Difficulty?  @default(EASY)
   featured      Boolean      @default(false)
@@ -148,7 +150,7 @@ model Tour {
   @@index([featured])
   @@index([createdAt])
   @@index([difficulty])
-  
+
   @@map("tours")
 }
 
@@ -160,6 +162,7 @@ enum Difficulty {
 ```
 
 **Rationale:**
+
 - `difficulty`: Enables filtering by tour difficulty level
 - `featured`: Allows highlighting special/promoted tours
 - `reviewCount`: Denormalized count for sorting without JOIN (updated via trigger/cron)
@@ -175,7 +178,7 @@ enum Difficulty {
 CREATE TYPE "Difficulty" AS ENUM ('EASY', 'MODERATE', 'CHALLENGING');
 
 -- Add new columns
-ALTER TABLE "tours" 
+ALTER TABLE "tours"
   ADD COLUMN "difficulty" "Difficulty" DEFAULT 'EASY',
   ADD COLUMN "featured" BOOLEAN NOT NULL DEFAULT false,
   ADD COLUMN "review_count" INTEGER NOT NULL DEFAULT 0,
@@ -221,7 +224,7 @@ erDiagram
     Tour ||--o{ Review : "has many"
     Tour ||--o{ TourSchedule : "has many"
     User ||--o{ Review : "writes"
-    
+
     Tour {
         int id PK
         string name
@@ -241,7 +244,7 @@ erDiagram
         datetime createdAt
         datetime updatedAt
     }
-    
+
     Review {
         int id PK
         int tourId FK
@@ -250,7 +253,7 @@ erDiagram
         text comment
         datetime createdAt
     }
-    
+
     TourSchedule {
         int id PK
         int tourId FK
@@ -260,7 +263,7 @@ erDiagram
         enum status
         int version "optimistic locking"
     }
-    
+
     User {
         int id PK
         string email UK
@@ -289,33 +292,33 @@ apps/server/src/modules/tours/
 
 #### 3.2.2 API Endpoints
 
-| Method | Endpoint | Description | Auth | Cache |
-|--------|----------|-------------|------|-------|
-| GET | `/tours` | Get paginated tours list with filters | Public | 5min |
-| GET | `/tours/featured` | Get featured tours | Public | 10min |
-| GET | `/tours/suggestions` | Get search suggestions | Public | 1min |
+| Method | Endpoint             | Description                           | Auth   | Cache |
+| ------ | -------------------- | ------------------------------------- | ------ | ----- |
+| GET    | `/tours`             | Get paginated tours list with filters | Public | 5min  |
+| GET    | `/tours/featured`    | Get featured tours                    | Public | 10min |
+| GET    | `/tours/suggestions` | Get search suggestions                | Public | 1min  |
 
 #### 3.2.3 DTOs Implementation
 
 **File: `apps/server/src/modules/tours/dto/get-tours.dto.ts`**
 
 ```typescript
-import { IsOptional, IsInt, IsString, IsEnum, Min, Max } from 'class-validator';
-import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsInt, IsString, IsEnum, Min, Max } from "class-validator";
+import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 export enum SortOption {
-  POPULAR = 'popular',
-  NEWEST = 'newest',
-  PRICE_ASC = 'price_asc',
-  PRICE_DESC = 'price_desc',
-  RATING = 'rating',
+  POPULAR = "popular",
+  NEWEST = "newest",
+  PRICE_ASC = "price_asc",
+  PRICE_DESC = "price_desc",
+  RATING = "rating",
 }
 
 export enum DifficultyFilter {
-  EASY = 'easy',
-  MODERATE = 'moderate',
-  CHALLENGING = 'challenging',
+  EASY = "easy",
+  MODERATE = "moderate",
+  CHALLENGING = "challenging",
 }
 
 export class GetToursDto {
@@ -334,24 +337,35 @@ export class GetToursDto {
   @Max(50)
   limit?: number = 8;
 
-  @ApiProperty({ required: false, description: 'Search by name, location, or description' })
+  @ApiProperty({
+    required: false,
+    description: "Search by name, location, or description",
+  })
   @IsOptional()
   @IsString()
   search?: string;
 
-  @ApiProperty({ required: false, enum: SortOption, default: SortOption.POPULAR })
+  @ApiProperty({
+    required: false,
+    enum: SortOption,
+    default: SortOption.POPULAR,
+  })
   @IsOptional()
   @IsEnum(SortOption)
   sort?: SortOption = SortOption.POPULAR;
 
-  @ApiProperty({ required: false, minimum: 0, description: 'Minimum price filter' })
+  @ApiProperty({
+    required: false,
+    minimum: 0,
+    description: "Minimum price filter",
+  })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(0)
   priceMin?: number;
 
-  @ApiProperty({ required: false, description: 'Maximum price filter' })
+  @ApiProperty({ required: false, description: "Maximum price filter" })
   @IsOptional()
   @Type(() => Number)
   @IsInt()
@@ -362,12 +376,15 @@ export class GetToursDto {
   @IsEnum(DifficultyFilter)
   difficulty?: DifficultyFilter;
 
-  @ApiProperty({ required: false, description: 'Filter by location' })
+  @ApiProperty({ required: false, description: "Filter by location" })
   @IsOptional()
   @IsString()
   location?: string;
 
-  @ApiProperty({ required: false, description: 'Filter by duration range (e.g., "1-3", "4-7", "8+")' })
+  @ApiProperty({
+    required: false,
+    description: 'Filter by duration range (e.g., "1-3", "4-7", "8+")',
+  })
   @IsOptional()
   @IsString()
   duration?: string;
@@ -377,8 +394,8 @@ export class GetToursDto {
 **File: `apps/server/src/modules/tours/dto/tour-response.dto.ts`**
 
 ```typescript
-import { ApiProperty } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { ApiProperty } from "@nestjs/swagger";
+import { Expose } from "class-transformer";
 
 export class TourItemDto {
   @ApiProperty()
@@ -425,7 +442,7 @@ export class TourItemDto {
   @Expose()
   reviewCount: number;
 
-  @ApiProperty({ required: false, enum: ['easy', 'moderate', 'challenging'] })
+  @ApiProperty({ required: false, enum: ["easy", "moderate", "challenging"] })
   @Expose()
   difficulty?: string;
 
@@ -433,7 +450,10 @@ export class TourItemDto {
   @Expose()
   featured: boolean;
 
-  @ApiProperty({ required: false, description: 'Next available tour start date' })
+  @ApiProperty({
+    required: false,
+    description: "Next available tour start date",
+  })
   @Expose()
   nextAvailableDate?: string;
 }
@@ -478,12 +498,15 @@ export class ToursResponseDto {
 **File: `apps/server/src/modules/tours/dto/tour-suggestion.dto.ts`**
 
 ```typescript
-import { IsString, MinLength, IsOptional, IsInt, Max } from 'class-validator';
-import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, MinLength, IsOptional, IsInt, Max } from "class-validator";
+import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class GetSuggestionsDto {
-  @ApiProperty({ minLength: 2, description: 'Search query (minimum 2 characters)' })
+  @ApiProperty({
+    minLength: 2,
+    description: "Search query (minimum 2 characters)",
+  })
   @IsString()
   @MinLength(2)
   q: string;
@@ -497,8 +520,8 @@ export class GetSuggestionsDto {
 }
 
 export class SuggestionItemDto {
-  @ApiProperty({ enum: ['tour', 'destination'] })
-  type: 'tour' | 'destination';
+  @ApiProperty({ enum: ["tour", "destination"] })
+  type: "tour" | "destination";
 
   @ApiProperty({ required: false })
   id?: number;
@@ -521,12 +544,15 @@ export class SuggestionsResponseDto {
 **File: `apps/server/src/modules/tours/tours.service.ts`**
 
 ```typescript
-import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
-import { GetToursDto, SortOption } from './dto/get-tours.dto';
-import { ToursResponseDto, TourItemDto } from './dto/tour-response.dto';
-import { GetSuggestionsDto, SuggestionsResponseDto } from './dto/tour-suggestion.dto';
-import { Prisma } from '@prisma/client';
+import { Injectable, Logger } from "@nestjs/common";
+import { PrismaService } from "../../prisma/prisma.service";
+import { GetToursDto, SortOption } from "./dto/get-tours.dto";
+import { ToursResponseDto, TourItemDto } from "./dto/tour-response.dto";
+import {
+  GetSuggestionsDto,
+  SuggestionsResponseDto,
+} from "./dto/tour-suggestion.dto";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class ToursService {
@@ -536,7 +562,7 @@ export class ToursService {
 
   /**
    * Get paginated tours list with filters and sorting.
-   * 
+   *
    * Features:
    * - Full-text search across name, location, summary
    * - Price range filtering
@@ -545,15 +571,27 @@ export class ToursService {
    * - Duration range filtering
    * - Multiple sort options
    * - Efficient pagination with total count
-   * 
+   *
    * @param dto - Query parameters for filtering, sorting, pagination
    * @returns ToursResponseDto with tours array and pagination metadata
    */
   async getTours(dto: GetToursDto): Promise<ToursResponseDto> {
-    const { page = 1, limit = 8, search, sort, priceMin, priceMax, difficulty, location, duration } = dto;
+    const {
+      page = 1,
+      limit = 8,
+      search,
+      sort,
+      priceMin,
+      priceMax,
+      difficulty,
+      location,
+      duration,
+    } = dto;
     const skip = (page - 1) * limit;
 
-    this.logger.log(`Fetching tours: page=${page}, limit=${limit}, filters=${JSON.stringify({ search, sort, priceMin, priceMax, difficulty, location, duration })}`);
+    this.logger.log(
+      `Fetching tours: page=${page}, limit=${limit}, filters=${JSON.stringify({ search, sort, priceMin, priceMax, difficulty, location, duration })}`,
+    );
 
     // Build where clause
     const where: Prisma.TourWhereInput = this.buildWhereClause({
@@ -591,10 +629,10 @@ export class ToursService {
           featured: true,
           schedules: {
             where: {
-              status: 'OPEN',
+              status: "OPEN",
               startDate: { gte: new Date() },
             },
-            orderBy: { startDate: 'asc' },
+            orderBy: { startDate: "asc" },
             take: 1,
             select: { startDate: true },
           },
@@ -605,7 +643,9 @@ export class ToursService {
 
     const totalPages = Math.ceil(total / limit);
 
-    this.logger.log(`Found ${total} tours, returning page ${page}/${totalPages}`);
+    this.logger.log(
+      `Found ${total} tours, returning page ${page}/${totalPages}`,
+    );
 
     return {
       tours: tours.map((tour) => this.mapTourToDto(tour)),
@@ -622,7 +662,7 @@ export class ToursService {
 
   /**
    * Get featured tours for homepage highlight.
-   * 
+   *
    * @param limit - Number of featured tours to return (default: 4)
    * @returns Array of featured tour items
    */
@@ -633,10 +673,7 @@ export class ToursService {
       where: {
         featured: true,
       },
-      orderBy: [
-        { ratingAverage: 'desc' },
-        { reviewCount: 'desc' },
-      ],
+      orderBy: [{ ratingAverage: "desc" }, { reviewCount: "desc" }],
       take: limit,
       select: {
         id: true,
@@ -659,15 +696,17 @@ export class ToursService {
 
   /**
    * Get search suggestions based on query.
-   * 
+   *
    * Returns both:
    * - Matching tour names
    * - Matching destination/location names
-   * 
+   *
    * @param dto - Search query parameters
    * @returns Array of tour and destination suggestions
    */
-  async getSuggestions(dto: GetSuggestionsDto): Promise<SuggestionsResponseDto> {
+  async getSuggestions(
+    dto: GetSuggestionsDto,
+  ): Promise<SuggestionsResponseDto> {
     const { q, limit = 5 } = dto;
 
     this.logger.log(`Fetching suggestions for query: "${q}"`);
@@ -676,8 +715,8 @@ export class ToursService {
     const tours = await this.prisma.tour.findMany({
       where: {
         OR: [
-          { name: { contains: q, mode: 'insensitive' } },
-          { location: { contains: q, mode: 'insensitive' } },
+          { name: { contains: q, mode: "insensitive" } },
+          { location: { contains: q, mode: "insensitive" } },
         ],
       },
       take: limit,
@@ -692,16 +731,16 @@ export class ToursService {
     // Get unique locations as destinations
     const locations = await this.prisma.tour.findMany({
       where: {
-        location: { contains: q, mode: 'insensitive' },
+        location: { contains: q, mode: "insensitive" },
       },
-      distinct: ['location'],
+      distinct: ["location"],
       take: 3,
       select: { location: true },
     });
 
     const suggestions = [
       ...tours.map((tour) => ({
-        type: 'tour' as const,
+        type: "tour" as const,
         id: tour.id,
         name: tour.name,
         slug: tour.slug,
@@ -709,7 +748,7 @@ export class ToursService {
       ...locations
         .filter((l) => l.location)
         .map((l) => ({
-          type: 'destination' as const,
+          type: "destination" as const,
           name: l.location!,
         })),
     ];
@@ -733,17 +772,19 @@ export class ToursService {
     // Full-text search
     if (filters.search) {
       where.OR = [
-        { name: { contains: filters.search, mode: 'insensitive' } },
-        { location: { contains: filters.search, mode: 'insensitive' } },
-        { summary: { contains: filters.search, mode: 'insensitive' } },
+        { name: { contains: filters.search, mode: "insensitive" } },
+        { location: { contains: filters.search, mode: "insensitive" } },
+        { summary: { contains: filters.search, mode: "insensitive" } },
       ];
     }
 
     // Price range filter
     if (filters.priceMin !== undefined || filters.priceMax !== undefined) {
       where.priceAdult = {};
-      if (filters.priceMin !== undefined) where.priceAdult.gte = filters.priceMin;
-      if (filters.priceMax !== undefined) where.priceAdult.lte = filters.priceMax;
+      if (filters.priceMin !== undefined)
+        where.priceAdult.gte = filters.priceMin;
+      if (filters.priceMax !== undefined)
+        where.priceAdult.lte = filters.priceMax;
     }
 
     // Difficulty filter
@@ -753,7 +794,7 @@ export class ToursService {
 
     // Location filter
     if (filters.location) {
-      where.location = { contains: filters.location, mode: 'insensitive' };
+      where.location = { contains: filters.location, mode: "insensitive" };
     }
 
     // Duration filter (e.g., "1-3", "4-7", "8+")
@@ -773,20 +814,17 @@ export class ToursService {
   private buildOrderBy(sort?: SortOption): Prisma.TourOrderByWithRelationInput {
     switch (sort) {
       case SortOption.NEWEST:
-        return { createdAt: 'desc' };
+        return { createdAt: "desc" };
       case SortOption.PRICE_ASC:
-        return { priceAdult: 'asc' };
+        return { priceAdult: "asc" };
       case SortOption.PRICE_DESC:
-        return { priceAdult: 'desc' };
+        return { priceAdult: "desc" };
       case SortOption.RATING:
-        return { ratingAverage: 'desc' };
+        return { ratingAverage: "desc" };
       case SortOption.POPULAR:
       default:
         // Popular = high rating + high review count
-        return [
-          { reviewCount: 'desc' },
-          { ratingAverage: 'desc' },
-        ] as any;
+        return [{ reviewCount: "desc" }, { ratingAverage: "desc" }] as any;
     }
   }
 
@@ -794,13 +832,13 @@ export class ToursService {
    * Parse duration range string (e.g., "1-3", "8+") into Prisma filter.
    */
   private parseDurationRange(duration: string): Prisma.IntFilter | undefined {
-    if (duration.endsWith('+')) {
-      const min = parseInt(duration.replace('+', ''));
+    if (duration.endsWith("+")) {
+      const min = parseInt(duration.replace("+", ""));
       return { gte: min };
     }
 
-    if (duration.includes('-')) {
-      const [min, max] = duration.split('-').map(Number);
+    if (duration.includes("-")) {
+      const [min, max] = duration.split("-").map(Number);
       return { gte: min, lte: max };
     }
 
@@ -836,27 +874,33 @@ export class ToursService {
 **File: `apps/server/src/modules/tours/tours.controller.ts`**
 
 ```typescript
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ToursService } from './tours.service';
-import { GetToursDto } from './dto/get-tours.dto';
-import { GetSuggestionsDto } from './dto/tour-suggestion.dto';
-import { ToursResponseDto } from './dto/tour-response.dto';
+import { Controller, Get, Query } from "@nestjs/common";
+import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";
+import { ToursService } from "./tours.service";
+import { GetToursDto } from "./dto/get-tours.dto";
+import { GetSuggestionsDto } from "./dto/tour-suggestion.dto";
+import { ToursResponseDto } from "./dto/tour-response.dto";
 
-@ApiTags('tours')
-@Controller('tours')
+@ApiTags("tours")
+@Controller("tours")
 export class ToursController {
   constructor(private readonly toursService: ToursService) {}
 
   /**
    * Get paginated tours list with filters.
-   * 
+   *
    * @example
    * GET /tours?page=1&limit=8&search=bali&sort=popular&priceMin=500&priceMax=1000
    */
   @Get()
-  @ApiOperation({ summary: 'Get paginated tours list with filters and sorting' })
-  @ApiResponse({ status: 200, description: 'Returns paginated tours', type: ToursResponseDto })
+  @ApiOperation({
+    summary: "Get paginated tours list with filters and sorting",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Returns paginated tours",
+    type: ToursResponseDto,
+  })
   async getTours(@Query() dto: GetToursDto) {
     return {
       success: true,
@@ -866,14 +910,14 @@ export class ToursController {
 
   /**
    * Get featured tours for homepage.
-   * 
+   *
    * @example
    * GET /tours/featured?limit=4
    */
-  @Get('featured')
-  @ApiOperation({ summary: 'Get featured tours for homepage highlight' })
-  @ApiResponse({ status: 200, description: 'Returns featured tours' })
-  async getFeaturedTours(@Query('limit') limit?: number) {
+  @Get("featured")
+  @ApiOperation({ summary: "Get featured tours for homepage highlight" })
+  @ApiResponse({ status: 200, description: "Returns featured tours" })
+  async getFeaturedTours(@Query("limit") limit?: number) {
     return {
       success: true,
       data: {
@@ -884,13 +928,15 @@ export class ToursController {
 
   /**
    * Get search suggestions.
-   * 
+   *
    * @example
    * GET /tours/suggestions?q=ba&limit=5
    */
-  @Get('suggestions')
-  @ApiOperation({ summary: 'Get search suggestions for tours and destinations' })
-  @ApiResponse({ status: 200, description: 'Returns search suggestions' })
+  @Get("suggestions")
+  @ApiOperation({
+    summary: "Get search suggestions for tours and destinations",
+  })
+  @ApiResponse({ status: 200, description: "Returns search suggestions" })
   async getSuggestions(@Query() dto: GetSuggestionsDto) {
     return {
       success: true,
@@ -905,10 +951,10 @@ export class ToursController {
 **File: `apps/server/src/modules/tours/tours.module.ts`**
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { ToursController } from './tours.controller';
-import { ToursService } from './tours.service';
-import { PrismaModule } from '../../prisma/prisma.module';
+import { Module } from "@nestjs/common";
+import { ToursController } from "./tours.controller";
+import { ToursService } from "./tours.service";
+import { PrismaModule } from "../../prisma/prisma.module";
 
 @Module({
   imports: [PrismaModule],
@@ -922,14 +968,14 @@ export class ToursModule {}
 **Update `apps/server/src/app.module.ts`:**
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { CountriesModule } from './modules/countries/countries.module';
-import { ToursModule } from './modules/tours/tours.module'; // Add this
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { PrismaModule } from "./prisma/prisma.module";
+import { AuthModule } from "./modules/auth/auth.module";
+import { CountriesModule } from "./modules/countries/countries.module";
+import { ToursModule } from "./modules/tours/tours.module"; // Add this
 
 @Module({
   imports: [
@@ -1003,7 +1049,7 @@ export interface Tour {
   location?: string;
   ratingAverage: number;
   reviewCount?: number;
-  difficulty?: 'easy' | 'moderate' | 'challenging';
+  difficulty?: "easy" | "moderate" | "challenging";
   featured?: boolean;
   nextAvailableDate?: string;
 }
@@ -1012,10 +1058,10 @@ export interface TourFilters {
   search?: string;
   page?: number;
   limit?: number;
-  sort?: 'popular' | 'newest' | 'price_asc' | 'price_desc' | 'rating';
+  sort?: "popular" | "newest" | "price_asc" | "price_desc" | "rating";
   priceMin?: number;
   priceMax?: number;
-  difficulty?: 'easy' | 'moderate' | 'challenging';
+  difficulty?: "easy" | "moderate" | "challenging";
   location?: string;
   duration?: string;
 }
@@ -1040,7 +1086,7 @@ export interface TourCardProps {
 }
 
 export interface Suggestion {
-  type: 'tour' | 'destination';
+  type: "tour" | "destination";
   id?: number;
   name: string;
   slug?: string;
@@ -1052,19 +1098,21 @@ export interface Suggestion {
 **File: `apps/web/lib/api/tours.ts`**
 
 ```typescript
-import { Tour, TourFilters, ToursResponse, Suggestion } from '../types/tour';
+import { Tour, TourFilters, ToursResponse, Suggestion } from "../types/tour";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 /**
  * Fetch paginated tours with filters.
  * Uses Next.js ISR with 5-minute revalidation.
  */
-export async function getTours(filters: TourFilters = {}): Promise<ToursResponse> {
+export async function getTours(
+  filters: TourFilters = {},
+): Promise<ToursResponse> {
   const params = new URLSearchParams();
-  
+
   Object.entries(filters).forEach(([key, value]) => {
-    if (value !== undefined && value !== '') {
+    if (value !== undefined && value !== "") {
       params.set(key, String(value));
     }
   });
@@ -1075,23 +1123,25 @@ export async function getTours(filters: TourFilters = {}): Promise<ToursResponse
     const response = await fetch(url, {
       next: { revalidate: 300 }, // ISR: revalidate every 5 minutes
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch tours: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch tours: ${response.status} ${response.statusText}`,
+      );
     }
 
     const result = await response.json();
-    
+
     if (!result.success) {
-      throw new Error(result.error?.message || 'Failed to fetch tours');
+      throw new Error(result.error?.message || "Failed to fetch tours");
     }
 
     return result.data;
   } catch (error) {
-    console.error('Error fetching tours:', error);
+    console.error("Error fetching tours:", error);
     throw error;
   }
 }
@@ -1106,13 +1156,13 @@ export async function getFeaturedTours(limit: number = 4): Promise<Tour[]> {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch featured tours');
+      throw new Error("Failed to fetch featured tours");
     }
 
     const result = await response.json();
     return result.data.tours;
   } catch (error) {
-    console.error('Error fetching featured tours:', error);
+    console.error("Error fetching featured tours:", error);
     return [];
   }
 }
@@ -1122,8 +1172,8 @@ export async function getFeaturedTours(limit: number = 4): Promise<Tour[]> {
  * Client-side only (no ISR).
  */
 export async function getSearchSuggestions(
-  query: string, 
-  limit: number = 5
+  query: string,
+  limit: number = 5,
 ): Promise<Suggestion[]> {
   if (query.length < 2) return [];
 
@@ -1131,18 +1181,18 @@ export async function getSearchSuggestions(
     const response = await fetch(
       `${API_URL}/tours/suggestions?q=${encodeURIComponent(query)}&limit=${limit}`,
       {
-        cache: 'no-store', // Always fresh for suggestions
-      }
+        cache: "no-store", // Always fresh for suggestions
+      },
     );
 
     if (!response.ok) {
-      throw new Error('Failed to fetch suggestions');
+      throw new Error("Failed to fetch suggestions");
     }
 
     const result = await response.json();
     return result.data.suggestions;
   } catch (error) {
-    console.error('Error fetching suggestions:', error);
+    console.error("Error fetching suggestions:", error);
     return [];
   }
 }
@@ -1157,9 +1207,9 @@ export async function getSearchSuggestions(
  * Format price as currency (USD).
  */
 export function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
@@ -1176,7 +1226,7 @@ export function formatRating(rating: number): string {
  * Format duration in days.
  */
 export function formatDuration(days: number): string {
-  return `${days} ${days === 1 ? 'Day' : 'Days'}`;
+  return `${days} ${days === 1 ? "Day" : "Days"}`;
 }
 
 /**
@@ -1184,14 +1234,14 @@ export function formatDuration(days: number): string {
  */
 export function getDifficultyColor(difficulty?: string): string {
   switch (difficulty) {
-    case 'easy':
-      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-    case 'moderate':
-      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-    case 'challenging':
-      return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+    case "easy":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+    case "moderate":
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+    case "challenging":
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
     default:
-      return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+      return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200";
   }
 }
 ```
@@ -1201,32 +1251,34 @@ export function getDifficultyColor(difficulty?: string): string {
 **File: `apps/web/app/page.tsx`**
 
 ```tsx
-import { Suspense } from 'react';
-import { Metadata } from 'next';
-import { getTours } from '@/lib/api/tours';
-import { TourFilters } from '@/lib/types/tour';
-import { HeroSection } from '@/components/tours/hero-section';
-import { TourGrid } from '@/components/tours/tour-grid';
-import { TourFiltersBar } from '@/components/tours/tour-filters';
-import { TourPagination } from '@/components/tours/tour-pagination';
-import { TourGridSkeleton } from '@/components/tours/tour-card-skeleton';
-import { EmptyState } from '@/components/tours/empty-state';
+import { Suspense } from "react";
+import { Metadata } from "next";
+import { getTours } from "@/lib/api/tours";
+import { TourFilters } from "@/lib/types/tour";
+import { HeroSection } from "@/components/tours/hero-section";
+import { TourGrid } from "@/components/tours/tour-grid";
+import { TourFiltersBar } from "@/components/tours/tour-filters";
+import { TourPagination } from "@/components/tours/tour-pagination";
+import { TourGridSkeleton } from "@/components/tours/tour-card-skeleton";
+import { EmptyState } from "@/components/tours/empty-state";
 
 export const metadata: Metadata = {
-  title: 'Discover Amazing Tours | TravelCo',
-  description: 'Explore the world\'s most beautiful destinations with our curated tours. Find your next adventure today.',
-  keywords: ['tours', 'travel', 'vacation', 'adventure', 'destinations'],
+  title: "Discover Amazing Tours | TravelCo",
+  description:
+    "Explore the world's most beautiful destinations with our curated tours. Find your next adventure today.",
+  keywords: ["tours", "travel", "vacation", "adventure", "destinations"],
   openGraph: {
-    title: 'Discover Amazing Tours | TravelCo',
-    description: 'Explore the world\'s most beautiful destinations with our curated tours.',
-    images: ['/og-tours.jpg'],
-    type: 'website',
+    title: "Discover Amazing Tours | TravelCo",
+    description:
+      "Explore the world's most beautiful destinations with our curated tours.",
+    images: ["/og-tours.jpg"],
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Discover Amazing Tours | TravelCo',
-    description: 'Explore the world\'s most beautiful destinations.',
-    images: ['/og-tours.jpg'],
+    card: "summary_large_image",
+    title: "Discover Amazing Tours | TravelCo",
+    description: "Explore the world's most beautiful destinations.",
+    images: ["/og-tours.jpg"],
   },
 };
 
@@ -1244,15 +1296,15 @@ interface HomePageProps {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
-  
+
   // Parse search params into filters
   const filters: TourFilters = {
     search: params.search,
     page: params.page ? parseInt(params.page, 10) : 1,
-    sort: params.sort as TourFilters['sort'],
+    sort: params.sort as TourFilters["sort"],
     priceMin: params.priceMin ? parseInt(params.priceMin, 10) : undefined,
     priceMax: params.priceMax ? parseInt(params.priceMax, 10) : undefined,
-    difficulty: params.difficulty as TourFilters['difficulty'],
+    difficulty: params.difficulty as TourFilters["difficulty"],
     duration: params.duration,
     limit: 8,
   };
@@ -1303,7 +1355,7 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
         {/* Results Count */}
         <div className="mb-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Showing <span className="font-semibold">{tours.length}</span> of{' '}
+            Showing <span className="font-semibold">{tours.length}</span> of{" "}
             <span className="font-semibold">{pagination.total}</span> tours
           </p>
         </div>
@@ -1318,7 +1370,7 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
       </>
     );
   } catch (error) {
-    console.error('Error loading tours:', error);
+    console.error("Error loading tours:", error);
     return (
       <div className="text-center py-12">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
@@ -1338,12 +1390,17 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
 **File: `apps/web/components/tours/tour-card.tsx`**
 
 ```tsx
-import Image from 'next/image';
-import Link from 'next/link';
-import { Star, MapPin, Clock, Heart } from 'lucide-react';
-import { Tour } from '@/lib/types/tour';
-import { formatCurrency, formatRating, formatDuration, getDifficultyColor } from '@/lib/utils/format';
-import { cn } from '@/lib/utils';
+import Image from "next/image";
+import Link from "next/link";
+import { Star, MapPin, Clock, Heart } from "lucide-react";
+import { Tour } from "@/lib/types/tour";
+import {
+  formatCurrency,
+  formatRating,
+  formatDuration,
+  getDifficultyColor,
+} from "@/lib/utils/format";
+import { cn } from "@/lib/utils";
 
 interface TourCardProps {
   tour: Tour;
@@ -1354,19 +1411,19 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
   return (
     <article className="group flex flex-col rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       {/* Image Container */}
-      <Link 
-        href={`/tours/${tour.slug}`} 
+      <Link
+        href={`/tours/${tour.slug}`}
         className="relative w-full aspect-[4/3] overflow-hidden"
       >
         <Image
-          src={tour.coverImage || '/images/placeholder-tour.jpg'}
+          src={tour.coverImage || "/images/placeholder-tour.jpg"}
           alt={tour.name}
           fill
           className="object-cover group-hover:scale-110 transition-transform duration-500"
           priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
         />
-        
+
         {/* Favorite Button */}
         <button
           className="absolute top-3 right-3 z-10 p-2 bg-white/80 dark:bg-black/50 rounded-full cursor-pointer hover:bg-white dark:hover:bg-black/70 transition-colors"
@@ -1392,7 +1449,7 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
               {tour.name}
             </h3>
           </Link>
-          
+
           <div className="flex items-center gap-1 flex-shrink-0">
             <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
             <span className="text-sm font-bold text-gray-900 dark:text-white">
@@ -1405,7 +1462,7 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
           <Clock className="w-4 h-4" />
           <span>{formatDuration(tour.durationDays)}</span>
-          
+
           {tour.location && (
             <>
               <span className="mx-1">•</span>
@@ -1425,11 +1482,14 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
         {/* Difficulty Badge */}
         {tour.difficulty && (
           <div className="mb-4">
-            <span className={cn(
-              'inline-block text-xs font-semibold px-2 py-1 rounded',
-              getDifficultyColor(tour.difficulty)
-            )}>
-              {tour.difficulty.charAt(0).toUpperCase() + tour.difficulty.slice(1)}
+            <span
+              className={cn(
+                "inline-block text-xs font-semibold px-2 py-1 rounded",
+                getDifficultyColor(tour.difficulty),
+              )}
+            >
+              {tour.difficulty.charAt(0).toUpperCase() +
+                tour.difficulty.slice(1)}
             </span>
           </div>
         )}
@@ -1437,15 +1497,19 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
         {/* Price & CTA */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
           <div className="flex flex-col">
-            <span className="text-xs text-gray-500 dark:text-gray-400">Starting from</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              Starting from
+            </span>
             <div>
               <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
                 {formatCurrency(tour.priceAdult)}
               </span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">/person</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                /person
+              </span>
             </div>
           </div>
-          
+
           <Link
             href={`/tours/${tour.slug}`}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-sm font-bold rounded-lg transition-colors"
@@ -1464,39 +1528,39 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
 **File: `apps/web/components/tours/tour-filters.tsx`**
 
 ```tsx
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useTransition } from 'react';
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useTransition } from "react";
 
 const sortOptions = [
-  { label: 'Popular', value: 'popular' },
-  { label: 'Newest', value: 'newest' },
-  { label: 'Price: Low to High', value: 'price_asc' },
-  { label: 'Price: High to Low', value: 'price_desc' },
-  { label: 'Top Rated', value: 'rating' },
+  { label: "Popular", value: "popular" },
+  { label: "Newest", value: "newest" },
+  { label: "Price: Low to High", value: "price_asc" },
+  { label: "Price: High to Low", value: "price_desc" },
+  { label: "Top Rated", value: "rating" },
 ];
 
 const priceOptions = [
-  { label: 'All Prices', value: '' },
-  { label: 'Under $500', value: '0-500' },
-  { label: '$500 - $1,000', value: '500-1000' },
-  { label: '$1,000 - $2,000', value: '1000-2000' },
-  { label: 'Over $2,000', value: '2000-' },
+  { label: "All Prices", value: "" },
+  { label: "Under $500", value: "0-500" },
+  { label: "$500 - $1,000", value: "500-1000" },
+  { label: "$1,000 - $2,000", value: "1000-2000" },
+  { label: "Over $2,000", value: "2000-" },
 ];
 
 const difficultyOptions = [
-  { label: 'All Levels', value: '' },
-  { label: 'Easy', value: 'easy' },
-  { label: 'Moderate', value: 'moderate' },
-  { label: 'Challenging', value: 'challenging' },
+  { label: "All Levels", value: "" },
+  { label: "Easy", value: "easy" },
+  { label: "Moderate", value: "moderate" },
+  { label: "Challenging", value: "challenging" },
 ];
 
 const durationOptions = [
-  { label: 'Any Duration', value: '' },
-  { label: '1-3 Days', value: '1-3' },
-  { label: '4-7 Days', value: '4-7' },
-  { label: '8+ Days', value: '8-' },
+  { label: "Any Duration", value: "" },
+  { label: "1-3 Days", value: "1-3" },
+  { label: "4-7 Days", value: "4-7" },
+  { label: "8+ Days", value: "8-" },
 ];
 
 export function TourFiltersBar() {
@@ -1507,60 +1571,64 @@ export function TourFiltersBar() {
   const updateFilter = useCallback(
     (key: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
-      
+
       if (value) {
         params.set(key, value);
       } else {
         params.delete(key);
       }
-      
+
       // Reset to page 1 when filter changes
-      params.delete('page');
-      
+      params.delete("page");
+
       startTransition(() => {
         router.push(`/?${params.toString()}`);
       });
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
-  const handlePriceChange = useCallback((value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    if (value) {
-      const [min, max] = value.split('-');
-      if (min) params.set('priceMin', min);
-      else params.delete('priceMin');
-      if (max) params.set('priceMax', max);
-      else params.delete('priceMax');
-    } else {
-      params.delete('priceMin');
-      params.delete('priceMax');
-    }
-    
-    params.delete('page');
-    
-    startTransition(() => {
-      router.push(`/?${params.toString()}`);
-    });
-  }, [router, searchParams]);
+  const handlePriceChange = useCallback(
+    (value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      if (value) {
+        const [min, max] = value.split("-");
+        if (min) params.set("priceMin", min);
+        else params.delete("priceMin");
+        if (max) params.set("priceMax", max);
+        else params.delete("priceMax");
+      } else {
+        params.delete("priceMin");
+        params.delete("priceMax");
+      }
+
+      params.delete("page");
+
+      startTransition(() => {
+        router.push(`/?${params.toString()}`);
+      });
+    },
+    [router, searchParams],
+  );
 
   // Current values
-  const currentSort = searchParams.get('sort') || 'popular';
-  const currentDifficulty = searchParams.get('difficulty') || '';
-  const currentDuration = searchParams.get('duration') || '';
-  const currentPriceMin = searchParams.get('priceMin');
-  const currentPriceMax = searchParams.get('priceMax');
-  const currentPrice = currentPriceMin || currentPriceMax
-    ? `${currentPriceMin || ''}-${currentPriceMax || ''}`
-    : '';
+  const currentSort = searchParams.get("sort") || "popular";
+  const currentDifficulty = searchParams.get("difficulty") || "";
+  const currentDuration = searchParams.get("duration") || "";
+  const currentPriceMin = searchParams.get("priceMin");
+  const currentPriceMax = searchParams.get("priceMax");
+  const currentPrice =
+    currentPriceMin || currentPriceMax
+      ? `${currentPriceMin || ""}-${currentPriceMax || ""}`
+      : "";
 
   return (
     <div className="flex flex-wrap gap-2 mb-6 pb-2 overflow-x-auto scrollbar-hide">
       {/* Sort */}
       <select
         value={currentSort}
-        onChange={(e) => updateFilter('sort', e.target.value)}
+        onChange={(e) => updateFilter("sort", e.target.value)}
         disabled={isPending}
         className="h-10 shrink-0 px-4 border border-gray-200 dark:border-gray-700 rounded-full bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-200 hover:border-blue-600 dark:hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors disabled:opacity-50"
       >
@@ -1588,7 +1656,7 @@ export function TourFiltersBar() {
       {/* Duration */}
       <select
         value={currentDuration}
-        onChange={(e) => updateFilter('duration', e.target.value)}
+        onChange={(e) => updateFilter("duration", e.target.value)}
         disabled={isPending}
         className="h-10 shrink-0 px-4 border border-gray-200 dark:border-gray-700 rounded-full bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-200 hover:border-blue-600 dark:hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors disabled:opacity-50"
       >
@@ -1602,7 +1670,7 @@ export function TourFiltersBar() {
       {/* Difficulty */}
       <select
         value={currentDifficulty}
-        onChange={(e) => updateFilter('difficulty', e.target.value)}
+        onChange={(e) => updateFilter("difficulty", e.target.value)}
         disabled={isPending}
         className="h-10 shrink-0 px-4 border border-gray-200 dark:border-gray-700 rounded-full bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-200 hover:border-blue-600 dark:hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors disabled:opacity-50"
       >
@@ -1614,11 +1682,14 @@ export function TourFiltersBar() {
       </select>
 
       {/* Clear Filters */}
-      {(currentSort !== 'popular' || currentPrice || currentDifficulty || currentDuration) && (
+      {(currentSort !== "popular" ||
+        currentPrice ||
+        currentDifficulty ||
+        currentDuration) && (
         <button
           onClick={() => {
             startTransition(() => {
-              router.push('/');
+              router.push("/");
             });
           }}
           disabled={isPending}
@@ -1648,7 +1719,7 @@ sequenceDiagram
     User->>Browser: Visit / or /tours
     Browser->>NextJS: Request page
     NextJS->>NextJS: Parse URL params
-    
+
     alt Cache Hit
         NextJS->>Cache: Check ISR cache
         Cache-->>NextJS: Cached data (< 5min)
@@ -1663,7 +1734,7 @@ sequenceDiagram
         NestJS-->>NextJS: { tours, pagination }
         NextJS->>Cache: Update ISR cache
     end
-    
+
     NextJS->>NextJS: Render Server Components
     NextJS-->>Browser: HTML + Hydration
     Browser-->>User: Display tours
@@ -1700,20 +1771,20 @@ sequenceDiagram
     User->>SearchBox: Type "Ba"
     SearchBox->>Debounce: Queue input (300ms)
     Note over Debounce: Wait 300ms...
-    
+
     alt User keeps typing
         User->>SearchBox: Type "Bal"
         SearchBox->>Debounce: Reset timer
         Note over Debounce: Wait 300ms...
     end
-    
+
     Debounce->>API: GET /tours/suggestions?q=Bal
     API->>API: Search tours & destinations
     API-->>SearchBox: Suggestions array
     SearchBox-->>User: Show dropdown
-    
+
     User->>SearchBox: Click suggestion
-    
+
     alt Tour suggestion
         SearchBox->>User: Navigate to /tours/{slug}
     else Destination suggestion
@@ -1743,44 +1814,44 @@ sequenceDiagram
 
 #### 3.5.1 Security Measures
 
-| Layer | Measure | Implementation |
-|-------|---------|----------------|
-| **Input Validation** | DTO validation with class-validator | All query params validated in `GetToursDto` |
-| **SQL Injection** | Parameterized queries | Prisma ORM handles parameterization automatically |
-| **XSS Prevention** | Auto-escaping | React/Next.js auto-escape by default |
-| **Rate Limiting** | API rate limiting | Consider implementing for `/suggestions` endpoint |
-| **CORS** | Whitelist origins | Configure in NestJS main.ts |
-| **CSP Headers** | Content Security Policy | Configure in Next.js config |
+| Layer                | Measure                             | Implementation                                    |
+| -------------------- | ----------------------------------- | ------------------------------------------------- |
+| **Input Validation** | DTO validation with class-validator | All query params validated in `GetToursDto`       |
+| **SQL Injection**    | Parameterized queries               | Prisma ORM handles parameterization automatically |
+| **XSS Prevention**   | Auto-escaping                       | React/Next.js auto-escape by default              |
+| **Rate Limiting**    | API rate limiting                   | Consider implementing for `/suggestions` endpoint |
+| **CORS**             | Whitelist origins                   | Configure in NestJS main.ts                       |
+| **CSP Headers**      | Content Security Policy             | Configure in Next.js config                       |
 
 **Backend Security Configuration:**
 
 ```typescript
 // apps/server/src/main.ts
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import helmet from 'helmet';
+import { NestFactory } from "@nestjs/core";
+import { ValidationPipe } from "@nestjs/common";
+import helmet from "helmet";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   // Helmet for security headers
   app.use(helmet());
-  
+
   // CORS
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
   });
-  
+
   // Global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-    })
+    }),
   );
-  
+
   await app.listen(3001);
 }
 bootstrap();
@@ -1788,16 +1859,16 @@ bootstrap();
 
 #### 3.5.2 Performance Optimizations
 
-| Optimization | Implementation | Impact |
-|--------------|----------------|--------|
-| **Server-Side Rendering** | Next.js App Router SSR | ✅ SEO, faster FCP |
-| **Incremental Static Regeneration** | ISR with 5min revalidation | ✅ Reduced API calls |
-| **Database Indexes** | Indexes on filter columns | ✅ Query speed 5-10x |
-| **Image Optimization** | Next.js Image with lazy loading | ✅ Reduced bandwidth |
-| **Pagination** | Limit 8 items per page | ✅ Faster queries |
-| **Parallel Queries** | Promise.all for count + data | ✅ Reduced latency |
-| **Skeleton Loading** | Show placeholders during fetch | ✅ Better UX |
-| **Debounced Search** | 300ms debounce on suggestions | ✅ Reduced API calls |
+| Optimization                        | Implementation                  | Impact               |
+| ----------------------------------- | ------------------------------- | -------------------- |
+| **Server-Side Rendering**           | Next.js App Router SSR          | ✅ SEO, faster FCP   |
+| **Incremental Static Regeneration** | ISR with 5min revalidation      | ✅ Reduced API calls |
+| **Database Indexes**                | Indexes on filter columns       | ✅ Query speed 5-10x |
+| **Image Optimization**              | Next.js Image with lazy loading | ✅ Reduced bandwidth |
+| **Pagination**                      | Limit 8 items per page          | ✅ Faster queries    |
+| **Parallel Queries**                | Promise.all for count + data    | ✅ Reduced latency   |
+| **Skeleton Loading**                | Show placeholders during fetch  | ✅ Better UX         |
+| **Debounced Search**                | 300ms debounce on suggestions   | ✅ Reduced API calls |
 
 **Performance Benchmarks (Target):**
 
@@ -1839,8 +1910,8 @@ graph TD
 
 ```typescript
 // Frontend: Next.js ISR
-fetch('/api/tours', {
-  next: { revalidate: 300 } // 5 minutes
+fetch("/api/tours", {
+  next: { revalidate: 300 }, // 5 minutes
 });
 
 // Backend: Redis caching (optional enhancement)
@@ -1848,17 +1919,17 @@ fetch('/api/tours', {
 export class ToursService {
   async getTours(dto: GetToursDto): Promise<ToursResponse> {
     const cacheKey = `tours:${JSON.stringify(dto)}`;
-    
+
     // Try cache first
     const cached = await this.redis.get(cacheKey);
     if (cached) return JSON.parse(cached);
-    
+
     // Query database
     const result = await this.queryDatabase(dto);
-    
+
     // Cache for 5 minutes
     await this.redis.setex(cacheKey, 300, JSON.stringify(result));
-    
+
     return result;
   }
 }
@@ -1870,23 +1941,23 @@ export class ToursService {
 
 ```tsx
 export const metadata: Metadata = {
-  title: 'Discover Amazing Tours | TravelCo',
-  description: 'Explore the world\'s most beautiful destinations...',
-  keywords: ['tours', 'travel', 'vacation', 'adventure'],
+  title: "Discover Amazing Tours | TravelCo",
+  description: "Explore the world's most beautiful destinations...",
+  keywords: ["tours", "travel", "vacation", "adventure"],
   openGraph: {
-    title: 'Discover Amazing Tours | TravelCo',
-    description: 'Explore beautiful destinations...',
-    images: ['/og-tours.jpg'],
-    type: 'website',
-    url: 'https://travelco.com/tours',
+    title: "Discover Amazing Tours | TravelCo",
+    description: "Explore beautiful destinations...",
+    images: ["/og-tours.jpg"],
+    type: "website",
+    url: "https://travelco.com/tours",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Discover Amazing Tours',
-    images: ['/og-tours.jpg'],
+    card: "summary_large_image",
+    title: "Discover Amazing Tours",
+    images: ["/og-tours.jpg"],
   },
   alternates: {
-    canonical: 'https://travelco.com/tours',
+    canonical: "https://travelco.com/tours",
   },
 };
 ```
@@ -1922,24 +1993,24 @@ export const metadata: Metadata = {
 
 ### 3.6 Error Handling
 
-| Error Type | HTTP Status | User Message | Recovery Action |
-|-----------|-------------|--------------|-----------------|
-| `INVALID_PARAMS` | 400 | "Invalid filter parameters" | Reset filters to defaults |
-| `SERVER_ERROR` | 500 | "Something went wrong. Please try again." | Show retry button |
-| `NO_RESULTS` | 200 | "No tours found matching your criteria." | Show suggestions + clear filters button |
-| `NETWORK_ERROR` | - | "Unable to connect. Check your internet." | Show retry button |
-| `TIMEOUT` | 504 | "Request took too long. Please try again." | Show retry button |
+| Error Type       | HTTP Status | User Message                               | Recovery Action                         |
+| ---------------- | ----------- | ------------------------------------------ | --------------------------------------- |
+| `INVALID_PARAMS` | 400         | "Invalid filter parameters"                | Reset filters to defaults               |
+| `SERVER_ERROR`   | 500         | "Something went wrong. Please try again."  | Show retry button                       |
+| `NO_RESULTS`     | 200         | "No tours found matching your criteria."   | Show suggestions + clear filters button |
+| `NETWORK_ERROR`  | -           | "Unable to connect. Check your internet."  | Show retry button                       |
+| `TIMEOUT`        | 504         | "Request took too long. Please try again." | Show retry button                       |
 
 **Error Component Example:**
 
 ```tsx
 // components/tours/error-state.tsx
-export function ErrorState({ 
-  error, 
-  onRetry 
-}: { 
-  error: Error; 
-  onRetry: () => void; 
+export function ErrorState({
+  error,
+  onRetry,
+}: {
+  error: Error;
+  onRetry: () => void;
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-12">
@@ -1970,7 +2041,7 @@ export function ErrorState({
 **File: `apps/server/src/modules/tours/tours.service.spec.ts`**
 
 ```typescript
-describe('ToursService', () => {
+describe("ToursService", () => {
   let service: ToursService;
   let prisma: PrismaService;
 
@@ -1983,12 +2054,12 @@ describe('ToursService', () => {
     prisma = module.get<PrismaService>(PrismaService);
   });
 
-  describe('getTours', () => {
-    it('should return paginated tours with default params', async () => {
+  describe("getTours", () => {
+    it("should return paginated tours with default params", async () => {
       // Arrange
-      const mockTours = [{ id: 1, name: 'Bali', /* ... */ }];
-      jest.spyOn(prisma.tour, 'findMany').mockResolvedValue(mockTours);
-      jest.spyOn(prisma.tour, 'count').mockResolvedValue(42);
+      const mockTours = [{ id: 1, name: "Bali" /* ... */ }];
+      jest.spyOn(prisma.tour, "findMany").mockResolvedValue(mockTours);
+      jest.spyOn(prisma.tour, "count").mockResolvedValue(42);
 
       // Act
       const result = await service.getTours({ page: 1, limit: 8 });
@@ -1999,47 +2070,47 @@ describe('ToursService', () => {
       expect(result.pagination.totalPages).toBe(6);
     });
 
-    it('should filter by search query', async () => {
+    it("should filter by search query", async () => {
       // Test search functionality
     });
 
-    it('should filter by price range', async () => {
+    it("should filter by price range", async () => {
       // Test price filter
     });
 
-    it('should filter by difficulty', async () => {
+    it("should filter by difficulty", async () => {
       // Test difficulty filter
     });
 
-    it('should sort by price ascending', async () => {
+    it("should sort by price ascending", async () => {
       // Test sorting
     });
 
-    it('should return empty array when no results', async () => {
+    it("should return empty array when no results", async () => {
       // Test empty state
     });
   });
 
-  describe('getFeaturedTours', () => {
-    it('should return only featured tours', async () => {
+  describe("getFeaturedTours", () => {
+    it("should return only featured tours", async () => {
       // Test featured filter
     });
 
-    it('should limit results', async () => {
+    it("should limit results", async () => {
       // Test limit
     });
   });
 
-  describe('getSuggestions', () => {
-    it('should return matching tour suggestions', async () => {
+  describe("getSuggestions", () => {
+    it("should return matching tour suggestions", async () => {
       // Test tour suggestions
     });
 
-    it('should return matching destination suggestions', async () => {
+    it("should return matching destination suggestions", async () => {
       // Test destination suggestions
     });
 
-    it('should limit total suggestions', async () => {
+    it("should limit total suggestions", async () => {
       // Test limit
     });
   });
@@ -2051,7 +2122,7 @@ describe('ToursService', () => {
 **File: `apps/server/test/tours.e2e-spec.ts`**
 
 ```typescript
-describe('Tours API (e2e)', () => {
+describe("Tours API (e2e)", () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -2063,10 +2134,10 @@ describe('Tours API (e2e)', () => {
     await app.init();
   });
 
-  describe('GET /tours', () => {
-    it('should return paginated tours', () => {
+  describe("GET /tours", () => {
+    it("should return paginated tours", () => {
       return request(app.getHttpServer())
-        .get('/tours')
+        .get("/tours")
         .expect(200)
         .expect((res) => {
           expect(res.body.success).toBe(true);
@@ -2075,46 +2146,44 @@ describe('Tours API (e2e)', () => {
         });
     });
 
-    it('should filter by search query', () => {
+    it("should filter by search query", () => {
       return request(app.getHttpServer())
-        .get('/tours?search=bali')
+        .get("/tours?search=bali")
         .expect(200)
         .expect((res) => {
           expect(res.body.data.tours.length).toBeGreaterThan(0);
         });
     });
 
-    it('should filter by price range', () => {
+    it("should filter by price range", () => {
       return request(app.getHttpServer())
-        .get('/tours?priceMin=500&priceMax=1000')
+        .get("/tours?priceMin=500&priceMax=1000")
         .expect(200);
     });
 
-    it('should return 400 for invalid params', () => {
-      return request(app.getHttpServer())
-        .get('/tours?page=-1')
-        .expect(400);
+    it("should return 400 for invalid params", () => {
+      return request(app.getHttpServer()).get("/tours?page=-1").expect(400);
     });
   });
 
-  describe('GET /tours/featured', () => {
-    it('should return featured tours', () => {
+  describe("GET /tours/featured", () => {
+    it("should return featured tours", () => {
       return request(app.getHttpServer())
-        .get('/tours/featured?limit=4')
+        .get("/tours/featured?limit=4")
         .expect(200);
     });
   });
 
-  describe('GET /tours/suggestions', () => {
-    it('should return suggestions', () => {
+  describe("GET /tours/suggestions", () => {
+    it("should return suggestions", () => {
       return request(app.getHttpServer())
-        .get('/tours/suggestions?q=ba')
+        .get("/tours/suggestions?q=ba")
         .expect(200);
     });
 
-    it('should require minimum 2 characters', () => {
+    it("should require minimum 2 characters", () => {
       return request(app.getHttpServer())
-        .get('/tours/suggestions?q=a')
+        .get("/tours/suggestions?q=a")
         .expect(400);
     });
   });
@@ -2159,10 +2228,12 @@ describe('TourCard', () => {
 ### 5.1 Server-Side vs Client-Side Rendering
 
 **Option A (Chosen): Server-Side Rendering with Client Hydration**
+
 - ✅ Pros: Better SEO, faster initial load, URL shareability
 - ❌ Cons: More complex, server load
 
 **Option B: Full Client-Side Rendering**
+
 - ✅ Pros: Simpler implementation, real-time updates
 - ❌ Cons: Poor SEO, slower initial load, not shareable
 
@@ -2171,10 +2242,12 @@ describe('TourCard', () => {
 ### 5.2 Pagination vs Infinite Scroll
 
 **Option A (Chosen): Traditional Pagination with URL State**
+
 - ✅ Pros: SEO friendly, shareable URLs, predictable navigation
 - ❌ Cons: Extra clicks for user
 
 **Option B: Infinite Scroll**
+
 - ✅ Pros: Better UX on mobile, seamless browsing
 - ❌ Cons: Poor SEO, no direct linking to specific pages
 
@@ -2183,10 +2256,12 @@ describe('TourCard', () => {
 ### 5.3 Filter State Management
 
 **Option A (Chosen): URL Search Params**
+
 - ✅ Pros: Shareable, back/forward works, SSR compatible
 - ❌ Cons: URL can get long
 
 **Option B: Client State (useState/Context)**
+
 - ✅ Pros: Cleaner URLs, faster updates
 - ❌ Cons: Not shareable, lost on refresh
 
@@ -2195,14 +2270,17 @@ describe('TourCard', () => {
 ### 5.4 Caching Strategy
 
 **Option A (Chosen): ISR + Optional Redis**
+
 - ✅ Pros: Balanced approach, good performance, reduced costs
 - ❌ Cons: Slightly stale data (5min)
 
 **Option B: Real-Time (No Cache)**
+
 - ✅ Pros: Always fresh data
 - ❌ Cons: High database load, slower response
 
 **Option C: Static Generation Only**
+
 - ✅ Pros: Fastest possible
 - ❌ Cons: Requires rebuild for updates
 
@@ -2273,10 +2351,12 @@ describe('TourCard', () => {
 ### Phase 6: Testing (6 hours)
 
 Backend Tests:
+
 - [ ] Unit tests for `ToursService`
 - [ ] E2E tests for all endpoints
 
 Frontend Tests:
+
 - [ ] Component tests for `TourCard`
 - [ ] Component tests for `TourFiltersBar`
 - [ ] Component tests for `TourPagination`
@@ -2296,12 +2376,14 @@ Frontend Tests:
 ### 7.1 Existing Packages (No Installation Needed)
 
 **Backend:**
+
 - `@nestjs/common`, `@nestjs/core`, `@nestjs/platform-express`
 - `@prisma/client`, `prisma`
 - `class-validator`, `class-transformer`
 - `@nestjs/swagger` (for API documentation)
 
 **Frontend:**
+
 - `next`, `react`, `react-dom`
 - `lucide-react` (icons)
 - `tailwindcss`, `tailwind-merge`, `clsx`
@@ -2340,6 +2422,7 @@ pnpm add @nestjs/cache-manager cache-manager cache-manager-redis-store redis
 ### 8.2 Monitoring
 
 **Metrics to Track:**
+
 - API response time (P50, P95, P99)
 - Database query performance
 - Cache hit rate
@@ -2348,6 +2431,7 @@ pnpm add @nestjs/cache-manager cache-manager cache-manager-redis-store redis
 - User engagement (filters used, searches)
 
 **Tools:**
+
 - Backend: NestJS Logger, Prometheus, Grafana
 - Frontend: Vercel Analytics, Google Analytics
 - Database: PostgreSQL slow query log

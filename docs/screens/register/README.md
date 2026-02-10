@@ -11,12 +11,12 @@ The registration screen allows new users to create an account with email/passwor
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-002` |
-| Route | `/register` |
-| Access | Anonymous only |
-| Layout | Auth Layout |
+| Item      | Value          |
+| --------- | -------------- |
+| Screen ID | `SCR-002`      |
+| Route     | `/register`    |
+| Access    | Anonymous only |
+| Layout    | Auth Layout    |
 
 ## Key Features
 

@@ -1,9 +1,9 @@
-import { Metadata } from 'next';
-import { AdminLoginForm } from '@/components/auth/admin-login-form';
+import { Metadata } from "next";
+import { AdminLoginForm } from "@/components/auth/admin-login-form";
 
 export const metadata: Metadata = {
-  title: 'Admin Login | TravelCo',
-  description: 'Sign in to TravelCo admin panel',
+  title: "Admin Login | TravelCo",
+  description: "Sign in to TravelCo admin panel",
 };
 
 export default function AdminLoginPage() {

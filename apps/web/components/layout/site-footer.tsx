@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 // ─── Config: single source of truth, dễ chỉnh sửa ───
 const COMPANY_LINKS = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Blog', href: '/blog' },
+  { label: "About Us", href: "/about" },
+  { label: "Careers", href: "/careers" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 
 const SUPPORT_LINKS = [
-  { label: 'Contact Us', href: '/contact' },
-  { label: 'FAQs', href: '/faqs' },
-  { label: 'Terms of Service', href: '/terms' },
+  { label: "Contact Us", href: "/contact" },
+  { label: "FAQs", href: "/faqs" },
+  { label: "Terms of Service", href: "/terms" },
 ] as const;
 
 const SOCIAL_LINKS = [
-  { icon: 'social_leaderboard', label: 'Leaderboard', href: '#' },
-  { icon: 'photo_camera', label: 'Instagram', href: '#' },
-  { icon: 'public', label: 'Globe', href: '#' },
+  { icon: "social_leaderboard", label: "Leaderboard", href: "#" },
+  { icon: "photo_camera", label: "Instagram", href: "#" },
+  { icon: "public", label: "Globe", href: "#" },
 ] as const;
 
-const LINK_STYLE = 'hover:text-(--color-primary) transition-colors';
+const LINK_STYLE = "hover:text-(--color-primary) transition-colors";
 const COLUMN_HEADING_STYLE =
-  'font-bold text-[#111518] dark:text-white text-base mb-6';
-const COLUMN_LIST_STYLE = 'space-y-4 text-sm text-gray-600 dark:text-gray-400';
+  "font-bold text-[#111518] dark:text-white text-base mb-6";
+const COLUMN_LIST_STYLE = "space-y-4 text-sm text-gray-600 dark:text-gray-400";
 
 // ─── Sub-components: mỗi phần một trách nhiệm ───
 function FooterBrand() {
@@ -109,13 +109,10 @@ function FooterBottom() {
         aria-label="Social links"
       >
         {SOCIAL_LINKS.map(({ icon, label, href }) => (
-          <a
-            key={icon}
-            href={href}
-            className={LINK_STYLE}
-            aria-label={label}
-          >
-            <span className="material-symbols-outlined text-[22px]">{icon}</span>
+          <a key={icon} href={href} className={LINK_STYLE} aria-label={label}>
+            <span className="material-symbols-outlined text-[22px]">
+              {icon}
+            </span>
           </a>
         ))}
       </nav>

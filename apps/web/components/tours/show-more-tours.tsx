@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useTransition } from 'react';
-import { Pagination } from '@/lib/types/tour';
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
+import { Pagination } from "@/lib/types/tour";
 
 interface ShowMoreToursProps {
   pagination: Pagination;
@@ -18,10 +18,10 @@ export function ShowMoreTours({ pagination }: ShowMoreToursProps) {
 
   const goToNextPage = () => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('page', String(page + 1));
+    params.set("page", String(page + 1));
     startTransition(() => {
       router.push(`/?${params.toString()}`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   };
 

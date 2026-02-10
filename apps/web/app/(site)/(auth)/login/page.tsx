@@ -1,18 +1,14 @@
-import { Metadata } from 'next';
-import { Header } from '@/components/layout/header';
-import { LoginForm } from '@/components/auth/login-form';
+import { Metadata } from "next";
+import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata: Metadata = {
-  title: 'Login - TourBooking',
-  description: 'Sign in to your account',
+  title: "Login - TourBooking",
+  description: "Sign in to your account",
 };
 
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#101a22]">
-      {/* Header */}
-      <Header />
-
       {/* Main Content Layout */}
       <main className="flex flex-1 w-full justify-center">
         <div className="flex w-full max-w-[1280px] flex-1 gap-8 px-4 py-8 lg:px-20 lg:py-12">
@@ -58,12 +54,17 @@ export default function LoginPage() {
                       <span className="material-symbols-outlined text-yellow-400">
                         star
                       </span>
-                      <span className="text-sm font-bold">4.9 (2.5k reviews)</span>
+                      <span className="text-sm font-bold">
+                        4.9 (2.5k reviews)
+                      </span>
                     </div>
-                    <h3 className="text-2xl font-bold mb-2">Explore the Swiss Alps</h3>
+                    <h3 className="text-2xl font-bold mb-2">
+                      Explore the Swiss Alps
+                    </h3>
                     <p className="text-white/90 text-sm mb-4">
-                      Discover breathtaking views and unforgettable hiking trails in one
-                      of the world&apos;s most beautiful destinations.
+                      Discover breathtaking views and unforgettable hiking
+                      trails in one of the world&apos;s most beautiful
+                      destinations.
                     </p>
                     <div className="flex items-center gap-3 bg-black/30 backdrop-blur-md rounded-lg p-3 w-fit border border-white/20">
                       <div

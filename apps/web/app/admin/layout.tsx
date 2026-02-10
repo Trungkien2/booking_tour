@@ -1,6 +1,6 @@
-import { AdminRouteGuard } from '@/components/auth/admin-route-guard';
-import { AdminHeader } from '@/components/admin/admin-header';
-import { AdminSidebar } from '@/components/admin/admin-sidebar';
+import { AdminRouteGuard } from "@/components/auth/admin-route-guard";
+import { AdminHeader } from "@/components/admin/admin-header";
+import { AdminSidebar } from "@/components/admin/admin-sidebar";
 
 export default function AdminLayout({
   children,

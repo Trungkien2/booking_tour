@@ -11,12 +11,12 @@ The admin dashboard provides administrators with a comprehensive overview of the
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-010` |
-| Route | `/admin/dashboard` |
-| Access | ADMIN only |
-| Layout | Admin Layout (sidebar) |
+| Item      | Value                  |
+| --------- | ---------------------- |
+| Screen ID | `SCR-010`              |
+| Route     | `/admin/dashboard`     |
+| Access    | ADMIN only             |
+| Layout    | Admin Layout (sidebar) |
 
 ## Key Features
 

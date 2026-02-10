@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, type LoginFormData } from '@/lib/validations/auth';
-import { login } from '@/lib/api/auth';
-import { useAuth } from '@/lib/hooks/use-auth';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginFormData } from "@/lib/validations/auth";
+import { login } from "@/lib/api/auth";
+import { useAuth } from "@/lib/hooks/use-auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -34,8 +34,8 @@ export function AdminLoginForm() {
       const response = await login(data);
 
       // Check if user has ADMIN role
-      if (response.user.role !== 'ADMIN') {
-        setApiError('Access denied. Admin privileges required.');
+      if (response.user.role !== "ADMIN") {
+        setApiError("Access denied. Admin privileges required.");
         setIsLoading(false);
         return;
       }
@@ -48,17 +48,17 @@ export function AdminLoginForm() {
           role: response.user.role,
         },
         response.accessToken,
-        response.refreshToken
+        response.refreshToken,
       );
 
       // Redirect to admin dashboard
-      router.push('/admin/tours');
+      router.push("/admin/tours");
       router.refresh();
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);
       } else {
-        setApiError('An unexpected error occurred. Please try again.');
+        setApiError("An unexpected error occurred. Please try again.");
       }
     } finally {
       setIsLoading(false);
@@ -83,7 +83,7 @@ export function AdminLoginForm() {
             id="admin-email"
             type="email"
             placeholder="admin@travelco.com"
-            {...register('email')}
+            {...register("email")}
             className="h-12 pl-12 pr-4 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             disabled={isLoading}
           />
@@ -110,9 +110,9 @@ export function AdminLoginForm() {
           </span>
           <Input
             id="admin-password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
-            {...register('password')}
+            {...register("password")}
             className="h-12 pl-12 pr-12 rounded-xl border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
             disabled={isLoading}
           />
@@ -123,7 +123,7 @@ export function AdminLoginForm() {
             disabled={isLoading}
           >
             <span className="material-symbols-outlined text-xl">
-              {showPassword ? 'visibility_off' : 'visibility'}
+              {showPassword ? "visibility_off" : "visibility"}
             </span>
           </button>
         </div>
@@ -146,7 +146,9 @@ export function AdminLoginForm() {
               <h3 className="text-sm font-semibold text-red-800 dark:text-red-200 mb-1">
                 Authentication Failed
               </h3>
-              <p className="text-sm text-red-700 dark:text-red-300">{apiError}</p>
+              <p className="text-sm text-red-700 dark:text-red-300">
+                {apiError}
+              </p>
             </div>
           </div>
         </div>

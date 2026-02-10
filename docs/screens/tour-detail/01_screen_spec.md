@@ -2,37 +2,42 @@
 
 ## 1. Screen Overview
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-004` |
-| Screen Name | Tour Detail |
-| Route | `/tours/[slug]` |
-| Layout | Main Layout |
+| Item         | Value                          |
+| ------------ | ------------------------------ |
+| Screen ID    | `SCR-004`                      |
+| Screen Name  | Tour Detail                    |
+| Route        | `/tours/[slug]`                |
+| Layout       | Main Layout                    |
 | Access Level | Public (booking requires auth) |
 
 ## 2. Screen States
 
 ### 2.1 Loading State
+
 - Show skeleton for images
 - Show skeleton for content sections
 - Show skeleton for booking card
 
 ### 2.2 Success State
+
 - Display all tour information
 - Show available schedules
 - Enable booking functionality
 
 ### 2.3 Error State (404)
+
 - Show "Tour not found" message
 - Provide link back to tours list
 
 ### 2.4 Empty Reviews State
+
 - Show "No reviews yet" message
 - Show "Be the first to review" CTA (if eligible)
 
 ## 3. UI Components
 
 ### 3.1 Page Header
+
 ```yaml
 breadcrumb:
   - label: "Home"
@@ -52,6 +57,7 @@ actions:
 ```
 
 ### 3.2 Hero Section
+
 ```yaml
 title: "{tourName}"
 subtitle:
@@ -68,6 +74,7 @@ image_gallery:
 ```
 
 ### 3.3 Experience Highlights
+
 ```yaml
 section_title: "Experience Highlights"
 highlights:
@@ -84,6 +91,7 @@ highlights:
 ```
 
 ### 3.4 About This Tour
+
 ```yaml
 section_title: "About This Tour"
 content:
@@ -95,6 +103,7 @@ content:
 ```
 
 ### 3.5 Itinerary
+
 ```yaml
 section_title: "Itinerary"
 layout: "accordion" # or "timeline"
@@ -112,6 +121,7 @@ days:
 ```
 
 ### 3.6 What's Included
+
 ```yaml
 section_title: "What's Included"
 layout: "two_columns"
@@ -136,6 +146,7 @@ not_included:
 ```
 
 ### 3.7 Meeting Point
+
 ```yaml
 section_title: "Meeting Point"
 map:
@@ -152,6 +163,7 @@ address:
 ```
 
 ### 3.8 Booking Card (Sticky Sidebar)
+
 ```yaml
 position: "sticky"
 sticky_offset: "80px"
@@ -210,6 +222,7 @@ cta_button:
 ```
 
 ### 3.9 Reviews Section
+
 ```yaml
 section_title: "Reviews"
 summary:
@@ -248,6 +261,7 @@ review_card:
 ## 4. Actions & Events
 
 ### 4.1 Select Schedule
+
 ```yaml
 trigger: "Click on calendar date"
 action:
@@ -258,6 +272,7 @@ action:
 ```
 
 ### 4.2 Update Travelers
+
 ```yaml
 trigger: "Change traveler count (+/-)"
 validation:
@@ -269,6 +284,7 @@ action:
 ```
 
 ### 4.3 Book Now
+
 ```yaml
 trigger: "Click Book Now button"
 preconditions:

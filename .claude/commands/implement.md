@@ -5,6 +5,7 @@ Implement tasks with full business logic according to the Technical Design Docum
 **Input:** $ARGUMENTS
 
 Expected format:
+
 ```
 Task document: <task_file>.md
 Technical Design Document: <tdd_file>.md

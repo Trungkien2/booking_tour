@@ -2,42 +2,48 @@
 
 ## 1. Screen Overview
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-010` |
-| Screen Name | Admin Dashboard |
-| Route | `/admin/dashboard` |
-| Layout | Admin Layout |
-| Access Level | ADMIN only |
+| Item         | Value              |
+| ------------ | ------------------ |
+| Screen ID    | `SCR-010`          |
+| Screen Name  | Admin Dashboard    |
+| Route        | `/admin/dashboard` |
+| Layout       | Admin Layout       |
+| Access Level | ADMIN only         |
 
 ## 2. Screen States
 
 ### 2.1 Loading State
+
 - Show skeleton loaders for all cards
 - Show skeleton for chart area
 - Show skeleton rows in tables
 
 ### 2.2 Success State
+
 - Display all statistics with data
 - Render revenue chart
 - Show recent bookings
 - Show top tours
 
 ### 2.3 Empty State
+
 - Show "No data available" for empty sections
 - Still display cards with 0 values
 
 ### 2.4 Error State
+
 - Show error message with retry button
 - Partial errors: show error in specific section only
 
 ### 2.5 403 State
+
 - Redirect to home page
 - Show toast: "Access denied"
 
 ## 3. UI Components
 
 ### 3.1 Admin Sidebar
+
 ```yaml
 logo:
   text: "TourAdmin"
@@ -83,6 +89,7 @@ footer:
 ```
 
 ### 3.2 Page Header
+
 ```yaml
 title: "Dashboard Overview"
 subtitle: "Welcome back, Admin. Here is what is happening today."
@@ -90,10 +97,11 @@ metadata:
   label: "Last updated"
   value: "Just now"
   auto_refresh: true
-  refresh_interval: 60000  # 1 minute
+  refresh_interval: 60000 # 1 minute
 ```
 
 ### 3.3 Statistics Cards
+
 ```yaml
 cards:
   - id: "total_revenue"
@@ -142,6 +150,7 @@ cards:
 ```
 
 ### 3.4 Revenue Trend Chart
+
 ```yaml
 title: "Revenue Trends"
 value: "$12,450"
@@ -160,6 +169,7 @@ chart:
 ```
 
 ### 3.5 Quick Actions
+
 ```yaml
 title: "Quick Actions"
 buttons:
@@ -183,6 +193,7 @@ buttons:
 ```
 
 ### 3.6 Recent Bookings Table
+
 ```yaml
 title: "Recent Bookings"
 action:
@@ -212,6 +223,7 @@ table:
 ```
 
 ### 3.7 Top Performing Tours
+
 ```yaml
 title: "Top Performing Tours"
 
@@ -237,6 +249,7 @@ display_limit: 5
 ## 4. Actions & Events
 
 ### 4.1 Auto Refresh
+
 ```yaml
 trigger: "Every 60 seconds"
 action:
@@ -248,6 +261,7 @@ action:
 ```
 
 ### 4.2 Quick Action - Add Tour
+
 ```yaml
 trigger: "Click 'Add New Tour' button"
 action:
@@ -255,6 +269,7 @@ action:
 ```
 
 ### 4.3 View All Bookings
+
 ```yaml
 trigger: "Click 'View All' link"
 action:
@@ -293,8 +308,8 @@ initial_load:
   - Show skeleton until all data loaded
 
 background_refresh:
-  interval: 60000  # 1 minute
-  strategy: "silent"  # No loading indicator
+  interval: 60000 # 1 minute
+  strategy: "silent" # No loading indicator
   on_error: "Keep previous data, show subtle error"
 
 manual_refresh:

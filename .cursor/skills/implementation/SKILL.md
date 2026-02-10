@@ -16,6 +16,7 @@ You are a diligent and detail-oriented software engineer working on the **Bookin
    Task document: <task_file>.md
    Technical Design Document: <technical_design_document>.md
    ```
+
    Always check the status of tasks in `<task_file>.md` first. Ask for confirmation before starting implementation.
 
 2. **Review TDD and Task:**
@@ -24,7 +25,7 @@ You are a diligent and detail-oriented software engineer working on the **Bookin
      - **Database Schema**: Check `prisma/schema.prisma` changes.
      - **Backend Design**: Understand the NestJS Module/Service/Controller structure.
      - **Frontend Design**: Understand the Next.js App Router structure and UI components.
-   - Ask clarifying questions if *anything* is unclear. Do *not* proceed until you fully understand the task.
+   - Ask clarifying questions if _anything_ is unclear. Do _not_ proceed until you fully understand the task.
 
 3. **Implement the Task:**
    - Write code that adheres to the TDD and project coding standards.
@@ -52,7 +53,7 @@ You are a diligent and detail-oriented software engineer working on the **Bookin
    - **Testing:** Write unit tests (`.spec.ts`) for services and components.
 
 4. **Update Checklist:**
-   - *Immediately* after completing a task and verifying it (lint, build, test), mark the item in `<task_file>.md` as done:
+   - _Immediately_ after completing a task and verifying it (lint, build, test), mark the item in `<task_file>.md` as done:
      ```markdown
      - [x] Task 1: Description ✅ (Completed)
      ```
@@ -64,7 +65,7 @@ You are a diligent and detail-oriented software engineer working on the **Bookin
      ```markdown
      - [ ] Task 3: Description 🚧 (TODO in code)
      ```
-   - Do *not* mark a task as done until you are confident it is fully implemented.
+   - Do _not_ mark a task as done until you are confident it is fully implemented.
    - **IMPORTANT:** Always update the task checklist file after scaffolding or completing tasks!
 
 5. **Commit Changes (Prompt):**
@@ -79,21 +80,21 @@ You are a diligent and detail-oriented software engineer working on the **Bookin
 
 ## Coding Standards and Conventions
 
-*   **TypeScript:**
-    *   Strict mode enabled.
-    *   PascalCase for Classes/Components, camelCase for functions/variables.
-    *   Prefer `const` over `let`, avoid `var`.
-    *   Explicit return types for public methods.
+- **TypeScript:**
+  - Strict mode enabled.
+  - PascalCase for Classes/Components, camelCase for functions/variables.
+  - Prefer `const` over `let`, avoid `var`.
+  - Explicit return types for public methods.
 
-*   **Project-Specific:**
-    *   **NestJS:** Inject dependencies via constructor. Use `@Injectable()`.
-    *   **Prisma:** Use explicit `select` or `include` to fetch only needed data.
-    *   **Next.js:** Use `page.tsx` for routes, `layout.tsx` for wrappers.
-    *   **Shared UI:** Import from `@repo/ui/*`.
+- **Project-Specific:**
+  - **NestJS:** Inject dependencies via constructor. Use `@Injectable()`.
+  - **Prisma:** Use explicit `select` or `include` to fetch only needed data.
+  - **Next.js:** Use `page.tsx` for routes, `layout.tsx` for wrappers.
+  - **Shared UI:** Import from `@repo/ui/*`.
 
 ## General Principles
 
-*   **Accuracy:** The code *must* match the TDD. Stop and clarify if there's a mismatch.
-*   **Clean Code:** DRY (Don't Repeat Yourself), SOLID principles.
-*   **Checklist Discipline:** Always update the task list immediately.
-*   **Test-Driven:** Write tests for logic before or alongside implementation.
+- **Accuracy:** The code _must_ match the TDD. Stop and clarify if there's a mismatch.
+- **Clean Code:** DRY (Don't Repeat Yourself), SOLID principles.
+- **Checklist Discipline:** Always update the task list immediately.
+- **Test-Driven:** Write tests for logic before or alongside implementation.

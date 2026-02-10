@@ -2,16 +2,17 @@
 
 ## 1. URL Params → API Request
 
-| URL Param | API Param | Transform |
-|-----------|-----------|-----------|
-| `search` | `search` | Direct |
-| `page` | `page` | `parseInt()` |
-| `sort` | `sort` | Direct |
-| `price` | `priceMin`, `priceMax` | Split range (e.g., "500-1000") |
-| `difficulty` | `difficulty` | Direct |
-| `duration` | `duration` | Direct |
+| URL Param    | API Param              | Transform                      |
+| ------------ | ---------------------- | ------------------------------ |
+| `search`     | `search`               | Direct                         |
+| `page`       | `page`                 | `parseInt()`                   |
+| `sort`       | `sort`                 | Direct                         |
+| `price`      | `priceMin`, `priceMax` | Split range (e.g., "500-1000") |
+| `difficulty` | `difficulty`           | Direct                         |
+| `duration`   | `duration`             | Direct                         |
 
 ### Example Transform
+
 ```typescript
 // URL: /tours?search=bali&price=500-1000&page=2
 
@@ -21,7 +22,7 @@ const params = {
   priceMin: 500,
   priceMax: 1000,
   page: 2,
-  limit: 8
+  limit: 8,
 };
 ```
 
@@ -31,21 +32,22 @@ const params = {
 
 ### Tour Mapping
 
-| API Field | UI Field | Transform |
-|-----------|----------|-----------|
-| `id` | `id` | Direct |
-| `name` | `title` | Direct |
-| `slug` | `href` | `/tours/${slug}` |
-| `coverImage` | `image` | Direct (with fallback) |
-| `durationDays` | `duration` | `${value} Days` |
-| `priceAdult` | `price` | `formatCurrency()` |
-| `location` | `location` | Direct |
-| `ratingAverage` | `rating` | `toFixed(1)` |
-| `reviewCount` | `reviewCount` | `(${value} reviews)` |
-| `featured` | `badge` | If true → "Featured" |
-| `difficulty` | `difficulty` | Capitalize |
+| API Field       | UI Field      | Transform              |
+| --------------- | ------------- | ---------------------- |
+| `id`            | `id`          | Direct                 |
+| `name`          | `title`       | Direct                 |
+| `slug`          | `href`        | `/tours/${slug}`       |
+| `coverImage`    | `image`       | Direct (with fallback) |
+| `durationDays`  | `duration`    | `${value} Days`        |
+| `priceAdult`    | `price`       | `formatCurrency()`     |
+| `location`      | `location`    | Direct                 |
+| `ratingAverage` | `rating`      | `toFixed(1)`           |
+| `reviewCount`   | `reviewCount` | `(${value} reviews)`   |
+| `featured`      | `badge`       | If true → "Featured"   |
+| `difficulty`    | `difficulty`  | Capitalize             |
 
 ### Example Transform
+
 ```typescript
 // API Response
 const apiTour = {
@@ -59,7 +61,7 @@ const apiTour = {
   ratingAverage: 4.8,
   reviewCount: 124,
   featured: true,
-  difficulty: "easy"
+  difficulty: "easy",
 };
 
 // UI Card Props
@@ -75,7 +77,7 @@ const cardProps = {
   rating: "4.8",
   reviewCount: "(124 reviews)",
   badge: "Featured",
-  difficulty: "Easy"
+  difficulty: "Easy",
 };
 ```
 
@@ -83,13 +85,13 @@ const cardProps = {
 
 ## 3. Pagination Mapping
 
-| API Field | UI Component | Transform |
-|-----------|--------------|-----------|
-| `pagination.page` | Current page | Direct |
-| `pagination.totalPages` | Total pages | Direct |
-| `pagination.total` | Results count | `${total} tours found` |
-| `pagination.hasNext` | Next button | Enable/disable |
-| `pagination.hasPrev` | Prev button | Enable/disable |
+| API Field               | UI Component  | Transform              |
+| ----------------------- | ------------- | ---------------------- |
+| `pagination.page`       | Current page  | Direct                 |
+| `pagination.totalPages` | Total pages   | Direct                 |
+| `pagination.total`      | Results count | `${total} tours found` |
+| `pagination.hasNext`    | Next button   | Enable/disable         |
+| `pagination.hasPrev`    | Prev button   | Enable/disable         |
 
 ---
 
@@ -101,14 +103,14 @@ export const priceFilterOptions = [
   { label: "Under $500", value: "0-500" },
   { label: "$500 - $1,000", value: "500-1000" },
   { label: "$1,000 - $2,000", value: "1000-2000" },
-  { label: "Over $2,000", value: "2000-" }
+  { label: "Over $2,000", value: "2000-" },
 ];
 
 export const difficultyOptions = [
   { label: "All Levels", value: "" },
   { label: "Easy", value: "easy" },
   { label: "Moderate", value: "moderate" },
-  { label: "Challenging", value: "challenging" }
+  { label: "Challenging", value: "challenging" },
 ];
 
 export const sortOptions = [
@@ -116,7 +118,7 @@ export const sortOptions = [
   { label: "Newest", value: "newest" },
   { label: "Price: Low to High", value: "price_asc" },
   { label: "Price: High to Low", value: "price_desc" },
-  { label: "Top Rated", value: "rating" }
+  { label: "Top Rated", value: "rating" },
 ];
 ```
 
@@ -140,7 +142,7 @@ export interface Tour {
   location: string;
   ratingAverage: number;
   reviewCount?: number;
-  difficulty?: 'easy' | 'moderate' | 'challenging';
+  difficulty?: "easy" | "moderate" | "challenging";
   featured?: boolean;
   nextAvailableDate?: string;
 }
@@ -192,7 +194,7 @@ export interface TourCardProps {
 
 export function useTours(filters: TourFilters) {
   return useQuery({
-    queryKey: ['tours', filters],
+    queryKey: ["tours", filters],
     queryFn: () => tourService.getList(filters),
     staleTime: 5 * 60 * 1000, // 5 minutes
     placeholderData: keepPreviousData,
@@ -206,16 +208,16 @@ export function useTourFilters() {
   const router = useRouter();
 
   const filters: TourFilters = {
-    search: searchParams.get('search') || undefined,
-    page: parseInt(searchParams.get('page') || '1'),
-    sort: searchParams.get('sort') || 'popular',
-    priceMin: searchParams.get('priceMin')
-      ? parseInt(searchParams.get('priceMin')!)
+    search: searchParams.get("search") || undefined,
+    page: parseInt(searchParams.get("page") || "1"),
+    sort: searchParams.get("sort") || "popular",
+    priceMin: searchParams.get("priceMin")
+      ? parseInt(searchParams.get("priceMin")!)
       : undefined,
-    priceMax: searchParams.get('priceMax')
-      ? parseInt(searchParams.get('priceMax')!)
+    priceMax: searchParams.get("priceMax")
+      ? parseInt(searchParams.get("priceMax")!)
       : undefined,
-    difficulty: searchParams.get('difficulty') || undefined,
+    difficulty: searchParams.get("difficulty") || undefined,
   };
 
   const setFilters = (newFilters: Partial<TourFilters>) => {
@@ -223,7 +225,7 @@ export function useTourFilters() {
     const merged = { ...filters, ...newFilters, page: 1 };
 
     Object.entries(merged).forEach(([key, value]) => {
-      if (value !== undefined && value !== '') {
+      if (value !== undefined && value !== "") {
         params.set(key, String(value));
       }
     });
@@ -254,7 +256,7 @@ export const mockTours: Tour[] = [
     ratingAverage: 4.8,
     reviewCount: 124,
     difficulty: "easy",
-    featured: true
+    featured: true,
   },
   {
     id: 2,
@@ -267,7 +269,7 @@ export const mockTours: Tour[] = [
     location: "Paris, France",
     ratingAverage: 4.5,
     reviewCount: 89,
-    difficulty: "easy"
+    difficulty: "easy",
   },
   {
     id: 3,
@@ -280,8 +282,8 @@ export const mockTours: Tour[] = [
     location: "Zermatt, Switzerland",
     ratingAverage: 4.9,
     reviewCount: 67,
-    difficulty: "challenging"
-  }
+    difficulty: "challenging",
+  },
 ];
 
 export const mockPagination = {
@@ -290,7 +292,7 @@ export const mockPagination = {
   total: 42,
   totalPages: 6,
   hasNext: true,
-  hasPrev: false
+  hasPrev: false,
 };
 ```
 
@@ -306,12 +308,12 @@ export const emptyStateContent = {
   suggestions: [
     "Try adjusting your filters",
     "Search for a different destination",
-    "Clear all filters to see all tours"
+    "Clear all filters to see all tours",
   ],
   action: {
     label: "Clear Filters",
-    onClick: () => clearFilters()
-  }
+    onClick: () => clearFilters(),
+  },
 };
 
 // Error state content
@@ -320,7 +322,7 @@ export const errorStateContent = {
   description: "We couldn't load the tours. Please try again.",
   action: {
     label: "Retry",
-    onClick: () => refetch()
-  }
+    onClick: () => refetch(),
+  },
 };
 ```

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { useAuth } from '@/lib/hooks/use-auth';
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { useAuth } from "@/lib/hooks/use-auth";
 
 interface AdminRouteGuardProps {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export function AdminRouteGuard({ children }: AdminRouteGuardProps) {
   }, []);
 
   useEffect(() => {
-    if (!hasCheckedAuth || pathname === '/admin/login') {
+    if (!hasCheckedAuth || pathname === "/admin/login") {
       return;
     }
 
@@ -33,21 +33,23 @@ export function AdminRouteGuard({ children }: AdminRouteGuardProps) {
       return;
     }
 
-    if (user?.role !== 'ADMIN') {
-      router.push('/');
+    if (user?.role !== "ADMIN") {
+      router.push("/");
     }
   }, [hasCheckedAuth, pathname, isAuthenticated, user?.role, router]);
 
-  const isLoginPage = pathname === '/admin/login';
+  const isLoginPage = pathname === "/admin/login";
   const isAuthorized =
-    hasCheckedAuth && isAuthenticated() && user?.role === 'ADMIN';
+    hasCheckedAuth && isAuthenticated() && user?.role === "ADMIN";
 
   if (!isLoginPage && (!hasCheckedAuth || !isAuthorized)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-primary mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">Verifying access...</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            Verifying access...
+          </p>
         </div>
       </div>
     );

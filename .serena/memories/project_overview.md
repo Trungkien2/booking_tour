@@ -1,9 +1,11 @@
 # Booking Tour - Project Overview
 
 ## Purpose
+
 Full-stack tour booking platform (nền tảng đặt tour du lịch) with modern monorepo architecture.
 
 ## Key Features
+
 - **Tour Management**: Tour listings with details (price, duration, location), multiple images, ratings/reviews
 - **Booking System**: Schedule management with capacity tracking, optimistic locking for race conditions, multiple traveler types (adult, child, infant)
 - **Payment Integration**: Multiple payment gateways (Stripe, PayPal), refund management
@@ -12,6 +14,7 @@ Full-stack tour booking platform (nền tảng đặt tour du lịch) with moder
 ## Tech Stack
 
 ### Backend (apps/server)
+
 - **NestJS 10**: Node.js server-side framework
 - **Prisma 6**: Type-safe ORM
 - **PostgreSQL**: Relational database
@@ -19,6 +22,7 @@ Full-stack tour booking platform (nền tảng đặt tour du lịch) with moder
 - **TypeScript 5.9.2**: Programming language
 
 ### Frontend (apps/web)
+
 - **Next.js 16**: React framework with App Router
 - **React 19**: UI library
 - **Tailwind CSS 4**: Styling with cascade layers
@@ -27,12 +31,14 @@ Full-stack tour booking platform (nền tảng đặt tour du lịch) with moder
 - **TypeScript 5.9.2**: Programming language
 
 ### DevOps & Tooling
+
 - **Turborepo**: Monorepo build system
 - **pnpm 9.0.0**: Package manager
 - **Docker**: Containerization for PostgreSQL and Redis
 - **Jest**: Testing framework
 
 ## Monorepo Structure
+
 ```
 booking-tour/
 ├── apps/
@@ -53,6 +59,7 @@ booking-tour/
 ```
 
 ## Database Models (Core)
+
 - **User**: Users with roles (USER, ADMIN, GUIDE)
 - **Tour**: Tour information
 - **TourSchedule**: Departure schedules with capacity management (uses optimistic locking via `version` field)
@@ -63,6 +70,7 @@ booking-tour/
 - **Review**: Tour reviews and ratings
 
 ## Critical Domain Patterns
+
 1. **Optimistic Locking**: `TourSchedule.version` field prevents race conditions; always increment within transactions when updating capacity
 2. **Price Snapshots**: `BookingTraveler.price` stores price at booking time; never use current tour price for historical bookings
 3. **Status Flows**:
@@ -72,6 +80,7 @@ booking-tour/
 4. **Transactions**: Use database transactions for booking flow to ensure data consistency
 
 ## System Requirements
+
 - Node.js >= 18
 - pnpm >= 9.0.0
 - Docker & Docker Compose

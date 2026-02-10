@@ -11,12 +11,12 @@ Admin page for managing tours including listing, creating, editing, and deleting
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-011` |
-| Route | `/admin/tours` |
-| Access | ADMIN only |
-| Layout | Admin Layout |
+| Item      | Value          |
+| --------- | -------------- |
+| Screen ID | `SCR-011`      |
+| Route     | `/admin/tours` |
+| Access    | ADMIN only     |
+| Layout    | Admin Layout   |
 
 ## Key Features
 
@@ -31,6 +31,7 @@ Admin page for managing tours including listing, creating, editing, and deleting
 ## UI Components
 
 ### Page Header
+
 ```yaml
 title: "Tour Management"
 subtitle: "Manage listings, inventory, and pricing details."
@@ -43,6 +44,7 @@ actions:
 ```
 
 ### Statistics Cards
+
 ```yaml
 cards:
   - label: "Total Tours"
@@ -64,6 +66,7 @@ cards:
 ```
 
 ### Filters & Search
+
 ```yaml
 search:
   placeholder: "Search tours..."
@@ -80,6 +83,7 @@ tabs:
 ```
 
 ### Tours Table
+
 ```yaml
 columns:
   - id: "tour"
@@ -118,6 +122,7 @@ pagination:
 ```
 
 ### Edit Tour Panel
+
 ```yaml
 type: "side_panel" # or "modal"
 width: "500px"
@@ -180,20 +185,24 @@ footer:
 ## Actions
 
 ### Create Tour
+
 - Navigate to /admin/tours/new
 - Full page form for new tour
 
 ### Edit Tour
+
 - Open side panel with tour data
 - Save changes to API
 - Update table row
 
 ### Delete Tour
+
 - Show confirmation dialog
 - Check for active bookings
 - Soft delete or prevent if bookings exist
 
 ### Bulk Actions
+
 - Select multiple tours
 - Bulk publish/unpublish
 - Bulk delete (drafts only)

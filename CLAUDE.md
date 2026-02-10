@@ -46,12 +46,15 @@ docker-compose up -d  # Start PostgreSQL (5432) and Redis (6380)
 ## Critical Domain Patterns
 
 ### Optimistic Locking
+
 `TourSchedule.version` field prevents race conditions. Always increment within transactions when updating capacity.
 
 ### Price Snapshots
+
 `BookingTraveler.price` stores price at booking time. Never use current tour price for historical bookings.
 
 ### Status Flows
+
 - Booking: PENDING → PAID → CANCELLED/REFUNDED
 - Payment: PENDING → SUCCESS/FAILED
 - Schedule: OPEN → SOLD_OUT/CLOSED/COMPLETED
@@ -74,17 +77,18 @@ docker-compose up -d  # Start PostgreSQL (5432) and Redis (6380)
 
 Available slash commands (in `.claude/commands/`):
 
-| Command | Description |
-|---------|-------------|
-| `/tdd @<spec>` | Generate Technical Design Document from feature spec |
-| `/tasks @<tdd>` | Generate task breakdown checklist from TDD |
-| `/scaffold-be` | Scaffold NestJS backend structure (no business logic) |
-| `/scaffold-fe` | Scaffold Next.js frontend structure (no complex logic) |
-| `/implement` | Full implementation with business logic |
-| `/review @<file>` | Code review with Senior Architect perspective |
-| `/audit @<file>` | Security & performance audit |
+| Command           | Description                                            |
+| ----------------- | ------------------------------------------------------ |
+| `/tdd @<spec>`    | Generate Technical Design Document from feature spec   |
+| `/tasks @<tdd>`   | Generate task breakdown checklist from TDD             |
+| `/scaffold-be`    | Scaffold NestJS backend structure (no business logic)  |
+| `/scaffold-fe`    | Scaffold Next.js frontend structure (no complex logic) |
+| `/implement`      | Full implementation with business logic                |
+| `/review @<file>` | Code review with Senior Architect perspective          |
+| `/audit @<file>`  | Security & performance audit                           |
 
 **Workflow example:**
+
 ```
 /tdd @docs/screens/register          # Generate TDD
 /tasks @tdd-register.md              # Generate tasks
@@ -107,6 +111,7 @@ Available slash commands (in `.claude/commands/`):
 ## Environment Variables
 
 Server (`apps/server/.env`):
+
 ```
 DATABASE_URL="postgresql://admin:admin@localhost:5432/booking_tour?schema=public"
 CORS_ORIGIN=http://localhost:3000

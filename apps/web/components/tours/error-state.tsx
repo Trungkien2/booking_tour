@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw } from "lucide-react";
 
 interface ErrorStateProps {
   error?: Error | string;
@@ -12,13 +12,13 @@ interface ErrorStateProps {
 export function ErrorState({
   error,
   onRetry,
-  title = 'Something went wrong',
-  className = '',
+  title = "Something went wrong",
+  className = "",
 }: ErrorStateProps) {
   const errorMessage =
-    typeof error === 'string'
+    typeof error === "string"
       ? error
-      : error?.message || 'An unexpected error occurred. Please try again.';
+      : error?.message || "An unexpected error occurred. Please try again.";
 
   return (
     <div

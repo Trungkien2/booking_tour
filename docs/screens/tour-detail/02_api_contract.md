@@ -3,16 +3,19 @@
 ## 1. Get Tour by Slug
 
 ### Endpoint
+
 ```
 GET /tours/{slug}
 ```
 
 ### Path Parameters
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `slug` | string | Yes | Tour URL slug |
+
+| Parameter | Type   | Required | Description   |
+| --------- | ------ | -------- | ------------- |
+| `slug`    | string | Yes      | Tour URL slug |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -106,6 +109,7 @@ GET /tours/{slug}
 ```
 
 ### Error Response (404)
+
 ```json
 {
   "success": false,
@@ -121,17 +125,20 @@ GET /tours/{slug}
 ## 2. Get Tour Schedules
 
 ### Endpoint
+
 ```
 GET /tours/{tourId}/schedules
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `from` | string | No | today | Start date (ISO format) |
-| `to` | string | No | +3 months | End date (ISO format) |
+
+| Parameter | Type   | Required | Default   | Description             |
+| --------- | ------ | -------- | --------- | ----------------------- |
+| `from`    | string | No       | today     | Start date (ISO format) |
+| `to`      | string | No       | +3 months | End date (ISO format)   |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -180,18 +187,21 @@ GET /tours/{tourId}/schedules
 ## 3. Get Tour Reviews
 
 ### Endpoint
+
 ```
 GET /tours/{tourId}/reviews
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `page` | number | No | `1` | Page number |
-| `limit` | number | No | `5` | Reviews per page |
-| `sort` | string | No | `recent` | Sort order (recent, rating_desc, rating_asc) |
+
+| Parameter | Type   | Required | Default  | Description                                  |
+| --------- | ------ | -------- | -------- | -------------------------------------------- |
+| `page`    | number | No       | `1`      | Page number                                  |
+| `limit`   | number | No       | `5`      | Reviews per page                             |
+| `sort`    | string | No       | `recent` | Sort order (recent, rating_desc, rating_asc) |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -237,11 +247,13 @@ GET /tours/{tourId}/reviews
 ## 4. Check Availability
 
 ### Endpoint
+
 ```
 POST /tours/schedules/{scheduleId}/check-availability
 ```
 
 ### Request Body
+
 ```json
 {
   "adults": 2,
@@ -250,6 +262,7 @@ POST /tours/schedules/{scheduleId}/check-availability
 ```
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -278,6 +291,7 @@ POST /tours/schedules/{scheduleId}/check-availability
 ```
 
 ### Unavailable Response (200)
+
 ```json
 {
   "success": true,
@@ -295,9 +309,9 @@ POST /tours/schedules/{scheduleId}/check-availability
 
 ## 5. Error Code Reference
 
-| Code | HTTP Status | Description | UI Action |
-|------|-------------|-------------|-----------|
-| `TOUR_NOT_FOUND` | 404 | Tour doesn't exist | Show 404 page |
-| `SCHEDULE_NOT_FOUND` | 404 | Schedule doesn't exist | Show error |
-| `SCHEDULE_SOLD_OUT` | 400 | No spots available | Disable booking |
-| `INVALID_TRAVELERS` | 400 | Invalid traveler count | Show validation error |
+| Code                 | HTTP Status | Description            | UI Action             |
+| -------------------- | ----------- | ---------------------- | --------------------- |
+| `TOUR_NOT_FOUND`     | 404         | Tour doesn't exist     | Show 404 page         |
+| `SCHEDULE_NOT_FOUND` | 404         | Schedule doesn't exist | Show error            |
+| `SCHEDULE_SOLD_OUT`  | 400         | No spots available     | Disable booking       |
+| `INVALID_TRAVELERS`  | 400         | Invalid traveler count | Show validation error |

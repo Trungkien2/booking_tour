@@ -5,6 +5,7 @@ Scaffold frontend code structure for Next.js - create file structure and boilerp
 **Input:** $ARGUMENTS
 
 Expected format:
+
 ```
 Task document: <task_file>.md
 Technical Design Document: <tdd_file>.md
@@ -44,12 +45,12 @@ apps/web/
 
 ### 2. Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| File names | kebab-case | `register-form.tsx` |
-| Components | PascalCase | `RegisterForm` |
-| Functions | camelCase | `calculateStrength()` |
-| Hooks | camelCase with `use` | `useAuth()` |
+| Type       | Convention           | Example               |
+| ---------- | -------------------- | --------------------- |
+| File names | kebab-case           | `register-form.tsx`   |
+| Components | PascalCase           | `RegisterForm`        |
+| Functions  | camelCase            | `calculateStrength()` |
+| Hooks      | camelCase with `use` | `useAuth()`           |
 
 ### 3. What to Include
 
@@ -81,6 +82,7 @@ apps/web/
 ## Output
 
 After scaffolding, provide:
+
 1. **Files Created/Updated** - Table with file paths
 2. **Components** - Table with Component, Type (Server/Client), Description
 3. **Task Status** - Updated checklist items

@@ -3,6 +3,7 @@
 ## Development Workflow
 
 ### Initial Setup
+
 ```bash
 # Install dependencies
 pnpm install
@@ -20,6 +21,7 @@ pnpm dev
 ### Daily Development
 
 #### Root Level Commands
+
 ```bash
 pnpm dev              # Run all apps in development mode
 pnpm build            # Build all apps
@@ -29,6 +31,7 @@ pnpm check-types      # TypeScript type checking across all apps
 ```
 
 #### Filter to Specific App
+
 ```bash
 pnpm turbo dev --filter=server    # Run only backend (port 4000)
 pnpm turbo dev --filter=web       # Run only frontend (port 3000)
@@ -37,6 +40,7 @@ pnpm turbo lint --filter=web      # Lint only frontend
 ```
 
 ### Backend (Server) Commands
+
 ```bash
 cd apps/server
 
@@ -56,6 +60,7 @@ pnpm format           # Format with Prettier
 ```
 
 ### Prisma Commands
+
 ```bash
 cd apps/server
 
@@ -74,6 +79,7 @@ pnpm prisma db push                               # Push schema without migratio
 ```
 
 ### Frontend (Web) Commands
+
 ```bash
 cd apps/web
 
@@ -90,6 +96,7 @@ pnpm lint             # Lint with ESLint
 ```
 
 ### Docker Commands
+
 ```bash
 # Start services
 docker-compose up -d              # Start PostgreSQL (5432) and Redis (6380)
@@ -104,6 +111,7 @@ docker-compose logs redis         # View Redis logs
 ```
 
 ### NestJS CLI (Backend)
+
 ```bash
 cd apps/server
 
@@ -115,6 +123,7 @@ nest generate resource <name>     # Generate complete CRUD resource
 ```
 
 ### Git Commands (Darwin/macOS)
+
 ```bash
 # Standard git workflow
 git status                        # Check status
@@ -129,6 +138,7 @@ git diff --staged                 # View staged changes
 ```
 
 ### System Utilities (Darwin/macOS)
+
 ```bash
 # File operations
 ls -la                            # List files with details
@@ -147,6 +157,7 @@ pnpm outdated                     # Check outdated packages
 ## Task Completion Checklist
 
 After completing a coding task, run:
+
 1. `pnpm format` - Format code
 2. `pnpm lint` - Check and fix linting issues
 3. `pnpm check-types` - Verify TypeScript types

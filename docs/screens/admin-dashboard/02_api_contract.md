@@ -3,11 +3,13 @@
 ## 1. Get Dashboard Statistics
 
 ### Endpoint
+
 ```
 GET /admin/dashboard/stats
 ```
 
 ### Request Headers
+
 ```json
 {
   "Authorization": "Bearer {accessToken}"
@@ -15,11 +17,13 @@ GET /admin/dashboard/stats
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `period` | string | No | `month` | Comparison period (week, month, year) |
+
+| Parameter | Type   | Required | Default | Description                           |
+| --------- | ------ | -------- | ------- | ------------------------------------- |
+| `period`  | string | No       | `month` | Comparison period (week, month, year) |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -67,17 +71,20 @@ GET /admin/dashboard/stats
 ## 2. Get Revenue Trend
 
 ### Endpoint
+
 ```
 GET /admin/dashboard/revenue-trend
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `period` | string | No | `30d` | Time period (7d, 30d, 90d, 1y) |
-| `granularity` | string | No | `week` | Data granularity (day, week, month) |
+
+| Parameter     | Type   | Required | Default | Description                         |
+| ------------- | ------ | -------- | ------- | ----------------------------------- |
+| `period`      | string | No       | `30d`   | Time period (7d, 30d, 90d, 1y)      |
+| `granularity` | string | No       | `week`  | Data granularity (day, week, month) |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -122,16 +129,19 @@ GET /admin/dashboard/revenue-trend
 ## 3. Get Recent Bookings
 
 ### Endpoint
+
 ```
 GET /admin/dashboard/recent-bookings
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `limit` | number | No | `5` | Number of bookings to return |
+
+| Parameter | Type   | Required | Default | Description                  |
+| --------- | ------ | -------- | ------- | ---------------------------- |
+| `limit`   | number | No       | `5`     | Number of bookings to return |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -150,7 +160,7 @@ GET /admin/dashboard/recent-bookings
           "name": "Alpine Adventure"
         },
         "bookingDate": "2025-01-15",
-        "amount": 450.00,
+        "amount": 450.0,
         "currency": "USD",
         "status": "PAID"
       },
@@ -166,7 +176,7 @@ GET /admin/dashboard/recent-bookings
           "name": "Beach Paradise"
         },
         "bookingDate": "2025-01-14",
-        "amount": 680.00,
+        "amount": 680.0,
         "currency": "USD",
         "status": "PENDING"
       }
@@ -181,18 +191,21 @@ GET /admin/dashboard/recent-bookings
 ## 4. Get Top Performing Tours
 
 ### Endpoint
+
 ```
 GET /admin/dashboard/top-tours
 ```
 
 ### Query Parameters
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `limit` | number | No | `5` | Number of tours to return |
-| `period` | string | No | `month` | Time period (week, month, year) |
-| `sortBy` | string | No | `revenue` | Sort by (revenue, bookings) |
+
+| Parameter | Type   | Required | Default   | Description                     |
+| --------- | ------ | -------- | --------- | ------------------------------- |
+| `limit`   | number | No       | `5`       | Number of tours to return       |
+| `period`  | string | No       | `month`   | Time period (week, month, year) |
+| `sortBy`  | string | No       | `revenue` | Sort by (revenue, bookings)     |
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
@@ -226,22 +239,33 @@ GET /admin/dashboard/top-tours
 ## 5. Combined Dashboard Data
 
 ### Endpoint
+
 ```
 GET /admin/dashboard
 ```
 
 ### Description
+
 Returns all dashboard data in a single request for initial load optimization.
 
 ### Success Response (200)
+
 ```json
 {
   "success": true,
   "data": {
-    "stats": { /* Same as /stats response */ },
-    "revenueTrend": { /* Same as /revenue-trend response */ },
-    "recentBookings": { /* Same as /recent-bookings response */ },
-    "topTours": { /* Same as /top-tours response */ },
+    "stats": {
+      /* Same as /stats response */
+    },
+    "revenueTrend": {
+      /* Same as /revenue-trend response */
+    },
+    "recentBookings": {
+      /* Same as /recent-bookings response */
+    },
+    "topTours": {
+      /* Same as /top-tours response */
+    },
     "lastUpdated": "2025-01-15T10:30:00Z"
   }
 }
@@ -252,6 +276,7 @@ Returns all dashboard data in a single request for initial load optimization.
 ## 6. Error Responses
 
 ### 401 Unauthorized
+
 ```json
 {
   "success": false,
@@ -263,6 +288,7 @@ Returns all dashboard data in a single request for initial load optimization.
 ```
 
 ### 403 Forbidden
+
 ```json
 {
   "success": false,
@@ -277,8 +303,8 @@ Returns all dashboard data in a single request for initial load optimization.
 
 ## 7. Error Code Reference
 
-| Code | HTTP Status | Description | UI Action |
-|------|-------------|-------------|-----------|
-| `UNAUTHORIZED` | 401 | Not logged in | Redirect to login |
-| `FORBIDDEN` | 403 | Not admin role | Redirect to home |
-| `SERVER_ERROR` | 500 | Server error | Show error message |
+| Code           | HTTP Status | Description    | UI Action          |
+| -------------- | ----------- | -------------- | ------------------ |
+| `UNAUTHORIZED` | 401         | Not logged in  | Redirect to login  |
+| `FORBIDDEN`    | 403         | Not admin role | Redirect to home   |
+| `SERVER_ERROR` | 500         | Server error   | Show error message |

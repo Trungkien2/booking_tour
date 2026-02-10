@@ -68,7 +68,24 @@ describe('ToursPublicController (e2e)', () => {
   const prismaMock = {
     tour: {
       findMany: jest.fn(),
+      findUnique: jest.fn(),
       count: jest.fn(),
+    },
+    tourSchedule: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+    },
+    review: {
+      findMany: jest.fn(),
+      count: jest.fn(),
+      groupBy: jest.fn(),
+      aggregate: jest.fn(),
+    },
+    userFavorite: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
+      create: jest.fn(),
+      delete: jest.fn(),
     },
     user: {
       findUnique: jest.fn(),
@@ -142,8 +159,7 @@ describe('ToursPublicController (e2e)', () => {
 
     it('should filter by price range', async () => {
       const filteredTours = mockTours.filter(
-        (t) =>
-          Number(t.priceAdult) >= 500 && Number(t.priceAdult) <= 1000,
+        (t) => Number(t.priceAdult) >= 500 && Number(t.priceAdult) <= 1000,
       );
       prismaMock.tour.findMany.mockResolvedValue(filteredTours);
       prismaMock.tour.count.mockResolvedValue(filteredTours.length);
@@ -212,7 +228,9 @@ describe('ToursPublicController (e2e)', () => {
         .get('/tours?limit=100')
         .expect(400);
 
-      expect(response.body.message).toContain('limit must not be greater than 50');
+      expect(response.body.message).toContain(
+        'limit must not be greater than 50',
+      );
     });
   });
 
@@ -313,6 +331,130 @@ describe('ToursPublicController (e2e)', () => {
         .expect(200);
 
       expect(response.body.data.suggestions.length).toBeLessThanOrEqual(3);
+    });
+  });
+
+  describe('GET /tours/:slug', () => {
+    const mockDetailTour = {
+      id: 1,
+      name: 'Bali Island Escape',
+      slug: 'bali-island-escape',
+      summary: 'Tropical paradise',
+      description: 'Full description of the tour',
+      coverImage: 'https://example.com/bali.jpg',
+      images: ['img1.jpg', 'img2.jpg'],
+      durationDays: 7,
+      priceAdult: new Prisma.Decimal(899),
+      priceChild: new Prisma.Decimal(599),
+      location: 'Bali, Indonesia',
+      coordinates: { lat: -8.4095, lng: 115.1889 },
+      ratingAverage: new Prisma.Decimal(4.9),
+      reviewCount: 42,
+      difficulty: 'EASY',
+      maxGroupSize: 12,
+      highlights: [{ icon: 'beach', label: 'Beach' }],
+      itinerary: [{ day: 1, title: 'Day 1', description: 'Arrive in Bali' }],
+      included: ['Hotel', 'Transport'],
+      notIncluded: ['Flights', 'Insurance'],
+      meetingPoint: {
+        name: 'Airport',
+        address: 'Bali Airport',
+        coordinates: { lat: -8.4095, lng: 115.1889 },
+        instructions: 'Meet at gate',
+      },
+      cancellationPolicy: 'Free cancellation 48h before',
+      status: 'PUBLISHED',
+      deletedAt: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    it('should return tour detail for valid slug', async () => {
+      prismaMock.tour.findUnique.mockResolvedValue(mockDetailTour);
+
+      const response = await request(app.getHttpServer())
+        .get('/tours/bali-island-escape')
+        .expect(200);
+
+      expect(response.body.name).toBe('Bali Island Escape');
+      expect(response.body.slug).toBe('bali-island-escape');
+      expect(response.body.priceAdult).toBe(899);
+      expect(response.body.highlights).toHaveLength(1);
+      expect(response.body.itinerary).toHaveLength(1);
+    });
+
+    it('should return 404 for non-existent slug', async () => {
+      prismaMock.tour.findUnique.mockResolvedValue(null);
+
+      await request(app.getHttpServer())
+        .get('/tours/nonexistent-tour')
+        .expect(404);
+    });
+  });
+
+  describe('POST /tours/schedules/:scheduleId/check-availability', () => {
+    it('should check availability correctly', async () => {
+      prismaMock.tourSchedule.findUnique.mockResolvedValue({
+        id: 1,
+        maxCapacity: 20,
+        currentCapacity: 5,
+        status: 'OPEN',
+        tour: {
+          priceAdult: new Prisma.Decimal(100),
+          priceChild: new Prisma.Decimal(50),
+        },
+      });
+
+      const response = await request(app.getHttpServer())
+        .post('/tours/schedules/1/check-availability')
+        .send({ adults: 2, children: 1 })
+        .expect(200);
+
+      expect(response.body.available).toBe(true);
+      expect(response.body.priceBreakdown).toBeDefined();
+      expect(response.body.priceBreakdown.total).toBeDefined();
+    });
+
+    it('should validate traveler counts', async () => {
+      await request(app.getHttpServer())
+        .post('/tours/schedules/1/check-availability')
+        .send({ adults: 0, children: 0 })
+        .expect(400);
+    });
+
+    it('should return 404 for non-existent schedule', async () => {
+      prismaMock.tourSchedule.findUnique.mockResolvedValue(null);
+
+      await request(app.getHttpServer())
+        .post('/tours/schedules/999/check-availability')
+        .send({ adults: 1, children: 0 })
+        .expect(404);
+    });
+  });
+
+  describe('GET /tours/:tourId/reviews', () => {
+    it('should return reviews with pagination', async () => {
+      prismaMock.review.findMany.mockResolvedValue([
+        {
+          id: 1,
+          rating: 5,
+          comment: 'Great!',
+          helpful: 3,
+          createdAt: new Date(),
+          user: { id: 1, fullName: 'Jane', avatarUrl: null },
+        },
+      ]);
+      prismaMock.review.count.mockResolvedValue(1);
+      prismaMock.review.groupBy.mockResolvedValue([{ rating: 5, _count: 1 }]);
+      prismaMock.review.aggregate.mockResolvedValue({ _avg: { rating: 5 } });
+
+      const response = await request(app.getHttpServer())
+        .get('/tours/1/reviews')
+        .expect(200);
+
+      expect(response.body.summary).toBeDefined();
+      expect(response.body.reviews).toHaveLength(1);
+      expect(response.body.pagination).toBeDefined();
     });
   });
 });

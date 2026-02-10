@@ -51,23 +51,25 @@ apps/web/
 
 ### 2. Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| File names | kebab-case | `register-form.tsx` |
-| Components | PascalCase | `RegisterForm`, `PasswordStrength` |
-| Functions | camelCase | `calculateStrength()` |
-| Hooks | camelCase with `use` | `useAuth()` |
-| Types/Interfaces | PascalCase | `RegisterFormData` |
+| Type             | Convention           | Example                            |
+| ---------------- | -------------------- | ---------------------------------- |
+| File names       | kebab-case           | `register-form.tsx`                |
+| Components       | PascalCase           | `RegisterForm`, `PasswordStrength` |
+| Functions        | camelCase            | `calculateStrength()`              |
+| Hooks            | camelCase with `use` | `useAuth()`                        |
+| Types/Interfaces | PascalCase           | `RegisterFormData`                 |
 
 ### 3. What to Include
 
 **Page (`page.tsx`):**
+
 - Metadata (title, description)
 - Server Component by default
 - Import and render main component
 - Basic layout structure
 
 **Components:**
+
 - `'use client'` directive if needed
 - Props interface
 - Basic JSX structure from TDD
@@ -75,11 +77,13 @@ apps/web/
 - Import UI components from `@repo/ui` or `@/components/ui`
 
 **Validation Schema (`lib/validations/`):**
+
 - Zod schemas with all fields
 - Validation rules matching TDD
 - Export types
 
 **API Functions (`lib/api/`):**
+
 - Interface definitions
 - Function signatures
 - Basic fetch implementation
@@ -96,13 +100,14 @@ apps/web/
 ### 5. Code Templates
 
 **Page Template:**
+
 ```tsx
-import { Metadata } from 'next';
-import { ComponentName } from '@/components/feature/component-name';
+import { Metadata } from "next";
+import { ComponentName } from "@/components/feature/component-name";
 
 export const metadata: Metadata = {
-  title: '[Title] | TourBooker',
-  description: '[Description]',
+  title: "[Title] | TourBooker",
+  description: "[Description]",
 };
 
 export default function PageName() {
@@ -122,21 +127,22 @@ export default function PageName() {
 ```
 
 **Client Component Template:**
-```tsx
-'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { schema, type FormData } from '@/lib/validations/feature';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+```tsx
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { schema, type FormData } from "@/lib/validations/feature";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface ComponentProps {
   // Props definition
 }
 
-export function ComponentName({ }: ComponentProps) {
+export function ComponentName({}: ComponentProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -151,31 +157,29 @@ export function ComponentName({ }: ComponentProps) {
     // TODO: Implement submit logic
   };
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Form fields */}
-    </form>
-  );
+  return <form onSubmit={handleSubmit(onSubmit)}>{/* Form fields */}</form>;
 }
 ```
 
 **Validation Schema Template:**
+
 ```typescript
-import { z } from 'zod';
+import { z } from "zod";
 
 export const featureSchema = z.object({
   fieldName: z
     .string()
-    .min(1, 'Field is required')
-    .min(2, 'Must be at least 2 characters'),
+    .min(1, "Field is required")
+    .min(2, "Must be at least 2 characters"),
 });
 
 export type FeatureFormData = z.infer<typeof featureSchema>;
 ```
 
 **API Function Template:**
+
 ```typescript
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export interface RequestType {
   field: string;
@@ -187,14 +191,14 @@ export interface ResponseType {
 
 export async function apiFunction(data: RequestType): Promise<ResponseType> {
   const response = await fetch(`${API_URL}/endpoint`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Request failed');
+    throw new Error(error.message || "Request failed");
   }
 
   return response.json();
@@ -203,11 +207,11 @@ export async function apiFunction(data: RequestType): Promise<ResponseType> {
 
 ### 6. Component Categories
 
-| Type | Directive | Use Case |
-|------|-----------|----------|
-| Server Component | (none) | Static pages, data fetching |
-| Client Component | `'use client'` | Forms, interactivity, hooks |
-| Shared UI | Import from `@/components/ui` | Button, Input, etc. |
+| Type             | Directive                     | Use Case                    |
+| ---------------- | ----------------------------- | --------------------------- |
+| Server Component | (none)                        | Static pages, data fetching |
+| Client Component | `'use client'`                | Forms, interactivity, hooks |
+| Shared UI        | Import from `@/components/ui` | Button, Input, etc.         |
 
 ## Workflow
 

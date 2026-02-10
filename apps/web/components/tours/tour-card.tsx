@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Tour } from '@/lib/types/tour';
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Tour } from "@/lib/types/tour";
 import {
   formatCurrency,
   formatRating,
   formatDuration,
-} from '@/lib/utils/format';
+} from "@/lib/utils/format";
 
 // Padding card (px) — đổi số này để chỉnh khoảng cách mép
 const CARD_PADDING_PX = 16;
@@ -21,8 +21,8 @@ interface TourCardProps {
 export function TourCard({ tour, priority = false }: TourCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const priceStr = formatCurrency(tour.priceAdult);
-  const priceNumber = priceStr.replace(/^[^\d]*/, '');
-  const priceSymbol = priceStr.startsWith('$') ? '$' : priceStr.slice(0, 1);
+  const priceNumber = priceStr.replace(/^[^\d]*/, "");
+  const priceSymbol = priceStr.startsWith("$") ? "$" : priceStr.slice(0, 1);
   const tourHref = `/tours/${tour.slug}`;
 
   return (
@@ -38,7 +38,11 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
         className="flex flex-col grow min-w-0 box-border w-full"
         style={{ padding: `${CARD_PADDING_PX}px` }}
       >
-        <CardHeader name={tour.name} href={tourHref} rating={tour.ratingAverage} />
+        <CardHeader
+          name={tour.name}
+          href={tourHref}
+          rating={tour.ratingAverage}
+        />
 
         <CardMeta durationDays={tour.durationDays} location={tour.location} />
 
@@ -56,10 +60,10 @@ export function TourCard({ tour, priority = false }: TourCardProps) {
 
 // ─── Styles (sửa ở đây cho cả card) ───
 const cardRootClass =
-  'group flex flex-col rounded-2xl bg-white dark:bg-gray-800 overflow-hidden ' +
-  'shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.25)] ' +
-  'hover:shadow-[0_8px_28px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_8px_28px_rgba(0,0,0,0.35)] ' +
-  'border border-gray-100/80 dark:border-gray-700 hover:-translate-y-0.5 transition-all duration-300';
+  "group flex flex-col rounded-2xl bg-white dark:bg-gray-800 overflow-hidden " +
+  "shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.25)] " +
+  "hover:shadow-[0_8px_28px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_8px_28px_rgba(0,0,0,0.35)] " +
+  "border border-gray-100/80 dark:border-gray-700 hover:-translate-y-0.5 transition-all duration-300";
 
 // ─── 1. Ảnh + nút yêu thích ───
 function CardImage({
@@ -79,7 +83,7 @@ function CardImage({
       className="relative w-full aspect-4/3 overflow-hidden rounded-t-2xl block"
     >
       <Image
-        src={tour.coverImage || '/images/placeholder-tour.jpg'}
+        src={tour.coverImage || "/images/placeholder-tour.jpg"}
         alt={tour.name}
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -91,17 +95,17 @@ function CardImage({
         className="absolute top-3 right-3 z-10 w-10 h-10 flex items-center justify-center rounded-full shadow-sm cursor-pointer transition-colors border-0"
         style={{
           backgroundColor: isFavorite
-            ? 'rgba(229, 231, 235, 0.95)'
-            : 'rgba(224, 242, 254, 0.95)',
+            ? "rgba(229, 231, 235, 0.95)"
+            : "rgba(224, 242, 254, 0.95)",
         }}
-        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         onClick={(e) => {
           e.preventDefault();
           onFavoriteToggle();
         }}
       >
         <span
-          className={`material-symbols-outlined text-[22px] ${isFavorite ? 'text-red-500 fill-red-500' : 'text-gray-400'}`}
+          className={`material-symbols-outlined text-[22px] ${isFavorite ? "text-red-500 fill-red-500" : "text-gray-400"}`}
           style={isFavorite ? { fontVariationSettings: '"FILL" 1' } : undefined}
           aria-hidden
         >
@@ -136,7 +140,9 @@ function CardHeader({
         >
           star
         </span>
-        <span className="text-sm font-bold tabular-nums">{formatRating(rating)}</span>
+        <span className="text-sm font-bold tabular-nums">
+          {formatRating(rating)}
+        </span>
       </div>
     </div>
   );
@@ -152,7 +158,9 @@ function CardMeta({
 }) {
   return (
     <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm mb-3">
-      <span className="material-symbols-outlined text-[16px] shrink-0">schedule</span>
+      <span className="material-symbols-outlined text-[16px] shrink-0">
+        schedule
+      </span>
       <span>{formatDuration(durationDays)}</span>
       {location && (
         <>
@@ -198,7 +206,9 @@ function CardFooter({
           Starting from
         </span>
         <span className="text-(--color-primary) tabular-nums">
-          <span className="text-base font-semibold align-top">{priceSymbol}</span>
+          <span className="text-base font-semibold align-top">
+            {priceSymbol}
+          </span>
           <span className="text-xl font-bold">{priceNumber}</span>
         </span>
       </div>
@@ -209,13 +219,13 @@ function CardFooter({
 
 // ─── Nút Book Now (style tập trung 1 chỗ) ───
 const bookNowWrapperClass =
-  'shrink-0 min-h-11 inline-flex rounded-full shadow-sm hover:shadow-md w-[90px] ' +
-  'bg-(--color-primary) hover:bg-[#0d7bc7] active:scale-[0.98] overflow-hidden ' +
-  'focus-within:ring-2 focus-within:ring-(--color-primary) focus-within:ring-offset-2 transition-all duration-200';
+  "shrink-0 min-h-11 inline-flex rounded-full shadow-sm hover:shadow-md w-[90px] " +
+  "bg-(--color-primary) hover:bg-[#0d7bc7] active:scale-[0.98] overflow-hidden " +
+  "focus-within:ring-2 focus-within:ring-(--color-primary) focus-within:ring-offset-2 transition-all duration-200";
 
 const bookNowLinkClass =
-  'inline-flex items-center justify-center min-h-11 py-2.5 px-5 w-[90px] ' +
-  'text-white text-sm font-semibold tracking-wide no-underline focus:outline-none rounded-full whitespace-nowrap';
+  "inline-flex items-center justify-center min-h-11 py-2.5 px-5 w-[90px] " +
+  "text-white text-sm font-semibold tracking-wide no-underline focus:outline-none rounded-full whitespace-nowrap";
 
 function BookNowButton({ href }: { href: string }) {
   return (

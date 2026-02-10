@@ -3,6 +3,7 @@
 ## Feature: User Login
 
 ### Scenario 1: Successful login with valid credentials
+
 ```gherkin
 Given I am on the login page
 And I am not authenticated
@@ -16,6 +17,7 @@ And my session should be stored
 ```
 
 ### Scenario 2: Login fails with invalid email format
+
 ```gherkin
 Given I am on the login page
 When I enter "invalid-email" in the email field
@@ -26,6 +28,7 @@ And the "Sign In" button should be disabled
 ```
 
 ### Scenario 3: Login fails with wrong password
+
 ```gherkin
 Given I am on the login page
 When I enter "user@example.com" in the email field
@@ -37,6 +40,7 @@ And the email field should retain its value
 ```
 
 ### Scenario 4: Login fails with empty fields
+
 ```gherkin
 Given I am on the login page
 When I click the "Sign In" button without entering any data
@@ -45,6 +49,7 @@ And I should see an error message "Password is required" for the password field
 ```
 
 ### Scenario 5: Login with Google
+
 ```gherkin
 Given I am on the login page
 When I click the "Continue with Google" button
@@ -56,6 +61,7 @@ And I should be redirected to the home page
 ```
 
 ### Scenario 6: Login with Apple
+
 ```gherkin
 Given I am on the login page
 When I click the "Continue with Apple" button
@@ -66,6 +72,7 @@ And I should be logged in
 ```
 
 ### Scenario 7: Navigate to forgot password
+
 ```gherkin
 Given I am on the login page
 When I click the "Forgot Password?" link
@@ -73,6 +80,7 @@ Then I should be navigated to "/forgot-password"
 ```
 
 ### Scenario 8: Navigate to registration
+
 ```gherkin
 Given I am on the login page
 When I click the "Sign Up" link
@@ -80,6 +88,7 @@ Then I should be navigated to "/register"
 ```
 
 ### Scenario 9: Already authenticated user visits login
+
 ```gherkin
 Given I am already logged in
 When I navigate to the login page
@@ -87,6 +96,7 @@ Then I should be redirected to the home page
 ```
 
 ### Scenario 10: Account is disabled
+
 ```gherkin
 Given I am on the login page
 And my account has been disabled
@@ -97,6 +107,7 @@ And I should remain on the login page
 ```
 
 ### Scenario 11: Rate limiting
+
 ```gherkin
 Given I am on the login page
 When I attempt to login 5 times with wrong credentials
@@ -105,6 +116,7 @@ And the "Sign In" button should be disabled for 60 seconds
 ```
 
 ### Scenario 12: Responsive - Mobile view
+
 ```gherkin
 Given I am viewing the login page on a mobile device (width < 768px)
 Then I should only see the login form
@@ -113,6 +125,7 @@ And the form should be full width
 ```
 
 ### Scenario 13: Form validation on blur
+
 ```gherkin
 Given I am on the login page
 When I enter "test" in the email field
@@ -121,6 +134,7 @@ Then I should see an error message "Please enter a valid email"
 ```
 
 ### Scenario 14: Password visibility toggle
+
 ```gherkin
 Given I am on the login page
 When I enter "password123" in the password field

@@ -1,34 +1,34 @@
-import { Suspense } from 'react';
-import Link from 'next/link';
-import { Metadata } from 'next';
-import { getTours } from '@/lib/api/tours';
-import { TourFilters } from '@/lib/types/tour';
-import { HeroSection } from '@/components/tours/hero-section';
+import { Suspense } from "react";
+import Link from "next/link";
+import { Metadata } from "next";
+import { getTours } from "@/lib/api/tours";
+import { TourFilters } from "@/lib/types/tour";
+import { HeroSection } from "@/components/tours/hero-section";
 import {
   TourGrid,
   TourFiltersBar,
   TourGridSkeleton,
   EmptyState,
   ShowMoreTours,
-} from '@/components/tours';
+} from "@/components/tours";
 
 export const metadata: Metadata = {
-  title: 'Discover Your Next Adventure | TravelCo',
+  title: "Discover Your Next Adventure | TravelCo",
   description:
     "Explore the world's most beautiful destinations with our curated tours. Hand-picked for your next holiday.",
-  keywords: ['tours', 'travel', 'vacation', 'adventure', 'destinations'],
+  keywords: ["tours", "travel", "vacation", "adventure", "destinations"],
   openGraph: {
-    title: 'Discover Your Next Adventure | TravelCo',
+    title: "Discover Your Next Adventure | TravelCo",
     description:
       "Explore the world's most beautiful destinations with our curated tours.",
-    images: ['/og-tours.jpg'],
-    type: 'website',
+    images: ["/og-tours.jpg"],
+    type: "website",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Discover Your Next Adventure | TravelCo',
+    card: "summary_large_image",
+    title: "Discover Your Next Adventure | TravelCo",
     description: "Explore the world's most beautiful destinations.",
-    images: ['/og-tours.jpg'],
+    images: ["/og-tours.jpg"],
   },
 };
 
@@ -50,10 +50,10 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const filters: TourFilters = {
     search: params.search,
     page: params.page ? parseInt(params.page, 10) : 1,
-    sort: params.sort as TourFilters['sort'],
+    sort: params.sort as TourFilters["sort"],
     priceMin: params.priceMin ? parseInt(params.priceMin, 10) : undefined,
     priceMax: params.priceMax ? parseInt(params.priceMax, 10) : undefined,
-    difficulty: params.difficulty as TourFilters['difficulty'],
+    difficulty: params.difficulty as TourFilters["difficulty"],
     duration: params.duration,
     limit: 8,
   };
@@ -104,7 +104,7 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
       </div>
     );
   } catch (error) {
-    console.error('Error loading tours:', error);
+    console.error("Error loading tours:", error);
     return <ToursErrorState />;
   }
 }

@@ -11,12 +11,12 @@ Loading/processing page shown while the booking is being finalized after payment
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-006` |
-| Route | `/bookings/processing` |
-| Access | Authenticated |
-| Layout | Minimal Layout (no navigation) |
+| Item      | Value                          |
+| --------- | ------------------------------ |
+| Screen ID | `SCR-006`                      |
+| Route     | `/bookings/processing`         |
+| Access    | Authenticated                  |
+| Layout    | Minimal Layout (no navigation) |
 
 ## Key Features
 
@@ -29,30 +29,36 @@ Loading/processing page shown while the booking is being finalized after payment
 ## UI Components
 
 ### Processing Card
+
 - Animated spinner/loader icon
 - "Finalizing your adventure" title
 - Subtitle: "Hang tight! We are securing your spots with the local operator. This usually takes less than a minute."
 
 ### Progress Bar
+
 - Animated progress bar (e.g., 75%)
 - Current step label (e.g., "Confirming availability...")
 
 ### Step Checklist
+
 1. Payment Verified ✓ (completed)
 2. Reserving Spots ○ (in progress, animated)
 3. Generating Tickets (pending, grayed out)
 
 ### Warning Banner
+
 - Yellow background
 - Warning icon
 - "Please do not close this window or refresh the page to avoid interrupting the booking process."
 
 ### Footer Links
+
 - Need help? • Contact Support
 
 ## States
 
 ### Processing Steps
+
 ```yaml
 steps:
   - id: payment_verified
@@ -69,9 +75,11 @@ steps:
 ```
 
 ### Success Flow
+
 - All steps complete → Redirect to confirmation page
 
 ### Error Flow
+
 - Show error message
 - Provide retry or contact support options
 

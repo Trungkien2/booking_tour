@@ -20,7 +20,7 @@ You are an expert project manager and software architect. Break down the TDD int
    - **Frontend (Next.js)**: API integration, UI components, Pages/Routes
    - **Testing**: Unit tests, E2E tests
 
-4. **Completeness:** Ensure *every* requirement in the TDD maps to at least one task.
+4. **Completeness:** Ensure _every_ requirement in the TDD maps to at least one task.
 
 5. **Checklist Format:**
 
@@ -28,13 +28,16 @@ You are an expert project manager and software architect. Break down the TDD int
 ## Task Checklist: [Feature Name]
 
 **Phase 1: Database & Backend**
+
 - [ ] Task 1.1: [DB] Update schema.prisma for `[ModelName]`
 - [ ] Task 1.2: [BE] Create/Update `[Name]Module` and `[Name]Controller`
 
 **Phase 2: Frontend**
+
 - [ ] Task 2.1: [FE] Create `[ComponentName]` UI component
 
 **Phase 3: Testing & Integration**
+
 - [ ] Task 3.1: [TEST] Write unit tests for `[ServiceName]`
 ```
 

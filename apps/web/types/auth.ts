@@ -1,7 +1,7 @@
 export interface User {
   id: number;
   email: string;
-  role: 'USER' | 'ADMIN';
+  role: "USER" | "ADMIN";
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -24,5 +24,5 @@ export interface LoginResponse {
 
 export interface SocialLoginRequest {
   idToken: string;
-  provider: 'google' | 'apple';
+  provider: "google" | "apple";
 }

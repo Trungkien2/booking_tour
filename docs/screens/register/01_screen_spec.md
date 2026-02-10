@@ -2,41 +2,47 @@
 
 ## 1. Screen Overview
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-002` |
-| Screen Name | Registration |
-| Route | `/register` |
-| Layout | Auth Layout |
+| Item         | Value          |
+| ------------ | -------------- |
+| Screen ID    | `SCR-002`      |
+| Screen Name  | Registration   |
+| Route        | `/register`    |
+| Layout       | Auth Layout    |
 | Access Level | Anonymous only |
 
 ## 2. Screen States
 
 ### 2.1 Default State
+
 - Display registration form with empty fields
 - Register button disabled until form is valid
 - Password strength indicator hidden
 
 ### 2.2 Loading State
+
 - Show spinner on Register button
 - Disable all form inputs
 - Disable social buttons
 
 ### 2.3 Success State
+
 - Show success message
 - Redirect to login page OR auto-login
 
 ### 2.4 Error State
+
 - Display error message
 - Highlight invalid fields
 - Keep form values
 
 ### 2.5 403 State
+
 - N/A (public page)
 
 ## 3. UI Components
 
 ### 3.1 Header
+
 ```yaml
 logo:
   text: "TourBooker"
@@ -56,6 +62,7 @@ navigation:
 ```
 
 ### 3.2 Hero Section (Left Side)
+
 ```yaml
 background_image: "road-mountains.jpg"
 quote:
@@ -67,6 +74,7 @@ badge:
 ```
 
 ### 3.3 Registration Form
+
 ```yaml
 title: "Create your account"
 subtitle: "Join us to discover and book exclusive tours around the world."
@@ -180,6 +188,7 @@ social_buttons:
 ## 4. Actions & Events
 
 ### 4.1 Form Submit
+
 ```yaml
 trigger: "Click Register button"
 validation:
@@ -194,6 +203,7 @@ action:
 ```
 
 ### 4.2 Password Strength Check
+
 ```yaml
 trigger: "On password input change"
 action:
@@ -203,6 +213,7 @@ action:
 ```
 
 ### 4.3 Country Selection
+
 ```yaml
 trigger: "Select country from dropdown"
 action:

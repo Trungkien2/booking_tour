@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export function EmptyState() {
   const router = useRouter();
@@ -46,7 +46,7 @@ export function EmptyState() {
 
       {/* Clear Filters Button */}
       <button
-        onClick={() => router.push('/')}
+        onClick={() => router.push("/")}
         className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
       >
         Clear All Filters

@@ -1,7 +1,7 @@
-import { Suspense } from 'react';
-import { Metadata } from 'next';
-import { getTours } from '@/lib/api/tours';
-import { TourFilters } from '@/lib/types/tour';
+import { Suspense } from "react";
+import { Metadata } from "next";
+import { getTours } from "@/lib/api/tours";
+import { TourFilters } from "@/lib/types/tour";
 import {
   TourGrid,
   TourFiltersBar,
@@ -10,25 +10,25 @@ import {
   TourSearch,
   EmptyState,
   ErrorState,
-} from '@/components/tours';
+} from "@/components/tours";
 
 export const metadata: Metadata = {
-  title: 'Browse All Tours | TourBooking',
+  title: "Browse All Tours | TourBooking",
   description:
-    'Browse our complete collection of tours. Filter by price, difficulty, duration, and more to find your perfect adventure.',
+    "Browse our complete collection of tours. Filter by price, difficulty, duration, and more to find your perfect adventure.",
   keywords: [
-    'tours',
-    'travel',
-    'vacation',
-    'adventure',
-    'destinations',
-    'browse tours',
+    "tours",
+    "travel",
+    "vacation",
+    "adventure",
+    "destinations",
+    "browse tours",
   ],
   openGraph: {
-    title: 'Browse All Tours | TourBooking',
-    description: 'Browse our complete collection of tours.',
-    images: ['/og-tours.jpg'],
-    type: 'website',
+    title: "Browse All Tours | TourBooking",
+    description: "Browse our complete collection of tours.",
+    images: ["/og-tours.jpg"],
+    type: "website",
   },
 };
 
@@ -52,10 +52,10 @@ export default async function ToursPage({ searchParams }: ToursPageProps) {
   const filters: TourFilters = {
     search: params.search,
     page: params.page ? parseInt(params.page, 10) : 1,
-    sort: params.sort as TourFilters['sort'],
+    sort: params.sort as TourFilters["sort"],
     priceMin: params.priceMin ? parseInt(params.priceMin, 10) : undefined,
     priceMax: params.priceMax ? parseInt(params.priceMax, 10) : undefined,
-    difficulty: params.difficulty as TourFilters['difficulty'],
+    difficulty: params.difficulty as TourFilters["difficulty"],
     location: params.location,
     duration: params.duration,
     limit: 12,
@@ -117,7 +117,7 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
         {/* Results Count */}
         <div className="mb-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Showing <span className="font-semibold">{tours.length}</span> of{' '}
+            Showing <span className="font-semibold">{tours.length}</span> of{" "}
             <span className="font-semibold">{pagination.total}</span> tours
           </p>
         </div>
@@ -134,10 +134,10 @@ async function ToursContent({ filters }: { filters: TourFilters }) {
       </>
     );
   } catch (error) {
-    console.error('Error loading tours:', error);
+    console.error("Error loading tours:", error);
     return (
       <ErrorState
-        error={error instanceof Error ? error : 'Failed to load tours'}
+        error={error instanceof Error ? error : "Failed to load tours"}
         title="Unable to load tours"
       />
     );

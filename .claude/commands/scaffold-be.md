@@ -5,6 +5,7 @@ Scaffold backend code structure for NestJS - create file structure and boilerpla
 **Input:** $ARGUMENTS
 
 Expected format:
+
 ```
 Task document: <task_file>.md
 Technical Design Document: <tdd_file>.md
@@ -37,11 +38,11 @@ apps/server/src/modules/<feature>/
 
 ### 2. Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| File names | kebab-case | `register-response.dto.ts` |
-| Classes | PascalCase | `RegisterDto`, `AuthService` |
-| Methods | camelCase | `checkEmailAvailability()` |
+| Type       | Convention | Example                      |
+| ---------- | ---------- | ---------------------------- |
+| File names | kebab-case | `register-response.dto.ts`   |
+| Classes    | PascalCase | `RegisterDto`, `AuthService` |
+| Methods    | camelCase  | `checkEmailAvailability()`   |
 
 ### 3. What to Include
 
@@ -73,6 +74,7 @@ apps/server/src/modules/<feature>/
 ## Output
 
 After scaffolding, provide:
+
 1. **Files Created/Updated** - Table with file paths and descriptions
 2. **API Endpoints** - Table with Method, Path, Description
 3. **Task Status** - Updated checklist items

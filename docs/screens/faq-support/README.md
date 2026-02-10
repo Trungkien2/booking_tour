@@ -11,12 +11,12 @@ Help center page with frequently asked questions organized by topic and multiple
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-016` |
-| Route | `/faq` or `/support` |
-| Access | Public |
-| Layout | Main Layout |
+| Item      | Value                |
+| --------- | -------------------- |
+| Screen ID | `SCR-016`            |
+| Route     | `/faq` or `/support` |
+| Access    | Public               |
+| Layout    | Main Layout          |
 
 ## Key Features
 
@@ -29,6 +29,7 @@ Help center page with frequently asked questions organized by topic and multiple
 ## UI Components
 
 ### Hero Section
+
 ```yaml
 background:
   type: "gradient"
@@ -50,6 +51,7 @@ quick_links:
 ```
 
 ### Browse by Topic
+
 ```yaml
 title: "Browse by Topic"
 
@@ -82,6 +84,7 @@ layout: "4-column grid"
 ```
 
 ### FAQ Accordion
+
 ```yaml
 title: "Frequently Asked Questions"
 
@@ -108,6 +111,7 @@ show_more:
 ```
 
 ### Still Need Help Section
+
 ```yaml
 title: "Can't find what you're looking for?"
 subtitle: "Our customer support team is available 24/7 to help you."
@@ -141,6 +145,7 @@ layout: "3-column grid"
 ```
 
 ### Footer Section
+
 ```yaml
 columns:
   brand:
@@ -179,6 +184,7 @@ columns:
 ## Search Functionality
 
 ### Search Behavior
+
 ```yaml
 trigger: "Type in search box"
 debounce: 300ms

@@ -11,12 +11,12 @@ User profile management page allowing users to view and edit their personal info
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-007` |
-| Route | `/profile` |
-| Access | Authenticated (USER, ADMIN, GUIDE) |
-| Layout | Main Layout with Profile Sidebar |
+| Item      | Value                              |
+| --------- | ---------------------------------- |
+| Screen ID | `SCR-007`                          |
+| Route     | `/profile`                         |
+| Access    | Authenticated (USER, ADMIN, GUIDE) |
+| Layout    | Main Layout with Profile Sidebar   |
 
 ## Key Features
 
@@ -31,6 +31,7 @@ User profile management page allowing users to view and edit their personal info
 ## UI Components
 
 ### Profile Sidebar
+
 ```yaml
 user_info:
   avatar: true
@@ -64,6 +65,7 @@ footer:
 ```
 
 ### Personal Information Form
+
 ```yaml
 header:
   title: "My Profile"
@@ -132,20 +134,24 @@ form_sections:
 ## Actions
 
 ### Save Changes
+
 - Validate form
 - Call PATCH /users/me
 - Show success toast
 
 ### Change Avatar
+
 - Open file picker
 - Upload image
 - Update avatar preview
 
 ### Verify Email
+
 - Send verification email
 - Show confirmation message
 
 ### Change Password
+
 - Open password change modal
 - Require current password
 - Validate new password strength

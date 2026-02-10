@@ -1,6 +1,6 @@
-import { LoginFormData, SocialLoginData } from '@/lib/validations/auth';
+import { LoginFormData, SocialLoginData } from "@/lib/validations/auth";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 // ============================================================================
 // TYPES
@@ -50,28 +50,29 @@ export interface LoginResponse {
 export async function login(data: LoginFormData): Promise<LoginResponse> {
   try {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-      credentials: 'include', // Include cookies if using HttpOnly cookies
+      credentials: "include", // Include cookies if using HttpOnly cookies
     });
 
     if (!response.ok) {
       // Try to parse error response
-      let errorMessage = 'Login failed. Please try again.';
-      
+      let errorMessage = "Login failed. Please try again.";
+
       try {
         const errorData = await response.json();
         errorMessage = errorData.message || errorData.error || errorMessage;
       } catch {
         // If response is not JSON, use status text
-        errorMessage = response.status === 401
-          ? 'Invalid email or password'
-          : response.status === 429
-          ? 'Too many login attempts. Please try again later.'
-          : `Login failed: ${response.statusText}`;
+        errorMessage =
+          response.status === 401
+            ? "Invalid email or password"
+            : response.status === 429
+              ? "Too many login attempts. Please try again later."
+              : `Login failed: ${response.statusText}`;
       }
 
       throw new Error(errorMessage);
@@ -85,25 +86,29 @@ export async function login(data: LoginFormData): Promise<LoginResponse> {
       throw error;
     }
     // Handle network errors
-    throw new Error('Network error. Please check your connection and try again.');
+    throw new Error(
+      "Network error. Please check your connection and try again.",
+    );
   }
 }
 
-export async function socialLogin(data: SocialLoginData): Promise<LoginResponse> {
+export async function socialLogin(
+  data: SocialLoginData,
+): Promise<LoginResponse> {
   // TODO: Implement social login API call
-  const endpoint = data.provider === 'google' ? '/auth/google' : '/auth/apple';
-  
+  const endpoint = data.provider === "google" ? "/auth/google" : "/auth/apple";
+
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ idToken: data.idToken }),
   });
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Social login failed');
+    throw new Error(error.message || "Social login failed");
   }
 
   return response.json();
@@ -119,18 +124,20 @@ export async function socialLogin(data: SocialLoginData): Promise<LoginResponse>
  * @returns RegisterResponse with user info and success message
  * @throws Error if registration fails (email exists, validation error, etc.)
  */
-export async function register(data: RegisterRequest): Promise<RegisterResponse> {
+export async function register(
+  data: RegisterRequest,
+): Promise<RegisterResponse> {
   try {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
 
     if (!response.ok) {
-      let errorMessage = 'Registration failed. Please try again.';
+      let errorMessage = "Registration failed. Please try again.";
 
       try {
         const errorData = await response.json();
@@ -138,11 +145,11 @@ export async function register(data: RegisterRequest): Promise<RegisterResponse>
       } catch {
         errorMessage =
           response.status === 409
-            ? 'An account with this email already exists'
+            ? "An account with this email already exists"
             : response.status === 400
-              ? 'Invalid registration data'
+              ? "Invalid registration data"
               : response.status === 429
-                ? 'Too many registration attempts. Please try again later.'
+                ? "Too many registration attempts. Please try again later."
                 : `Registration failed: ${response.statusText}`;
       }
 
@@ -155,7 +162,9 @@ export async function register(data: RegisterRequest): Promise<RegisterResponse>
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error('Network error. Please check your connection and try again.');
+    throw new Error(
+      "Network error. Please check your connection and try again.",
+    );
   }
 }
 
@@ -168,11 +177,11 @@ export async function register(data: RegisterRequest): Promise<RegisterResponse>
 export async function checkEmail(email: string): Promise<CheckEmailResponse> {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/auth/check-email?email=${encodeURIComponent(email)}`
+      `${API_BASE_URL}/auth/check-email?email=${encodeURIComponent(email)}`,
     );
 
     if (!response.ok) {
-      throw new Error('Failed to check email availability');
+      throw new Error("Failed to check email availability");
     }
 
     const result: CheckEmailResponse = await response.json();
@@ -181,6 +190,6 @@ export async function checkEmail(email: string): Promise<CheckEmailResponse> {
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error('Network error. Please check your connection.');
+    throw new Error("Network error. Please check your connection.");
   }
 }

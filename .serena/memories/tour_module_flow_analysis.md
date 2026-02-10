@@ -3,6 +3,7 @@
 ## Tổng quan kiến trúc
 
 Module Tour được chia thành **2 luồng chính**:
+
 1. **Admin Flow**: Quản lý tour (CRUD) - Chỉ ADMIN
 2. **Public Flow**: Hiển thị tour cho khách - Public access
 
@@ -13,6 +14,7 @@ Module Tour được chia thành **2 luồng chính**:
 ### 1.1. Backend API (Admin)
 
 #### Controller: `ToursController`
+
 **Path**: `apps/server/src/modules/tours/tours.controller.ts`
 **Base URL**: `/api/admin/tours`
 **Authentication**: JWT + Role Guard (chỉ ADMIN)
@@ -54,6 +56,7 @@ Response: 204 No Content
 ```
 
 #### Service: `ToursService`
+
 **Path**: `apps/server/src/modules/tours/tours.service.ts`
 
 **Key Methods**:
@@ -97,6 +100,7 @@ Response: 204 No Content
 #### DTOs (Data Transfer Objects)
 
 **CreateTourDto**:
+
 ```typescript
 {
   name: string;           // Required
@@ -117,6 +121,7 @@ Response: 204 No Content
 **UpdateTourDto**: Partial<CreateTourDto> (tất cả fields optional)
 
 **TourQueryDto**:
+
 ```typescript
 {
   page?: number;          // Default: 1
@@ -207,9 +212,9 @@ const tourSchema = z.object({
   priceAdult: z.number().min(0),
   priceChild: z.number().min(0),
   location: z.string().optional(),
-  difficulty: z.enum(['EASY', 'MODERATE', 'CHALLENGING']).optional(),
+  difficulty: z.enum(["EASY", "MODERATE", "CHALLENGING"]).optional(),
   featured: z.boolean().optional(),
-  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']).optional(),
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
 });
 ```
 
@@ -220,6 +225,7 @@ const tourSchema = z.object({
 ### 2.1. Backend API (Public)
 
 #### Controller: `ToursPublicController`
+
 **Path**: `apps/server/src/modules/tours/tours-public.controller.ts`
 **Base URL**: `/tours`
 **Authentication**: Public (no auth required)
@@ -262,6 +268,7 @@ Response: {
 ```
 
 #### Service: `ToursPublicService`
+
 **Path**: `apps/server/src/modules/tours/tours-public.service.ts`
 
 **Key Methods**:
@@ -313,6 +320,7 @@ Response: {
 #### DTOs (Public)
 
 **GetToursPublicDto**:
+
 ```typescript
 {
   page?: number;
@@ -327,6 +335,7 @@ Response: {
 ```
 
 **TourItemDto** (Public response):
+
 ```typescript
 {
   id: number;
@@ -368,11 +377,13 @@ getSearchSuggestions(q: string, limit?: number): Promise<SuggestionsResponse>
 #### Pages
 
 **Homepage**: `apps/web/app/page.tsx`
+
 - Server Component (fetch data server-side)
 - Gọi `getFeaturedTours(4)` để hiển thị featured tours
 - Gọi `getTours({ page: 1, limit: 8 })` để hiển thị tour list
 
 **Tours Page**: `apps/web/app/tours/page.tsx` (nếu có)
+
 - Server Component với searchParams
 - Parse filters từ URL query
 - Gọi `getTours(filters)` với full filters
@@ -440,7 +451,7 @@ model Tour {
   priceChild    Decimal  @db.Decimal(10, 2)
   location      String?
   ratingAverage Decimal  @default(0) @db.Decimal(2, 1)
-  
+
   // Tour overview
   difficulty    Difficulty? @default(EASY)
   featured      Boolean     @default(false)

@@ -11,12 +11,12 @@ The main landing page displaying available tours with search, filtering, and pag
 
 ## Screen Information
 
-| Item | Value |
-|------|-------|
-| Screen ID | `SCR-003` |
-| Route | `/` or `/tours` |
-| Access | Public |
-| Layout | Main Layout |
+| Item      | Value           |
+| --------- | --------------- |
+| Screen ID | `SCR-003`       |
+| Route     | `/` or `/tours` |
+| Access    | Public          |
+| Layout    | Main Layout     |
 
 ## Key Features
 
