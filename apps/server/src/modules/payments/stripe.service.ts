@@ -52,10 +52,7 @@ export class StripeService {
     };
   }
 
-  verifyWebhookSignature(
-    payload: Buffer,
-    signature: string,
-  ): Stripe.Event {
+  verifyWebhookSignature(payload: Buffer, signature: string): Stripe.Event {
     const secret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!secret) {
       throw new Error('STRIPE_WEBHOOK_SECRET not configured');

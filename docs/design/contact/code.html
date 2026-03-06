@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us - TourEase</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1392ec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl">explore</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">TourEase</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Tours</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Destinations</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="text-primary text-sm font-bold border-b-2 border-primary pb-1" href="#">Contact</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-slate-100 dark:bg-slate-800 rounded-lg px-3 py-1.5">
+<span class="material-symbols-outlined text-slate-500 text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-40 placeholder:text-slate-500" placeholder="Search tours..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all">
+                    Book Now
+                </button>
+</div>
+</header>
+<main class="flex-grow container mx-auto max-w-6xl px-4 py-12">
+<!-- Hero Section -->
+<div class="mb-12">
+<h1 class="text-slate-900 dark:text-white text-4xl md:text-5xl font-black tracking-tight mb-4">Contact Our Team</h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl">
+                    Have questions about a destination or need help with a booking? We're here to help you plan your next unforgettable adventure.
+                </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Contact Methods -->
+<div class="lg:col-span-1 space-y-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4">
+<div class="bg-primary/10 p-3 rounded-lg text-primary">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-1">Call Us</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">+1 (555) TOUR-EASE</p>
+<p class="text-slate-500 dark:text-slate-500 text-xs mt-1">Mon - Fri, 9am - 6pm EST</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4">
+<div class="bg-primary/10 p-3 rounded-lg text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-1">Email Us</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">support@tourease.com</p>
+<p class="text-slate-500 dark:text-slate-500 text-xs mt-1">Avg. response time: 2 hours</p>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4">
+<div class="bg-primary/10 p-3 rounded-lg text-primary">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white mb-1">Visit Office</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">123 Travel Way, Suite 400<br/>San Francisco, CA 94105</p>
+</div>
+</div>
+<!-- Social Media -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="font-bold text-slate-900 dark:text-white mb-4">Follow Us</h3>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">camera</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Right Column: Contact Form & Map -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Form Card -->
+<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Send us a message</h2>
+<form class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="John Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="john@example.com" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Subject</label>
+<select class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 focus:ring-primary focus:border-primary">
+<option>General Inquiry</option>
+<option>Booking Support</option>
+<option>Refund Request</option>
+<option>Partnership</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Message</label>
+<textarea class="w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 focus:ring-primary focus:border-primary" placeholder="How can we help you?" rows="4"></textarea>
+</div>
+<button class="w-full md:w-auto bg-primary text-white font-bold py-3 px-10 rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20" type="submit">
+                                Send Message
+                            </button>
+</form>
+</div>
+<!-- Map Section -->
+<div class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 h-80 relative shadow-sm">
+<img alt="Map view of San Francisco city" class="w-full h-full object-cover" data-alt="Modern stylized map of San Francisco showing office location" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx9SpRtVzKAlWBmYSdrQCaajDi2HDIQQKPOEZ0TQp4UvtQYCd27URsdYVeGYaD34oYTt0AtcU59ppFmMOOTt-0Rr9MiMQQFK0huMCKUiMfChG2r_IyvoNMt-duuxpSiI6cYUdj84KsYLY2LW46wbaasZF3wKim8KTCzzNNVCcmCrCFBDrI2FcolBtpvOjB-8bokVcUW6qXxt_mrDTN72OugzqHDicVUczRS93lpvgVBYGVDBCXMNB8BUdjyTc8SZ97UelY1QuGJrb8"/>
+<div class="absolute inset-0 bg-primary/10 pointer-events-none"></div>
+<div class="absolute bottom-6 left-6 bg-white dark:bg-slate-900 p-4 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700">
+<div class="flex items-center gap-2 text-primary mb-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span class="text-xs font-bold uppercase tracking-wider">Our Headquarters</span>
+</div>
+<p class="text-sm text-slate-900 dark:text-white font-medium">123 Travel Way, San Francisco</p>
+</div>
+</div>
+</div>
+</div>
+<!-- FAQ Teaser -->
+<div class="mt-20 text-center">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Frequently Asked Questions</h2>
+<p class="text-slate-600 dark:text-slate-400 mb-6">Quick answers to common questions about our tours and services.</p>
+<a class="inline-flex items-center gap-2 text-primary font-bold hover:underline" href="#">
+                    Visit Help Center <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12">
+<div class="container mx-auto max-w-6xl px-4">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-2xl">explore</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold">TourEase</h2>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm">© 2024 TourEase Inc. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-slate-500 hover:text-primary text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-primary text-sm" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
