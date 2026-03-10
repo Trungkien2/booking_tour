@@ -1,6 +1,7 @@
 import {
   Injectable,
   BadRequestException,
+  ConflictException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -10,6 +11,9 @@ import * as fs from 'fs';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdateMeDto } from './dto/update-me.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { AdminUserQueryDto } from './dto/admin-user-query.dto';
+import { AdminCreateUserDto } from './dto/admin-create-user.dto';
+import { AdminUpdateUserDto } from './dto/admin-update-user.dto';
 
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -139,5 +143,163 @@ export class UsersService {
     });
 
     return { message: 'Password changed successfully' };
+  }
+
+  // --- Admin user management ---
+
+  async findAllForAdmin(query: AdminUserQueryDto) {
+    const {
+      search,
+      role,
+      status,
+      page = 1,
+      limit = 10,
+      sort = 'created_desc',
+    } = query;
+    const skip = (page - 1) * limit;
+
+    const where: Record<string, unknown> = { deletedAt: null };
+    if (role) where.role = role;
+    if (status === 'active') where.active = true;
+    if (status === 'inactive') where.active = false;
+    if (status === 'pending') {
+      where.active = true;
+      where.emailVerified = false;
+    }
+    if (search?.trim()) {
+      where.OR = [
+        { email: { contains: search.trim(), mode: 'insensitive' } },
+        { fullName: { contains: search.trim(), mode: 'insensitive' } },
+      ];
+    }
+
+    const orderBy =
+      sort === 'name_asc'
+        ? { fullName: 'asc' as const }
+        : sort === 'created_asc'
+          ? { createdAt: 'asc' as const }
+          : { createdAt: 'desc' as const };
+
+    const [users, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy,
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          avatarUrl: true,
+          role: true,
+          active: true,
+          emailVerified: true,
+          lastLoginAt: true,
+          createdAt: true,
+        },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return {
+      data: users.map((u) => ({
+        ...u,
+        lastLoginAt: u.lastLoginAt?.toISOString() ?? null,
+        createdAt: u.createdAt.toISOString(),
+        status: !u.active ? 'inactive' : u.emailVerified ? 'active' : 'pending',
+      })),
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async findOneForAdmin(id: number) {
+    const user = await this.prisma.user.findFirst({
+      where: { id, deletedAt: null },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        phone: true,
+        avatarUrl: true,
+        role: true,
+        active: true,
+        emailVerified: true,
+        lastLoginAt: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    if (!user) throw new NotFoundException('User not found');
+    return {
+      ...user,
+      lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+      status: !user.active ? 'inactive' : user.emailVerified ? 'active' : 'pending',
+    };
+  }
+
+  async createUserForAdmin(dto: AdminCreateUserDto) {
+    const existing = await this.prisma.user.findUnique({
+      where: { email: dto.email.toLowerCase().trim() },
+    });
+    if (existing) throw new ConflictException('User with this email already exists');
+    const tempPassword = await bcrypt.hash(
+      `temp-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      SALT_ROUNDS,
+    );
+    const user = await this.prisma.user.create({
+      data: {
+        email: dto.email.toLowerCase().trim(),
+        password: tempPassword,
+        fullName: dto.fullName.trim(),
+        role: dto.role ?? 'USER',
+        active: true,
+        emailVerified: false,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        active: true,
+        createdAt: true,
+      },
+    });
+    return { ...user, createdAt: user.createdAt.toISOString() };
+  }
+
+  async updateUserForAdmin(id: number, dto: AdminUpdateUserDto) {
+    await this.findOneForAdmin(id);
+    const data: Record<string, unknown> = {};
+    if (dto.fullName !== undefined) data.fullName = dto.fullName.trim();
+    if (dto.phone !== undefined) data.phone = dto.phone.trim();
+    await this.prisma.user.update({ where: { id }, data });
+    return this.findOneForAdmin(id);
+  }
+
+  async updateRoleForAdmin(id: number, role: 'USER' | 'ADMIN' | 'GUIDE') {
+    await this.findOneForAdmin(id);
+    await this.prisma.user.update({ where: { id }, data: { role } });
+    return this.findOneForAdmin(id);
+  }
+
+  async updateStatusForAdmin(id: number, active: boolean) {
+    await this.findOneForAdmin(id);
+    await this.prisma.user.update({ where: { id }, data: { active } });
+    return this.findOneForAdmin(id);
+  }
+
+  async softDeleteForAdmin(id: number) {
+    await this.findOneForAdmin(id);
+    await this.prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date(), active: false },
+    });
   }
 }

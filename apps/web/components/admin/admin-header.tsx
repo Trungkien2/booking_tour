@@ -35,7 +35,7 @@ export function AdminHeader() {
           {/* User Info */}
           <div className="hidden sm:flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-semibold">
-              {user?.email?.[0].toUpperCase()}
+              {(user?.email?.[0] ?? "?").toUpperCase()}
             </div>
             <div className="text-sm">
               <p className="font-medium text-gray-900 dark:text-white">

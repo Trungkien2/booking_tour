@@ -28,11 +28,19 @@ model User {
   emailVerified        Boolean   @default(false) @map("email_verified")
   lastPasswordChangeAt DateTime? @map("last_password_change_at")
 
+  // Admin user management
+  active     Boolean   @default(true) @map("active")
+  lastLoginAt DateTime? @map("last_login_at")
+  deletedAt  DateTime? @map("deleted_at")
+
   bookings  Booking[]
   reviews   Review[]
   payments  Payment[]
   favorites UserFavorite[]
 
+  @@index([active])
+  @@index([deletedAt])
+  @@index([role])
   @@map("users")
 }
 

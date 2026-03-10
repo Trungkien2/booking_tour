@@ -40,6 +40,8 @@ describe('AuthService', () => {
         password: hashedPassword,
         role: 'USER',
         fullName: 'User',
+        active: true,
+        deletedAt: null,
       });
 
       const user = await authService.validateUser(
@@ -47,7 +49,7 @@ describe('AuthService', () => {
         'password123',
       );
 
-      expect(user).toEqual({
+      expect(user).toMatchObject({
         id: 1,
         email: 'user@example.com',
         role: 'USER',
@@ -71,10 +73,29 @@ describe('AuthService', () => {
         password: hashedPassword,
         role: 'USER',
         fullName: null,
+        active: true,
+        deletedAt: null,
       });
 
       await expect(
         authService.validateUser('user@example.com', 'wrong'),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('should throw UnauthorizedException when account is disabled', async () => {
+      const hashedPassword = await bcrypt.hash('password123', 10);
+      prisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        email: 'user@example.com',
+        password: hashedPassword,
+        role: 'USER',
+        fullName: 'User',
+        active: false,
+        deletedAt: null,
+      });
+
+      await expect(
+        authService.validateUser('user@example.com', 'password123'),
       ).rejects.toBeInstanceOf(UnauthorizedException);
     });
   });
@@ -88,6 +109,8 @@ describe('AuthService', () => {
         password: hashedPassword,
         role: 'USER',
         fullName: null,
+        active: true,
+        deletedAt: null,
       });
 
       jwtService.sign.mockImplementation((payload: any, opts?: any) => {

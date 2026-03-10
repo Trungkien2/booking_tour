@@ -37,12 +37,19 @@ export class AuthService {
         password: true,
         role: true,
         fullName: true,
+        active: true,
+        deletedAt: true,
       },
     });
 
     // If user not found, throw UnauthorizedException
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
+    }
+
+    // Block login for inactive or soft-deleted users
+    if (user.deletedAt || user.active === false) {
+      throw new UnauthorizedException('Account is disabled');
     }
 
     // Compare password using bcrypt

@@ -26,7 +26,7 @@ export function hasAnyRole(user: User | null, roles: string[]): boolean {
  */
 export function getUserInitials(user: User | null): string {
   if (!user?.email) return "?";
-  return user.email[0].toUpperCase();
+  return (user.email[0] ?? "?").toUpperCase();
 }
 
 /**
@@ -34,5 +34,5 @@ export function getUserInitials(user: User | null): string {
  */
 export function getUserDisplayName(user: User | null): string {
   if (!user) return "Guest";
-  return user.email.split("@")[0];
+  return user.email.split("@")[0] || "User";
 }

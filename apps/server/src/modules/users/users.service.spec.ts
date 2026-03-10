@@ -39,6 +39,10 @@ const mockUser = {
 const mockPrisma = {
   user: {
     findUnique: jest.fn(),
+    findFirst: jest.fn(),
+    findMany: jest.fn(),
+    count: jest.fn(),
+    create: jest.fn(),
     update: jest.fn(),
   },
 };
@@ -254,6 +258,57 @@ describe('UsersService', () => {
           lastPasswordChangeAt: expect.any(Date),
         },
       });
+    });
+  });
+
+  describe('admin: findAllForAdmin', () => {
+    it('should return paginated users with meta', async () => {
+      const users = [
+        {
+          id: 1,
+          email: 'a@example.com',
+          fullName: 'User A',
+          avatarUrl: null,
+          role: 'USER',
+          active: true,
+          emailVerified: true,
+          lastLoginAt: new Date(),
+          createdAt: new Date(),
+        },
+      ];
+      mockPrisma.user.findMany.mockResolvedValue(users);
+      mockPrisma.user.count.mockResolvedValue(1);
+
+      const result = await service.findAllForAdmin({
+        page: 1,
+        limit: 10,
+        sort: 'created_desc',
+      });
+
+      expect(result.data).toHaveLength(1);
+      expect(result.meta).toEqual({
+        total: 1,
+        page: 1,
+        limit: 10,
+        totalPages: 1,
+      });
+      expect(mockPrisma.user.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({ deletedAt: null }),
+          skip: 0,
+          take: 10,
+        }),
+      );
+    });
+  });
+
+  describe('admin: findOneForAdmin', () => {
+    it('should throw NotFoundException if user not found', async () => {
+      mockPrisma.user.findFirst.mockResolvedValue(null);
+
+      await expect(service.findOneForAdmin(999)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });
