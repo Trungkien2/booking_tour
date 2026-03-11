@@ -5,21 +5,19 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/hooks/use-auth";
 import {
   getUserBookings,
-  getBookingDetail,
   getCancellationPreview,
   cancelBooking,
 } from "@/lib/api/bookings";
 import { BookingTabs } from "@/components/bookings/booking-tabs";
 import { BookingCardItem } from "@/components/bookings/booking-card-item";
 import { CancelBookingDialog } from "@/components/bookings/cancel-booking-dialog";
-import { BookingDetailModal } from "@/components/bookings/booking-detail-modal";
 import type {
   BookingListItem,
-  BookingDetail,
   CancellationPreview as CancellationPreviewType,
 } from "@/lib/types/booking";
 
 type TabType = "upcoming" | "completed" | "cancelled";
+type SortType = "newest" | "oldest";
 
 const EMPTY_MESSAGES: Record<TabType, string> = {
   upcoming: "No upcoming bookings",
@@ -29,21 +27,32 @@ const EMPTY_MESSAGES: Record<TabType, string> = {
 
 const PAGE_SIZE = 10;
 
+function getValidTab(t: string | null): TabType {
+  if (t === "upcoming" || t === "completed" || t === "cancelled") return t;
+  return "upcoming";
+}
+
+function getValidSort(s: string | null): SortType {
+  if (s === "newest" || s === "oldest") return s;
+  return "newest";
+}
+
 export default function MyBookingsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { accessToken, isAuthenticated } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<TabType>(
-    (searchParams.get("tab") as TabType) || "upcoming"
-  );
-  const [search, setSearch] = useState("");
+  const activeTab = getValidTab(searchParams.get("tab") ?? searchParams.get("status"));
+  const search = searchParams.get("search") ?? "";
+  const sort = getValidSort(searchParams.get("sort"));
+  const page = Math.max(1, parseInt(searchParams.get("page") ?? "1", 10) || 1);
+
   const [bookings, setBookings] = useState<BookingListItem[]>([]);
   const [tabCounts, setTabCounts] = useState({ upcoming: 0, completed: 0, cancelled: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchInput, setSearchInput] = useState(search);
 
   // Cancel dialog state
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
@@ -51,9 +60,20 @@ export default function MyBookingsPage() {
   const [cancelBookingId, setCancelBookingId] = useState<number | null>(null);
   const [cancelLoading, setCancelLoading] = useState(false);
 
-  // Detail modal state
-  const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState<BookingDetail | null>(null);
+  const updateUrl = useCallback(
+    (updates: { tab?: TabType; search?: string; sort?: SortType; page?: number }) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (updates.tab !== undefined) {
+        params.set("tab", updates.tab);
+        params.delete("page");
+      }
+      if (updates.search !== undefined) params.set("search", updates.search);
+      if (updates.sort !== undefined) params.set("sort", updates.sort);
+      if (updates.page !== undefined) params.set("page", String(updates.page));
+      router.replace(`/bookings?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams]
+  );
 
   const fetchBookings = useCallback(async () => {
     if (!accessToken) return;
@@ -64,6 +84,8 @@ export default function MyBookingsPage() {
     try {
       const params: Record<string, string> = {
         tab: activeTab,
+        status: activeTab,
+        sort,
         page: String(page),
         limit: String(PAGE_SIZE),
       };
@@ -80,7 +102,7 @@ export default function MyBookingsPage() {
     } finally {
       setLoading(false);
     }
-  }, [accessToken, activeTab, search, page]);
+  }, [accessToken, activeTab, search, sort, page]);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -91,15 +113,21 @@ export default function MyBookingsPage() {
     fetchBookings();
   }, [isAuthenticated, router, fetchBookings]);
 
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
+
   const handleTabChange = (tab: TabType) => {
-    setActiveTab(tab);
-    setPage(1);
-    setSearch("");
+    updateUrl({ tab, page: 1, search: "" });
+    setSearchInput("");
   };
 
-  const handleSearch = (value: string) => {
-    setSearch(value);
-    setPage(1);
+  const handleSearchSubmit = (value: string) => {
+    updateUrl({ search: value || "", page: 1 });
+  };
+
+  const handleSortChange = (newSort: SortType) => {
+    updateUrl({ sort: newSort, page: 1 });
   };
 
   const handleCancelClick = async (bookingId: number) => {
@@ -147,25 +175,8 @@ export default function MyBookingsPage() {
     setCancelPreview(null);
   };
 
-  const handleViewDetail = async (bookingId: number) => {
-    if (!accessToken) return;
-
-    setDetailModalOpen(true);
-
-    try {
-      const detail = await getBookingDetail(bookingId, accessToken);
-      setSelectedBooking(detail);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to load booking details.";
-      setSelectedBooking(null);
-      setError(message);
-      setDetailModalOpen(false);
-    }
-  };
-
-  const handleDetailClose = () => {
-    setDetailModalOpen(false);
-    setSelectedBooking(null);
+  const handleViewDetail = (bookingId: number) => {
+    router.push(`/bookings/${bookingId}`);
   };
 
   return (
@@ -173,7 +184,7 @@ export default function MyBookingsPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">My Bookings</h1>
         <p className="mt-1 text-sm text-gray-600">
-          Manage and track all your tour reservations.
+          Manage your travel itinerary, view details, and modify upcoming trips.
         </p>
       </div>
 
@@ -186,9 +197,9 @@ export default function MyBookingsPage() {
         />
       </div>
 
-      {/* Search */}
-      <div className="mb-6">
-        <div className="relative">
+      {/* Search & Sort */}
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-4">
+        <div className="relative flex-1">
           <svg
             className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
             fill="none"
@@ -204,11 +215,27 @@ export default function MyBookingsPage() {
           </svg>
           <input
             type="text"
-            placeholder="Search bookings..."
-            value={search}
-            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Search by tour name or location"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit(searchInput)}
+            onBlur={() => handleSearchSubmit(searchInput)}
             className="w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-500 transition-colors focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
+        </div>
+        <div className="flex items-center gap-2">
+          <label htmlFor="sort" className="text-sm font-medium text-gray-700">
+            Sort by Date
+          </label>
+          <select
+            id="sort"
+            value={sort}
+            onChange={(e) => handleSortChange(e.target.value as SortType)}
+            className="rounded-lg border border-gray-300 py-2.5 pl-3 pr-8 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
         </div>
       </div>
 
@@ -291,7 +318,7 @@ export default function MyBookingsPage() {
       {!loading && bookings.length > 0 && totalPages > 1 && (
         <div className="mt-8 flex items-center justify-between">
           <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            onClick={() => updateUrl({ page: Math.max(1, page - 1) })}
             disabled={page <= 1}
             className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -314,7 +341,7 @@ export default function MyBookingsPage() {
             Page {page} of {totalPages}
           </span>
           <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            onClick={() => updateUrl({ page: Math.min(totalPages, page + 1) })}
             disabled={page >= totalPages}
             className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -347,13 +374,6 @@ export default function MyBookingsPage() {
           loading={cancelLoading}
         />
       )}
-
-      {/* Booking Detail Modal */}
-      <BookingDetailModal
-        isOpen={detailModalOpen}
-        onClose={handleDetailClose}
-        booking={selectedBooking}
-      />
     </div>
   );
 }

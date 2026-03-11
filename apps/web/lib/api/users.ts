@@ -79,3 +79,59 @@ export async function sendVerificationEmail(): Promise<{ message: string }> {
   });
   return handleResponse<{ message: string }>(response);
 }
+
+// --- Notification Preferences ---
+
+export interface NotificationPreferences {
+  bookingConfirmations: boolean;
+  tourUpdates: boolean;
+  promotions: boolean;
+  tripReminders: boolean;
+}
+
+export async function getNotificationPreferences(): Promise<NotificationPreferences> {
+  const response = await fetch(`${API_BASE_URL}/users/me/notifications`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<NotificationPreferences>(response);
+}
+
+export async function updateNotificationPreferences(
+  data: Partial<NotificationPreferences>,
+): Promise<NotificationPreferences> {
+  const response = await fetch(`${API_BASE_URL}/users/me/notifications`, {
+    method: "PATCH",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+  return handleResponse<NotificationPreferences>(response);
+}
+
+// --- Login History ---
+
+export interface LoginHistoryEntry {
+  id: number;
+  loginAt: string;
+  ipAddress: string | null;
+  userAgent: string | null;
+}
+
+export async function getLoginHistory(): Promise<LoginHistoryEntry[]> {
+  const response = await fetch(`${API_BASE_URL}/users/me/sessions`, {
+    headers: authHeaders(),
+  });
+  return handleResponse<LoginHistoryEntry[]>(response);
+}
+
+// --- Account Deletion ---
+
+export async function deleteMyAccount(
+  password: string,
+): Promise<{ message: string }> {
+  const response = await fetch(`${API_BASE_URL}/users/me`, {
+    method: "DELETE",
+    headers: authHeaders(),
+    body: JSON.stringify({ password }),
+  });
+  return handleResponse<{ message: string }>(response);
+}

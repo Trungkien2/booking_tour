@@ -45,6 +45,10 @@ const mockPrisma = {
     create: jest.fn(),
     update: jest.fn(),
   },
+  loginHistory: {
+    create: jest.fn(),
+    findMany: jest.fn(),
+  },
 };
 
 describe('UsersService', () => {
@@ -258,6 +262,184 @@ describe('UsersService', () => {
           lastPasswordChangeAt: expect.any(Date),
         },
       });
+    });
+  });
+
+  describe('getNotificationPreferences', () => {
+    it('should return saved preferences', async () => {
+      const prefs = {
+        bookingConfirmations: true,
+        tourUpdates: false,
+        promotions: true,
+        tripReminders: false,
+      };
+      mockPrisma.user.findUnique.mockResolvedValue({
+        notificationPreferences: prefs,
+      });
+
+      const result = await service.getNotificationPreferences(1);
+
+      expect(result).toEqual(prefs);
+    });
+
+    it('should return defaults when preferences are null', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        notificationPreferences: null,
+      });
+
+      const result = await service.getNotificationPreferences(1);
+
+      expect(result).toEqual({
+        bookingConfirmations: true,
+        tourUpdates: true,
+        promotions: true,
+        tripReminders: true,
+      });
+    });
+
+    it('should throw NotFoundException if user not found', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+
+      await expect(service.getNotificationPreferences(999)).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+  });
+
+  describe('updateNotificationPreferences', () => {
+    it('should merge and save preferences', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        notificationPreferences: {
+          bookingConfirmations: true,
+          tourUpdates: true,
+          promotions: true,
+          tripReminders: true,
+        },
+      });
+      mockPrisma.user.update.mockResolvedValue({});
+
+      const result = await service.updateNotificationPreferences(1, {
+        promotions: false,
+      });
+
+      expect(result.promotions).toBe(false);
+      expect(result.bookingConfirmations).toBe(true);
+      expect(mockPrisma.user.update).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: {
+          notificationPreferences: expect.objectContaining({
+            promotions: false,
+          }),
+        },
+      });
+    });
+
+    it('should throw NotFoundException if user not found', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.updateNotificationPreferences(999, { promotions: false }),
+      ).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('recordLogin', () => {
+    it('should create login history entry and update lastLoginAt', async () => {
+      mockPrisma.loginHistory.create.mockResolvedValue({});
+      mockPrisma.user.update.mockResolvedValue({});
+
+      await service.recordLogin(1, '192.168.1.1', 'Mozilla/5.0');
+
+      expect(mockPrisma.loginHistory.create).toHaveBeenCalledWith({
+        data: {
+          userId: 1,
+          ipAddress: '192.168.1.1',
+          userAgent: 'Mozilla/5.0',
+        },
+      });
+      expect(mockPrisma.user.update).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: { lastLoginAt: expect.any(Date) },
+      });
+    });
+  });
+
+  describe('getLoginHistory', () => {
+    it('should return login history entries ordered by most recent', async () => {
+      const entries = [
+        {
+          id: 2,
+          loginAt: new Date(),
+          ipAddress: '10.0.0.1',
+          userAgent: 'Chrome',
+        },
+        {
+          id: 1,
+          loginAt: new Date(),
+          ipAddress: '10.0.0.2',
+          userAgent: 'Firefox',
+        },
+      ];
+      mockPrisma.loginHistory.findMany.mockResolvedValue(entries);
+
+      const result = await service.getLoginHistory(1);
+
+      expect(result).toHaveLength(2);
+      expect(mockPrisma.loginHistory.findMany).toHaveBeenCalledWith({
+        where: { userId: 1 },
+        orderBy: { loginAt: 'desc' },
+        take: 10,
+        select: {
+          id: true,
+          loginAt: true,
+          ipAddress: true,
+          userAgent: true,
+        },
+      });
+    });
+  });
+
+  describe('deleteMyAccount', () => {
+    it('should soft-delete account when password is correct', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        password: 'hashedPassword',
+      });
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+      mockPrisma.user.update.mockResolvedValue({});
+
+      const result = await service.deleteMyAccount(1, {
+        password: 'CorrectPass123',
+      });
+
+      expect(result).toEqual({ message: 'Account deleted successfully' });
+      expect(mockPrisma.user.update).toHaveBeenCalledWith({
+        where: { id: 1 },
+        data: {
+          deletedAt: expect.any(Date),
+          active: false,
+        },
+      });
+    });
+
+    it('should throw UnauthorizedException when password is wrong', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        password: 'hashedPassword',
+      });
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+
+      await expect(
+        service.deleteMyAccount(1, { password: 'WrongPass' }),
+      ).rejects.toThrow(UnauthorizedException);
+    });
+
+    it('should throw NotFoundException if user not found', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.deleteMyAccount(999, { password: 'AnyPass' }),
+      ).rejects.toThrow(NotFoundException);
     });
   });
 

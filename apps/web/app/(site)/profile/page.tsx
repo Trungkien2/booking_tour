@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useAuth } from "@/lib/hooks/use-auth";
@@ -9,7 +9,24 @@ import type { UserProfile } from "@/lib/types/user";
 import { ToastProvider } from "@/components/ui/toast";
 import { ProfileLayout } from "@/components/profile/profile-layout";
 import { ProfileSidebar } from "@/components/profile/profile-sidebar";
+import type { ProfileTab } from "@/components/profile/profile-sidebar";
 import { ProfileContent } from "@/components/profile/profile-content";
+
+const VALID_TABS: ProfileTab[] = [
+  "personal",
+  "bookings",
+  "favorites",
+  "notifications",
+  "security",
+];
+
+function getTabFromHash(): ProfileTab {
+  if (typeof window === "undefined") return "personal";
+  const hash = window.location.hash.replace("#", "");
+  return VALID_TABS.includes(hash as ProfileTab)
+    ? (hash as ProfileTab)
+    : "personal";
+}
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -17,6 +34,20 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<ProfileTab>("personal");
+
+  const handleTabChange = useCallback((tab: ProfileTab) => {
+    setActiveTab(tab);
+    window.location.hash = tab === "personal" ? "" : tab;
+  }, []);
+
+  useEffect(() => {
+    setActiveTab(getTabFromHash());
+
+    const onHashChange = () => setActiveTab(getTabFromHash());
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -67,8 +98,12 @@ export default function ProfilePage() {
   return (
     <ToastProvider>
       <ProfileLayout>
-        <ProfileSidebar profile={profile} />
-        <ProfileContent initialProfile={profile} />
+        <ProfileSidebar
+          profile={profile}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+        />
+        <ProfileContent initialProfile={profile} activeTab={activeTab} />
       </ProfileLayout>
     </ToastProvider>
   );

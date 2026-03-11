@@ -69,9 +69,22 @@ export class AuthService {
    * @param loginDto - Login credentials (email and password)
    * @returns LoginResponseDto containing access token, refresh token, and user info
    */
-  async login(loginDto: LoginDto): Promise<LoginResponseDto> {
+  async login(
+    loginDto: LoginDto,
+    ipAddress?: string,
+    userAgent?: string,
+  ): Promise<LoginResponseDto> {
     // Validate user credentials
     const user = await this.validateUser(loginDto.email, loginDto.password);
+
+    // Record login history
+    await this.prisma.loginHistory.create({
+      data: { userId: user.id, ipAddress, userAgent },
+    });
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { lastLoginAt: new Date() },
+    });
 
     // Generate JWT tokens
     const accessToken = this.generateAccessToken(

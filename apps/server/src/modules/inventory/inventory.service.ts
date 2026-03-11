@@ -7,6 +7,9 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { BOOKING_CUTOFF_HOURS } from './inventory.constants';
 
+/** Minimal Prisma-like client for running releaseStock inside a transaction. */
+export type PrismaTransactionLike = Pick<PrismaService, 'tourSchedule'>;
+
 @Injectable()
 export class InventoryService {
   private readonly logger = new Logger(InventoryService.name);
@@ -75,9 +78,16 @@ export class InventoryService {
   /**
    * Release stock (cancel/timeout) with optimistic locking.
    * Rules: I3 (release on cancel), I4 (optimistic lock), S2 (auto revert SOLD_OUT → OPEN)
+   * @param tx When provided, runs inside the given transaction (e.g. from prisma.$transaction).
    */
-  async releaseStock(scheduleId: number, travelers: number): Promise<void> {
-    const schedule = await this.prisma.tourSchedule.findUnique({
+  async releaseStock(
+    scheduleId: number,
+    travelers: number,
+    tx?: PrismaTransactionLike,
+  ): Promise<void> {
+    const prisma = tx ?? this.prisma;
+
+    const schedule = await prisma.tourSchedule.findUnique({
       where: { id: scheduleId },
     });
 
@@ -92,7 +102,7 @@ export class InventoryService {
     const shouldReopen =
       schedule.status === 'SOLD_OUT' && newCapacity < schedule.maxCapacity;
 
-    const result = await this.prisma.tourSchedule.updateMany({
+    const result = await prisma.tourSchedule.updateMany({
       where: { id: scheduleId, version: schedule.version },
       data: {
         currentCapacity: newCapacity,

@@ -11,6 +11,11 @@ import * as fs from 'fs';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdateMeDto } from './dto/update-me.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import {
+  NotificationPreferencesDto,
+  DEFAULT_NOTIFICATION_PREFERENCES,
+} from './dto/notification-preferences.dto';
+import { DeleteAccountDto } from './dto/delete-account.dto';
 import { AdminUserQueryDto } from './dto/admin-user-query.dto';
 import { AdminCreateUserDto } from './dto/admin-create-user.dto';
 import { AdminUpdateUserDto } from './dto/admin-update-user.dto';
@@ -143,6 +148,95 @@ export class UsersService {
     });
 
     return { message: 'Password changed successfully' };
+  }
+
+  // --- Notification Preferences ---
+
+  async getNotificationPreferences(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { notificationPreferences: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return (user.notificationPreferences as NotificationPreferencesDto) ?? DEFAULT_NOTIFICATION_PREFERENCES;
+  }
+
+  async updateNotificationPreferences(userId: number, dto: NotificationPreferencesDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { notificationPreferences: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const current = (user.notificationPreferences as NotificationPreferencesDto) ?? DEFAULT_NOTIFICATION_PREFERENCES;
+    const merged = { ...current, ...dto };
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { notificationPreferences: merged as any },
+    });
+
+    return merged;
+  }
+
+  // --- Login History & Sessions ---
+
+  async recordLogin(userId: number, ipAddress?: string, userAgent?: string) {
+    await this.prisma.loginHistory.create({
+      data: { userId, ipAddress, userAgent },
+    });
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { lastLoginAt: new Date() },
+    });
+  }
+
+  async getLoginHistory(userId: number, limit = 10) {
+    return this.prisma.loginHistory.findMany({
+      where: { userId },
+      orderBy: { loginAt: 'desc' },
+      take: limit,
+      select: {
+        id: true,
+        loginAt: true,
+        ipAddress: true,
+        userAgent: true,
+      },
+    });
+  }
+
+  // --- Account Self-Deletion ---
+
+  async deleteMyAccount(userId: number, dto: DeleteAccountDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, password: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(dto.password, user.password);
+
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Incorrect password');
+    }
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { deletedAt: new Date(), active: false },
+    });
+
+    return { message: 'Account deleted successfully' };
   }
 
   // --- Admin user management ---

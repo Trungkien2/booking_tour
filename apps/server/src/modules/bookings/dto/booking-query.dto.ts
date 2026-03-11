@@ -8,15 +8,23 @@ export class BookingQueryDto {
   @IsEnum(['upcoming', 'completed', 'cancelled'])
   tab?: 'upcoming' | 'completed' | 'cancelled';
 
-  @ApiPropertyOptional({ example: 'Ha Long', description: 'Search by tour name' })
+  @ApiPropertyOptional({ enum: ['upcoming', 'completed', 'cancelled'], description: 'Alias for tab (filter by status)' })
+  @IsOptional()
+  @IsEnum(['upcoming', 'completed', 'cancelled'])
+  status?: 'upcoming' | 'completed' | 'cancelled';
+
+  @ApiPropertyOptional({ example: 'Ha Long', description: 'Search by tour name or location' })
   @IsOptional()
   @IsString()
   search?: string;
 
-  @ApiPropertyOptional({ enum: ['newest', 'oldest', 'price_high', 'price_low'], description: 'Sort order' })
+  @ApiPropertyOptional({
+    enum: ['newest', 'oldest', 'date_asc', 'date_desc', 'price_high', 'price_low'],
+    description: 'Sort order (date_asc/date_desc = by schedule start date)',
+  })
   @IsOptional()
-  @IsEnum(['newest', 'oldest', 'price_high', 'price_low'])
-  sort?: 'newest' | 'oldest' | 'price_high' | 'price_low';
+  @IsEnum(['newest', 'oldest', 'date_asc', 'date_desc', 'price_high', 'price_low'])
+  sort?: 'newest' | 'oldest' | 'date_asc' | 'date_desc' | 'price_high' | 'price_low';
 
   @ApiPropertyOptional({ example: 1, default: 1, description: 'Page number' })
   @IsOptional()

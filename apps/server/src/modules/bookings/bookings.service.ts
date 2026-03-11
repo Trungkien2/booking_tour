@@ -133,7 +133,8 @@ export class BookingsService {
    * Get user bookings with tab counts and pagination.
    */
   async getUserBookings(userId: number, query: BookingQueryDto) {
-    const { tab, search, sort, page = 1, limit = 10 } = query;
+    const tab = query.status ?? query.tab;
+    const { search, sort, page = 1, limit = 10 } = query;
 
     // Map tab to status filter
     const statusFilter = this.getStatusFilter(tab);
@@ -147,11 +148,12 @@ export class BookingsService {
     if (search) {
       where.OR = [
         { schedule: { tour: { name: { contains: search, mode: 'insensitive' } } } },
+        { schedule: { tour: { location: { contains: search, mode: 'insensitive' } } } },
         { note: { contains: search, mode: 'insensitive' } },
       ];
     }
 
-    // Sort
+    // Sort (by schedule start date for date_* options)
     const orderBy = this.getOrderBy(sort);
 
     // Get bookings + counts in parallel
@@ -309,41 +311,47 @@ export class BookingsService {
       );
     }
 
-    // Execute cancellation
+    // Execute cancellation in a single transaction (booking update, refund, stock release)
     const now = new Date();
+    let refund: { id: number; amount: number; status: string } | null = null;
 
-    await this.prisma.booking.update({
-      where: { id: bookingId },
-      data: {
-        status: 'CANCELLED',
-        cancelledAt: now,
-        cancelReason: dto.reason || 'User cancelled',
-      },
-    });
-
-    // Create refund record if there was a payment and refund > 0
-    let refund = null;
-    if (
-      booking.status === 'PAID' &&
-      preview.refundAmount > 0 &&
-      booking.payments[0]
-    ) {
-      refund = await this.prisma.refund.create({
+    await this.prisma.$transaction(async (tx) => {
+      await tx.booking.update({
+        where: { id: bookingId },
         data: {
-          bookingId,
-          paymentId: booking.payments[0].id,
-          amount: preview.refundAmount,
-          reason: dto.reason || `${preview.tier} cancellation`,
-          status: 'PENDING',
+          status: 'CANCELLED',
+          cancelledAt: now,
+          cancelReason: dto.reason || 'User cancelled',
         },
       });
-    }
 
-    // Release stock (I3, I4)
-    await this.inventory.releaseStock(
-      booking.scheduleId,
-      booking.travelers.length,
-    );
+      if (
+        booking.status === 'PAID' &&
+        preview.refundAmount > 0 &&
+        booking.payments[0]
+      ) {
+        const created = await tx.refund.create({
+          data: {
+            bookingId,
+            paymentId: booking.payments[0].id,
+            amount: preview.refundAmount,
+            reason: dto.reason || `${preview.tier} cancellation`,
+            status: 'PENDING',
+          },
+        });
+        refund = {
+          id: created.id,
+          amount: Number(created.amount),
+          status: created.status,
+        };
+      }
+
+      await this.inventory.releaseStock(
+        booking.scheduleId,
+        booking.travelers.length,
+        tx,
+      );
+    });
 
     this.logger.log(
       `Booking #${bookingId} cancelled (tier: ${preview.tier}, refund: ${preview.refundAmount})`,
@@ -556,13 +564,16 @@ export class BookingsService {
   private getOrderBy(sort?: string) {
     switch (sort) {
       case 'oldest':
-        return { bookingDate: 'asc' as const };
+      case 'date_asc':
+        return { schedule: { startDate: 'asc' as const } };
+      case 'date_desc':
+        return { schedule: { startDate: 'desc' as const } };
       case 'price_high':
         return { totalPrice: 'desc' as const };
       case 'price_low':
         return { totalPrice: 'asc' as const };
       default:
-        return { bookingDate: 'desc' as const };
+        return { schedule: { startDate: 'desc' as const } };
     }
   }
 

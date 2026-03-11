@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { BookingListItem } from "@/lib/types/booking";
 import { BookingStatusBadge } from "./booking-status-badge";
 
@@ -15,6 +16,7 @@ export const BookingCardItem = ({
   onCancel,
   onViewDetail,
 }: BookingCardItemProps) => {
+  const isPending = booking.status === "PENDING";
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="flex flex-col sm:flex-row">
@@ -146,21 +148,36 @@ export const BookingCardItem = ({
                 ${booking.totalPrice.toFixed(2)}
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => onViewDetail(booking.id)}
                 className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
               >
                 View Details
               </button>
+              {isPending && (
+                <Link
+                  href={`/bookings/${booking.id}/pay`}
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                >
+                  Complete Payment
+                </Link>
+              )}
               {booking.canCancel && (
                 <button
                   onClick={() => onCancel(booking.id)}
                   className="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
                 >
-                  Cancel
+                  Cancel Booking
                 </button>
               )}
+              <button
+                disabled
+                title="Modify is not available yet"
+                className="cursor-not-allowed rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-400"
+              >
+                Modify
+              </button>
             </div>
           </div>
         </div>

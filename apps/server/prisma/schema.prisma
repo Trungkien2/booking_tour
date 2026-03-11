@@ -28,15 +28,19 @@ model User {
   emailVerified        Boolean   @default(false) @map("email_verified")
   lastPasswordChangeAt DateTime? @map("last_password_change_at")
 
+  // Notification preferences
+  notificationPreferences Json? @map("notification_preferences")
+
   // Admin user management
   active     Boolean   @default(true) @map("active")
   lastLoginAt DateTime? @map("last_login_at")
   deletedAt  DateTime? @map("deleted_at")
 
-  bookings  Booking[]
-  reviews   Review[]
-  payments  Payment[]
-  favorites UserFavorite[]
+  bookings      Booking[]
+  reviews       Review[]
+  payments      Payment[]
+  favorites     UserFavorite[]
+  loginHistory  LoginHistory[]
 
   @@index([active])
   @@index([deletedAt])
@@ -270,7 +274,22 @@ model Review {
   @@map("reviews")
 }
 
-// --- 7. USER FAVORITES ---
+// --- 7. LOGIN HISTORY ---
+model LoginHistory {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  loginAt   DateTime @default(now()) @map("login_at")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([loginAt(sort: Desc)])
+  @@map("login_history")
+}
+
+// --- 8. USER FAVORITES ---
 model UserFavorite {
   id        Int      @id @default(autoincrement())
   userId    Int      @map("user_id")

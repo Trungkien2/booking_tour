@@ -45,8 +45,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Throttle(THROTTLE_AUTH)
   @ApiLogin()
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Req() req: any) {
+    const ipAddress =
+      req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip;
+    const userAgent = req.headers['user-agent'];
+    return this.authService.login(loginDto, ipAddress, userAgent);
   }
 
   @Post('google')

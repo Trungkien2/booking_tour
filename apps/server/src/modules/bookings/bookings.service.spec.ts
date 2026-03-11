@@ -75,6 +75,7 @@ describe('BookingsService', () => {
             },
             tourSchedule: {
               findUnique: jest.fn(),
+              updateMany: jest.fn(),
             },
             refund: {
               create: jest.fn(),
@@ -133,6 +134,9 @@ describe('BookingsService', () => {
     inventory = module.get<InventoryService>(InventoryService);
     priceCalc = module.get<PriceCalculatorService>(PriceCalculatorService);
     cancellation = module.get<CancellationService>(CancellationService);
+
+    // Support interactive transaction: run callback with prisma as tx
+    prisma.$transaction = jest.fn().mockImplementation((fn: (tx: typeof prisma) => Promise<unknown>) => fn(prisma));
   });
 
   describe('createBooking', () => {

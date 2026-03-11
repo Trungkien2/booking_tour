@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   User,
   CalendarDays,
-  CreditCard,
+  Heart,
   Shield,
   Bell,
   LogOut,
@@ -15,11 +14,17 @@ import type { UserProfile } from "@/lib/types/user";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
+export type ProfileTab =
+  | "personal"
+  | "bookings"
+  | "favorites"
+  | "notifications"
+  | "security";
+
 interface NavItem {
   label: string;
   icon: React.ReactNode;
-  id: string;
-  href?: string;
+  id: ProfileTab;
 }
 
 const navItems: NavItem[] = [
@@ -32,37 +37,33 @@ const navItems: NavItem[] = [
     label: "My Bookings",
     icon: <CalendarDays className="h-5 w-5" />,
     id: "bookings",
-    href: "/bookings",
   },
   {
-    label: "Payment Methods",
-    icon: <CreditCard className="h-5 w-5" />,
-    id: "payment",
+    label: "Favorites",
+    icon: <Heart className="h-5 w-5" />,
+    id: "favorites",
   },
-  { label: "Security", icon: <Shield className="h-5 w-5" />, id: "security" },
   {
     label: "Notifications",
     icon: <Bell className="h-5 w-5" />,
     id: "notifications",
   },
+  { label: "Security", icon: <Shield className="h-5 w-5" />, id: "security" },
 ];
 
 interface ProfileSidebarProps {
   profile: UserProfile;
+  activeTab: ProfileTab;
+  onTabChange: (tab: ProfileTab) => void;
 }
 
-export function ProfileSidebar({ profile }: ProfileSidebarProps) {
-  const [activeTab, setActiveTab] = useState("personal");
+export function ProfileSidebar({
+  profile,
+  activeTab,
+  onTabChange,
+}: ProfileSidebarProps) {
   const router = useRouter();
   const { clearAuth } = useAuth();
-
-  const handleNavClick = (item: NavItem) => {
-    if (item.href) {
-      router.push(item.href);
-    } else {
-      setActiveTab(item.id);
-    }
-  };
 
   const handleLogout = () => {
     clearAuth();
@@ -109,7 +110,7 @@ export function ProfileSidebar({ profile }: ProfileSidebarProps) {
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => handleNavClick(item)}
+              onClick={() => onTabChange(item.id)}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors text-left w-full ${
                 activeTab === item.id
                   ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
