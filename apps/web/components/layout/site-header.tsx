@@ -1,7 +1,18 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Globe, ShoppingCart, User, Menu } from "lucide-react";
+import { useCart } from "@/lib/hooks/use-cart";
 
 export function SiteHeader() {
+  const [mounted, setMounted] = useState(false);
+  const itemCount = useCart((s) => s.items.length);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white dark:bg-background-dark border-b border-gray-100 dark:border-gray-800/50 shadow-sm">
       <div className=" max-w-[1280px] mx-auto box-border px-4 sm:px-6 lg:px-8">
@@ -48,20 +59,25 @@ export function SiteHeader() {
               >
                 Sign In
               </Link>
-              <button
-                type="button"
-                className="flex items-center justify-center rounded-xl size-10 bg-gray-100 dark:bg-gray-800 text-[#111518] dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+              <Link
+                href="/cart"
+                className="relative flex items-center justify-center rounded-xl size-10 bg-gray-100 dark:bg-gray-800 text-[#111518] dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
                 aria-label="Shopping cart"
               >
                 <ShoppingCart className="size-5 stroke-[1.5]" />
-              </button>
-              <button
-                type="button"
+                {mounted && itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex items-center justify-center size-5 rounded-full bg-primary text-white text-[10px] font-bold">
+                    {itemCount > 9 ? "9+" : itemCount}
+                  </span>
+                )}
+              </Link>
+              <Link
+                href="/profile"
                 className="flex items-center justify-center rounded-xl size-10 bg-gray-100 dark:bg-gray-800 text-[#111518] dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
                 aria-label="Account"
               >
                 <User className="size-5 stroke-[1.5]" />
-              </button>
+              </Link>
             </div>
           </nav>
 

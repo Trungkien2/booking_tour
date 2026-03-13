@@ -70,6 +70,7 @@ export default async function TourDetailPage({ params }: Props) {
       },
     })),
   ]);
+  console.log("🚀 ~ TourDetailPage ~ schedulesData:", schedulesData)
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0d1117]">

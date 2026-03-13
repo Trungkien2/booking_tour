@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ShoppingCart, Check } from "lucide-react";
 import {
   TourDetail,
   TourSchedule,
@@ -9,6 +10,7 @@ import {
 } from "@/lib/types/tour";
 import { checkAvailability } from "@/lib/api/tours";
 import { useAuth } from "@/lib/hooks/use-auth";
+import { useCart } from "@/lib/hooks/use-cart";
 import { SchedulePicker } from "./schedule-picker";
 import { TravelerSelector } from "./traveler-selector";
 import { PriceBreakdown } from "./price-breakdown";
@@ -21,6 +23,7 @@ interface BookingCardProps {
 export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
+  const addItem = useCart((s) => s.addItem);
   const [selectedSchedule, setSelectedSchedule] = useState<TourSchedule | null>(
     null,
   );
@@ -31,6 +34,7 @@ export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [cartAdded, setCartAdded] = useState(false);
 
   const totalTravelers = adults + children;
   const estimatedTotal = adults * tour.priceAdult + children * tour.priceChild;
@@ -81,6 +85,41 @@ export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
     }
   };
 
+  const handleAddToCart = () => {
+    if (!selectedSchedule || totalTravelers === 0) return;
+
+    const travelers = [
+      ...Array.from({ length: adults }, (_, i) => ({
+        fullName: `Adult ${i + 1}`,
+        ageGroup: "ADULT" as const,
+      })),
+      ...Array.from({ length: children }, (_, i) => ({
+        fullName: `Child ${i + 1}`,
+        ageGroup: "CHILD" as const,
+      })),
+    ];
+
+    const itemTotal = adults * tour.priceAdult + children * tour.priceChild;
+
+    addItem({
+      tourId: tour.id,
+      tourName: tour.name,
+      tourSlug: tour.slug,
+      coverImage: tour.coverImage || "",
+      scheduleId: selectedSchedule.id,
+      startDate: selectedSchedule.startDate,
+      travelers,
+      pricePerAdult: tour.priceAdult,
+      pricePerChild: tour.priceChild,
+      itemTotal,
+    });
+
+    setCartAdded(true);
+    setTimeout(() => setCartAdded(false), 3000);
+  };
+
+  const canAddToCart = !!selectedSchedule && totalTravelers > 0;
+
   return (
     <>
       {/* Desktop Sticky Sidebar */}
@@ -111,6 +150,7 @@ export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
               setSelectedSchedule(schedule);
               setAvailability(null);
               setError(null);
+              setCartAdded(false);
             }}
           />
 
@@ -161,6 +201,35 @@ export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
             </button>
           )}
 
+          {/* Add to Cart Button */}
+          <button
+            onClick={handleAddToCart}
+            disabled={!canAddToCart}
+            className="w-full rounded-lg border-2 border-gray-200 dark:border-gray-600 px-4 py-3 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:border-primary hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+          >
+            {cartAdded ? (
+              <>
+                <Check className="size-4 text-green-600" />
+                <span className="text-green-600">Added to Cart!</span>
+              </>
+            ) : (
+              <>
+                <ShoppingCart className="size-4" />
+                Add to Cart
+              </>
+            )}
+          </button>
+
+          {/* Cart Added Toast */}
+          {cartAdded && (
+            <p className="text-center text-xs text-green-600 dark:text-green-400">
+              Item added to your cart.{" "}
+              <a href="/cart" className="underline font-medium">
+                View Cart
+              </a>
+            </p>
+          )}
+
           {/* Estimated Total */}
           {!availability && selectedSchedule && (
             <p className="text-center text-xs text-gray-500 dark:text-gray-400">
@@ -196,13 +265,29 @@ export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
               </p>
             )}
           </div>
-          <button
-            onClick={selectedSchedule ? handleCheckAvailability : undefined}
-            disabled={!selectedSchedule || loading}
-            className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
-          >
-            {selectedSchedule ? "Check Availability" : "Select a Date"}
-          </button>
+          <div className="flex items-center gap-2">
+            {selectedSchedule && (
+              <button
+                onClick={handleAddToCart}
+                disabled={!canAddToCart}
+                className="rounded-lg border-2 border-gray-200 dark:border-gray-600 p-2.5 text-gray-700 dark:text-gray-200 hover:border-primary hover:text-primary disabled:opacity-50 transition-colors"
+                aria-label="Add to cart"
+              >
+                {cartAdded ? (
+                  <Check className="size-5 text-green-600" />
+                ) : (
+                  <ShoppingCart className="size-5" />
+                )}
+              </button>
+            )}
+            <button
+              onClick={selectedSchedule ? handleCheckAvailability : undefined}
+              disabled={!selectedSchedule || loading}
+              className="rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            >
+              {selectedSchedule ? "Check Availability" : "Select a Date"}
+            </button>
+          </div>
         </div>
       </div>
     </>

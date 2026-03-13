@@ -39,7 +39,7 @@ export function ApiLogin() {
       examples: {
         default: {
           summary: 'Đăng nhập với email và mật khẩu',
-          value: { email: 'user@example.com', password: 'Password123' },
+          value: { email: 'admin@bookingtour.com', password: 'Password123!' },
         },
       },
     }),

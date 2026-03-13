@@ -18,6 +18,7 @@ export default function BookingConfirmationPage() {
   const [booking, setBooking] = useState<BookingDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [pendingBookings, setPendingBookings] = useState<number[]>([]);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -26,6 +27,17 @@ export default function BookingConfirmationPage() {
     }
 
     if (!id) return;
+
+    // Check for remaining cart bookings that need payment
+    try {
+      const stored = sessionStorage.getItem("pendingBookingIds");
+      if (stored) {
+        const ids: number[] = JSON.parse(stored);
+        setPendingBookings(ids);
+      }
+    } catch {
+      // ignore parse errors
+    }
 
     const fetchBooking = async () => {
       try {
@@ -105,8 +117,39 @@ export default function BookingConfirmationPage() {
     );
   }
 
+  const handlePayNextBooking = () => {
+    if (pendingBookings.length === 0) return;
+    const [nextId, ...remaining] = pendingBookings;
+    if (remaining.length > 0) {
+      sessionStorage.setItem("pendingBookingIds", JSON.stringify(remaining));
+    } else {
+      sessionStorage.removeItem("pendingBookingIds");
+    }
+    router.push(`/bookings/${nextId}/pay`);
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
+      {/* Pending cart bookings banner */}
+      {pendingBookings.length > 0 && (
+        <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-4 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-amber-800">
+              You have {pendingBookings.length} more booking{pendingBookings.length > 1 ? "s" : ""} to pay
+            </p>
+            <p className="text-xs text-amber-600 mt-0.5">
+              Complete payment before they expire (15 min each)
+            </p>
+          </div>
+          <button
+            onClick={handlePayNextBooking}
+            className="shrink-0 rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700 transition-colors"
+          >
+            Pay Next Booking
+          </button>
+        </div>
+      )}
+
       {/* Success header */}
       <div className="mb-8 text-center">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
