@@ -1,5 +1,13 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
+export interface TourSchedule {
+  id: number;
+  startDate: string;
+  maxCapacity: number;
+  currentCapacity: number;
+  status: "OPEN" | "SOLD_OUT" | "CLOSED" | "COMPLETED";
+}
+
 export interface Tour {
   id: number;
   name: string;
@@ -17,6 +25,7 @@ export interface Tour {
   totalSlots: number;
   bookedSlots: number;
   availableSlots: number;
+  schedules?: TourSchedule[];
   createdAt: string;
   updatedAt: string;
 }
@@ -109,11 +118,25 @@ export async function getTourById(id: number, token: string): Promise<Tour> {
   return response.json();
 }
 
+export interface CreateTourPayload {
+  name: string;
+  summary?: string;
+  description?: string;
+  coverImage?: string;
+  images?: string[];
+  durationDays: number;
+  priceAdult: number;
+  priceChild: number;
+  location?: string;
+  status?: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+  schedules?: { startDate: string; maxCapacity: number }[];
+}
+
 /**
  * Create new tour.
  */
 export async function createTour(
-  data: Partial<Tour>,
+  data: CreateTourPayload,
   token: string,
 ): Promise<Tour> {
   const response = await fetch(`${API_BASE_URL}/api/admin/tours`, {
@@ -135,7 +158,7 @@ export async function createTour(
 
 /** Chuẩn hóa payload update: bỏ URL rỗng để backend validation không lỗi. */
 function sanitizeUpdatePayload(
-  data: Partial<Tour> & { coverImage?: string; images?: string[] },
+  data: Partial<CreateTourPayload>,
 ): Record<string, unknown> {
   const out: Record<string, unknown> = { ...data };
   if (out.coverImage === "") delete out.coverImage;
@@ -148,7 +171,7 @@ function sanitizeUpdatePayload(
  */
 export async function updateTour(
   id: number,
-  data: Partial<Tour>,
+  data: Partial<CreateTourPayload>,
   token: string,
 ): Promise<Tour> {
   const body = sanitizeUpdatePayload(data);

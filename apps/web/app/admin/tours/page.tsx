@@ -38,6 +38,7 @@ export default function AdminToursPage() {
   });
 
   const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
+  console.log("🚀 ~ AdminToursPage ~ selectedTour:", selectedTour)
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);

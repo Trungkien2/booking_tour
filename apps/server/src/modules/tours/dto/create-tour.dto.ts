@@ -9,9 +9,11 @@ import {
   IsArray,
   IsUrl,
   ValidateIf,
+  ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ScheduleItemDto } from './schedule-item.dto';
 
 /**
  * DTO for creating a new tour.
@@ -108,4 +110,14 @@ export class CreateTourDto {
   @IsOptional()
   @IsEnum(['DRAFT', 'PUBLISHED', 'ARCHIVED'])
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+
+  @ApiPropertyOptional({
+    type: [ScheduleItemDto],
+    description: 'Danh sách lịch khởi hành',
+  })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ScheduleItemDto)
+  schedules?: ScheduleItemDto[];
 }

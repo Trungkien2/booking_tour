@@ -1,5 +1,22 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+export class ScheduleResponseDto {
+  @ApiProperty({ example: 1 })
+  id: number;
+
+  @ApiProperty({ example: '2026-04-01T00:00:00.000Z' })
+  startDate: string;
+
+  @ApiProperty({ example: 20 })
+  maxCapacity: number;
+
+  @ApiProperty({ example: 5 })
+  currentCapacity: number;
+
+  @ApiProperty({ enum: ['OPEN', 'SOLD_OUT', 'CLOSED', 'COMPLETED'] })
+  status: string;
+}
+
 export class TourResponseDto {
   @ApiProperty({ example: 1 })
   id: number;
@@ -48,6 +65,9 @@ export class TourResponseDto {
 
   @ApiProperty({ example: 27, description: 'Slots còn trống' })
   availableSlots: number;
+
+  @ApiPropertyOptional({ type: [ScheduleResponseDto], description: 'Danh sách lịch khởi hành' })
+  schedules?: ScheduleResponseDto[];
 
   @ApiProperty()
   createdAt: Date;

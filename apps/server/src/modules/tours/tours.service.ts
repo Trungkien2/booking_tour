@@ -72,6 +72,8 @@ export class ToursService {
             select: {
               maxCapacity: true,
               currentCapacity: true,
+              startDate: true,
+              status: true,
             },
           },
         },
@@ -112,6 +114,13 @@ export class ToursService {
         availableSlots: totalSlots - bookedSlots,
         createdAt: tour.createdAt,
         updatedAt: tour.updatedAt,
+        schedules: tour.schedules.map((s) => ({
+          id: s.id,
+          startDate: s.startDate.toISOString(),
+          maxCapacity: s.maxCapacity,
+          currentCapacity: s.currentCapacity,
+          status: s.status,
+        })),
       };
     });
 
@@ -174,9 +183,13 @@ export class ToursService {
       include: {
         schedules: {
           select: {
+            id: true,
+            startDate: true,
             maxCapacity: true,
             currentCapacity: true,
+            status: true,
           },
+          orderBy: { startDate: 'asc' },
         },
       },
     });
@@ -211,6 +224,13 @@ export class ToursService {
       totalSlots,
       bookedSlots,
       availableSlots: totalSlots - bookedSlots,
+      schedules: tour.schedules.map((s) => ({
+        id: s.id,
+        startDate: s.startDate.toISOString(),
+        maxCapacity: s.maxCapacity,
+        currentCapacity: s.currentCapacity,
+        status: s.status,
+      })),
       createdAt: tour.createdAt,
       updatedAt: tour.updatedAt,
     };
@@ -245,6 +265,14 @@ export class ToursService {
         priceChild: createTourDto.priceChild,
         location: createTourDto.location,
         status: (createTourDto.status as TourStatusValue) || 'DRAFT',
+        ...(createTourDto.schedules?.length && {
+          schedules: {
+            create: createTourDto.schedules.map((s) => ({
+              startDate: new Date(s.startDate),
+              maxCapacity: s.maxCapacity,
+            })),
+          },
+        }),
       },
     });
 
@@ -276,17 +304,43 @@ export class ToursService {
       }
     }
 
+    // Extract schedules from DTO to handle separately
+    const { schedules, ...tourFields } = updateTourDto;
+
     // Only include slug in update when name was changed; omit when undefined to avoid setting unique field to null
-    await this.prisma.tour.update({
-      where: { id },
-      data: {
-        ...updateTourDto,
-        ...(updateTourDto.status !== undefined && {
-          status: updateTourDto.status as TourStatusValue,
+    const tourData = {
+      ...tourFields,
+      ...(tourFields.status !== undefined && {
+        status: tourFields.status as TourStatusValue,
+      }),
+      ...(slug !== undefined && { slug }),
+    };
+
+    if (schedules !== undefined) {
+      // Delete only schedules without bookings, then create new ones
+      await this.prisma.$transaction([
+        this.prisma.tourSchedule.deleteMany({
+          where: { tourId: id, currentCapacity: 0 },
         }),
-        ...(slug !== undefined && { slug }),
-      },
-    });
+        this.prisma.tour.update({
+          where: { id },
+          data: {
+            ...tourData,
+            schedules: {
+              create: schedules.map((s) => ({
+                startDate: new Date(s.startDate),
+                maxCapacity: s.maxCapacity,
+              })),
+            },
+          },
+        }),
+      ]);
+    } else {
+      await this.prisma.tour.update({
+        where: { id },
+        data: tourData,
+      });
+    }
 
     return this.findOne(id);
   }

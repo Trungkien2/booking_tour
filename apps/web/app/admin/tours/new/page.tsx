@@ -22,8 +22,7 @@ export default function CreateTourPage() {
     if (!token) return;
     setLoading(true);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await createTour(data as any, token);
+      await createTour(data, token);
       router.push("/admin/tours");
     } catch (error) {
       console.error("Failed to create tour", error);

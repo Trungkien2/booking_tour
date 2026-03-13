@@ -1,11 +1,12 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { tourSchema, TourFormData } from "@/lib/validations/tour";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tour } from "@/lib/api/admin/tours";
+import { Plus, Trash2 } from "lucide-react";
 
 interface TourFormProps {
   initialData?: Tour | null;
@@ -14,9 +15,33 @@ interface TourFormProps {
 }
 
 export function TourForm({ initialData, onSubmit, loading }: TourFormProps) {
+  // Separate booked vs editable schedules for initial form state
+  const bookedScheduleIndices = new Set<number>();
+  const allSchedules = initialData?.schedules?.map((s, i) => {
+    if (s.currentCapacity > 0) bookedScheduleIndices.add(i);
+    return {
+      startDate: s.startDate.split("T")[0],
+      maxCapacity: s.maxCapacity,
+    };
+  }) || [];
+
+  const handleFormSubmit = (data: TourFormData) => {
+    // Filter out booked schedules before sending to backend
+    // Backend preserves booked schedules, so we only send editable ones
+    if (initialData?.schedules && data.schedules) {
+      const editableSchedules = data.schedules.filter(
+        (_, i) => !bookedScheduleIndices.has(i),
+      );
+      onSubmit({ ...data, schedules: editableSchedules });
+    } else {
+      onSubmit(data);
+    }
+  };
+
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<TourFormData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,6 +52,7 @@ export function TourForm({ initialData, onSubmit, loading }: TourFormProps) {
           priceAdult: Number(initialData.priceAdult),
           priceChild: Number(initialData.priceChild),
           coverImage: initialData.coverImage || "",
+          schedules: allSchedules,
         }
       : {
           name: "",
@@ -34,11 +60,25 @@ export function TourForm({ initialData, onSubmit, loading }: TourFormProps) {
           priceAdult: 0,
           priceChild: 0,
           status: "DRAFT",
+          schedules: [],
         },
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "schedules",
+  });
+  console.log("🚀 ~ TourForm ~ fields:", fields)
+
+  const isScheduleReadOnly = (index: number) => bookedScheduleIndices.has(index);
+
+  const getOriginalSchedule = (index: number) => {
+    if (!initialData?.schedules) return null;
+    return initialData.schedules[index] || null;
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
       {/* Name */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -164,6 +204,92 @@ export function TourForm({ initialData, onSubmit, loading }: TourFormProps) {
         {errors.status && (
           <p className="text-red-500 text-xs mt-1">{errors.status.message}</p>
         )}
+      </div>
+
+      {/* Tour Schedules */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Tour Schedules
+          </label>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => append({ startDate: "", maxCapacity: 20 })}
+          >
+            <Plus className="h-4 w-4 mr-1" />
+            Add Schedule
+          </Button>
+        </div>
+
+        {fields.length === 0 && (
+          <p className="text-sm text-gray-500 italic">
+            No schedules added. Click &quot;Add Schedule&quot; to add departure dates.
+          </p>
+        )}
+
+        <div className="space-y-3">
+          {fields.map((field, index) => {
+            const readOnly = isScheduleReadOnly(index);
+            const original = getOriginalSchedule(index);
+
+            return (
+              <div
+                key={field.id}
+                className={`flex items-start gap-3 p-3 border rounded-md ${
+                  readOnly ? "bg-gray-50 border-gray-200" : "bg-white border-gray-300"
+                }`}
+              >
+                <div className="flex-1">
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Start Date
+                  </label>
+                  <Input
+                    type="date"
+                    {...register(`schedules.${index}.startDate`)}
+                    disabled={readOnly}
+                  />
+                  {errors.schedules?.[index]?.startDate && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.schedules[index].startDate?.message}
+                    </p>
+                  )}
+                </div>
+                <div className="w-32">
+                  <label className="block text-xs font-medium text-gray-600 mb-1">
+                    Max Capacity
+                  </label>
+                  <Input
+                    type="number"
+                    {...register(`schedules.${index}.maxCapacity`)}
+                    disabled={readOnly}
+                  />
+                  {errors.schedules?.[index]?.maxCapacity && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.schedules[index].maxCapacity?.message}
+                    </p>
+                  )}
+                </div>
+                {readOnly ? (
+                  <div className="pt-6">
+                    <span className="text-xs text-gray-500">
+                      {original?.currentCapacity}/{original?.maxCapacity} booked
+                    </span>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="pt-6 text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className="flex justify-end pt-4">
