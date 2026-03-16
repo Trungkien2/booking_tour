@@ -1,174 +1,156 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Dashboard | Admin Panel",
-  description: "TravelCo admin dashboard",
-};
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useAuth } from "@/lib/hooks/use-auth";
+import {
+  DashboardResponse,
+  getAdminDashboard,
+} from "@/lib/api/admin/dashboard";
+import { DashboardStats } from "@/components/admin/dashboard/dashboard-stats";
+import { RecentBookings } from "@/components/admin/dashboard/recent-bookings";
 
 export default function AdminDashboardPage() {
+  const router = useRouter();
+  const { user, isAuthenticated, accessToken } = useAuth();
+  const token = accessToken ?? "";
+
+  const [authorized, setAuthorized] = useState(false);
+  const [data, setData] = useState<DashboardResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Auth guard
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push("/login");
+      return;
+    }
+    if (user?.role !== "ADMIN") {
+      router.push("/");
+      return;
+    }
+    setAuthorized(true);
+  }, [isAuthenticated, user, router]);
+
+  const fetchDashboard = useCallback(async () => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await getAdminDashboard(token);
+      setData(res);
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error("Failed to fetch dashboard", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (authorized) {
+      fetchDashboard();
+    }
+  }, [fetchDashboard, authorized]);
+
+  if (!authorized) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600" />
+      </div>
+    );
+  }
+
+  const timeFormatter = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Dashboard
-        </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Welcome to TravelCo admin panel
-        </p>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Tours */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Total Tours
-              </p>
-              <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                0
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/20">
-              <span className="material-symbols-outlined text-blue-600 dark:text-blue-400 text-2xl">
-                tour
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-green-600 dark:text-green-400 font-medium">
-              +12%
-            </span>
-            <span className="ml-2 text-gray-600 dark:text-gray-400">
-              from last month
-            </span>
-          </div>
+    <div className="max-w-[1200px] mx-auto p-6 md:p-8 space-y-8">
+      {/* Header */}
+      <header className="flex flex-wrap justify-between items-end gap-4">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Dashboard Overview
+          </h1>
+          <p className="text-gray-500">
+            Welcome back, Admin. Here is what is happening today.
+          </p>
         </div>
-
-        {/* Total Bookings */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Total Bookings
-              </p>
-              <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                0
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/20">
-              <span className="material-symbols-outlined text-green-600 dark:text-green-400 text-2xl">
-                book_online
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-green-600 dark:text-green-400 font-medium">
-              +8%
+        <div className="flex items-center gap-3">
+          {lastUpdated && (
+            <span className="text-sm text-gray-500 font-medium">
+              Last updated: {timeFormatter.format(lastUpdated)}
             </span>
-            <span className="ml-2 text-gray-600 dark:text-gray-400">
-              from last month
+          )}
+          <button
+            onClick={fetchDashboard}
+            disabled={loading}
+            className="bg-white border border-gray-200 rounded-lg p-2 text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+          >
+            <span
+              className={`material-symbols-outlined ${loading ? "animate-spin" : ""}`}
+            >
+              refresh
             </span>
-          </div>
+          </button>
         </div>
+      </header>
 
-        {/* Total Revenue */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Total Revenue
-              </p>
-              <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                $0
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/20">
-              <span className="material-symbols-outlined text-purple-600 dark:text-purple-400 text-2xl">
-                payments
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-green-600 dark:text-green-400 font-medium">
-              +23%
-            </span>
-            <span className="ml-2 text-gray-600 dark:text-gray-400">
-              from last month
-            </span>
-          </div>
-        </div>
-
-        {/* Total Users */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Total Users
-              </p>
-              <p className="mt-2 text-3xl font-bold text-gray-900 dark:text-white">
-                0
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/20">
-              <span className="material-symbols-outlined text-orange-600 dark:text-orange-400 text-2xl">
-                group
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center text-sm">
-            <span className="text-green-600 dark:text-green-400 font-medium">
-              +5%
-            </span>
-            <span className="ml-2 text-gray-600 dark:text-gray-400">
-              from last month
-            </span>
-          </div>
-        </div>
-      </div>
+      {/* KPI Stats */}
+      <DashboardStats stats={data?.stats ?? null} loading={loading && !data} />
 
       {/* Quick Actions */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <section>
+        <h2 className="text-xl font-bold text-gray-900 px-1 pb-4">
           Quick Actions
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-colors">
-            <span className="material-symbols-outlined text-primary text-3xl">
+        <div className="flex flex-wrap gap-4">
+          <Link
+            href="/admin/tours"
+            className="flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-bold transition-colors shadow-sm"
+          >
+            <span className="material-symbols-outlined text-lg">
               add_circle
             </span>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              New Tour
+            Add New Tour
+          </Link>
+          <Link
+            href="/admin/bookings"
+            className="flex items-center gap-2 px-4 py-3 bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 rounded-lg text-sm font-bold transition-colors"
+          >
+            <span className="material-symbols-outlined text-lg">
+              confirmation_number
             </span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-colors">
-            <span className="material-symbols-outlined text-primary text-3xl">
+            Create Booking
+          </Link>
+          <Link
+            href="/admin/users"
+            className="flex items-center gap-2 px-4 py-3 bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 rounded-lg text-sm font-bold transition-colors"
+          >
+            <span className="material-symbols-outlined text-lg">
               person_add
             </span>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              New User
-            </span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-colors">
-            <span className="material-symbols-outlined text-primary text-3xl">
-              assessment
-            </span>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              View Reports
-            </span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-primary hover:bg-primary/5 transition-colors">
-            <span className="material-symbols-outlined text-primary text-3xl">
-              settings
-            </span>
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Settings
-            </span>
-          </button>
+            Invite User
+          </Link>
         </div>
-      </div>
+      </section>
+
+      {/* Recent Bookings */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <RecentBookings
+            bookings={data?.recentBookings ?? []}
+            loading={loading && !data}
+          />
+        </div>
+      </section>
     </div>
   );
 }

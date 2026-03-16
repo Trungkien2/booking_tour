@@ -14,6 +14,7 @@ import { FavoritesModule } from './modules/favorites/favorites.module';
 import { BookingsModule } from './modules/bookings/bookings.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { SchedulerModule } from './modules/scheduler/scheduler.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { SchedulerModule } from './modules/scheduler/scheduler.module';
     BookingsModule,
     PaymentsModule,
     SchedulerModule,
+    DashboardModule,
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',

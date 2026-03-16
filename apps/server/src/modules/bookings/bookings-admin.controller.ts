@@ -9,7 +9,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/auth.decorators';
@@ -20,7 +25,7 @@ import { AdminRefundDto } from './dto/admin-refund.dto';
 
 @ApiTags('admin/bookings')
 @ApiBearerAuth('access-token')
-@Controller('admin/bookings')
+@Controller('api/admin/bookings')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN')
 export class BookingsAdminController {
@@ -35,7 +40,10 @@ export class BookingsAdminController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get booking detail (admin)' })
-  @ApiResponse({ status: 200, description: 'Full booking detail including user info' })
+  @ApiResponse({
+    status: 200,
+    description: 'Full booking detail including user info',
+  })
   @ApiResponse({ status: 404, description: 'Booking not found' })
   async getAdminBookingDetail(@Param('id', ParseIntPipe) id: number) {
     return this.bookingsService.getAdminBookingDetail(id);
