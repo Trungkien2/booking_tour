@@ -5,11 +5,13 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
 import { SocialLoginDto } from './dto/social-login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
 import { RegisterDto } from './dto/register.dto';
+import { GuestRegisterDto } from './dto/guest-register.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
 import { CheckEmailResponseDto } from './dto/check-email.dto';
 import { RefreshTokenResponseDto } from './dto/refresh-token.dto';
@@ -239,6 +241,54 @@ export class AuthService {
         createdAt: user.createdAt,
       },
       message: 'Account created successfully. Please log in.',
+    };
+  }
+
+  /**
+   * Registers a guest user with only email and name (no password required).
+   * Creates a user with a random password and returns JWT tokens.
+   */
+  async guestRegister(dto: GuestRegisterDto) {
+    const { email, fullName } = dto;
+
+    const existing = await this.prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    if (existing) {
+      throw new ConflictException(
+        'An account with this email already exists. Please log in.',
+      );
+    }
+
+    const randomPassword = crypto.randomBytes(32).toString('hex');
+    const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+    const user = await this.prisma.user.create({
+      data: {
+        email: email.toLowerCase().trim(),
+        password: hashedPassword,
+        fullName: fullName.trim(),
+        role: 'USER',
+      },
+    });
+
+    const accessToken = this.generateAccessToken(
+      user.id,
+      user.email,
+      user.role,
+    );
+    const refreshToken = this.generateRefreshToken(user.id);
+
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        role: user.role,
+      },
     };
   }
 

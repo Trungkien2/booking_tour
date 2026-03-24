@@ -21,6 +21,11 @@ const navigation = [
     icon: "book_online",
   },
   {
+    name: "Refunds",
+    href: "/admin/refunds",
+    icon: "receipt_long",
+  },
+  {
     name: "Users",
     href: "/admin/users",
     icon: "group",

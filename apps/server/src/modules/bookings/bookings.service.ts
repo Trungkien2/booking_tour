@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { InventoryService } from '../inventory/inventory.service';
+import { PaymentsService } from '../payments/payments.service';
 import { PriceCalculatorService } from './price-calculator.service';
 import { CancellationService } from './cancellation.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -25,6 +26,7 @@ export class BookingsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly inventory: InventoryService,
+    private readonly paymentsService: PaymentsService,
     private readonly priceCalc: PriceCalculatorService,
     private readonly cancellation: CancellationService,
   ) {}
@@ -233,16 +235,54 @@ export class BookingsService {
       );
     }
 
-    return { ...booking, cancellationPreview };
+    // Reconstruct price breakdown from travelers
+    const adults = booking.travelers.filter((t) => t.ageGroup === 'ADULT');
+    const children = booking.travelers.filter((t) => t.ageGroup === 'CHILD');
+    const babies = booking.travelers.filter((t) => t.ageGroup === 'BABY');
+    const subtotal = booking.travelers.reduce(
+      (sum, t) => sum + Number(t.price),
+      0,
+    );
+    const taxes = Math.round(subtotal * 0.1 * 100) / 100;
+
+    return {
+      ...booking,
+      totalPrice: Number(booking.totalPrice),
+      tour: {
+        id: booking.schedule.tour.id,
+        name: booking.schedule.tour.name,
+        slug: booking.schedule.tour.slug,
+        coverImage: booking.schedule.tour.coverImage,
+        location: booking.schedule.tour.location,
+        durationDays: booking.schedule.tour.durationDays,
+        images: booking.schedule.tour.images,
+      },
+      priceBreakdown: {
+        adults: {
+          count: adults.length,
+          unitPrice: adults[0] ? Number(adults[0].price) : 0,
+          total: adults.reduce((sum, t) => sum + Number(t.price), 0),
+        },
+        children: {
+          count: children.length,
+          unitPrice: children[0] ? Number(children[0].price) : 0,
+          total: children.reduce((sum, t) => sum + Number(t.price), 0),
+        },
+        babies: { count: babies.length },
+        subtotal: Math.round(subtotal * 100) / 100,
+        taxes,
+        total: Math.round((subtotal + taxes) * 100) / 100,
+      },
+      cancellationPreview,
+    };
   }
 
   /**
-   * Get booking status for polling (processing page).
+   * Get booking status.
    */
   async getBookingStatus(bookingId: number, userId: number) {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },
-      include: { payments: { orderBy: { createdAt: 'desc' }, take: 1 } },
     });
 
     if (!booking) {
@@ -253,13 +293,9 @@ export class BookingsService {
       throw new ForbiddenException('Not authorized');
     }
 
-    const latestPayment = booking.payments[0];
-    const steps = this.buildProcessingSteps(booking, latestPayment);
-
     return {
       bookingId: booking.id,
       status: booking.status,
-      steps,
       redirectUrl:
         booking.status === 'PAID'
           ? `/bookings/${booking.id}/confirmation`
@@ -356,6 +392,18 @@ export class BookingsService {
     this.logger.log(
       `Booking #${bookingId} cancelled (tier: ${preview.tier}, refund: ${preview.refundAmount})`,
     );
+
+    // Process refund through Stripe (outside transaction — cancellation already committed)
+    if (refund) {
+      try {
+        await this.paymentsService.processRefund(refund.id);
+        refund.status = 'COMPLETED';
+      } catch (error) {
+        this.logger.warn(
+          `Stripe refund failed for refund #${refund.id}: ${error.message}. Admin can retry from refunds page.`,
+        );
+      }
+    }
 
     return {
       bookingId,
@@ -479,7 +527,7 @@ export class BookingsService {
 
       // Rule C5: Admin can force full refund
       if (dto.forceFullRefund && booking.payments[0]) {
-        await this.prisma.refund.create({
+        const refund = await this.prisma.refund.create({
           data: {
             bookingId,
             paymentId: booking.payments[0].id,
@@ -488,6 +536,15 @@ export class BookingsService {
             status: 'PENDING',
           },
         });
+
+        // Process refund through Stripe
+        try {
+          await this.paymentsService.processRefund(refund.id);
+        } catch (error) {
+          this.logger.warn(
+            `Stripe refund failed for refund #${refund.id}: ${error.message}. Admin can retry from refunds page.`,
+          );
+        }
       }
     }
 
@@ -541,6 +598,102 @@ export class BookingsService {
     );
 
     return refund;
+  }
+
+  /**
+   * Get all refunds for admin with filters, pagination, and stats.
+   */
+  async getAdminRefunds(query: {
+    status?: string;
+    page?: number;
+    limit?: number;
+  }) {
+    const page = query.page || 1;
+    const limit = query.limit || 20;
+    const where: Record<string, unknown> = {};
+
+    if (query.status) {
+      where.status = query.status;
+    }
+
+    const [refunds, total, pending, completed, failed, totalRefunded] =
+      await Promise.all([
+        this.prisma.refund.findMany({
+          where,
+          include: {
+            booking: {
+              select: {
+                id: true,
+                status: true,
+                totalPrice: true,
+                user: {
+                  select: { id: true, fullName: true, email: true },
+                },
+              },
+            },
+            payment: {
+              select: { id: true, provider: true, transactionId: true },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+          skip: (page - 1) * limit,
+          take: limit,
+        }),
+        this.prisma.refund.count({ where }),
+        this.prisma.refund.count({ where: { status: 'PENDING' } }),
+        this.prisma.refund.count({ where: { status: 'COMPLETED' } }),
+        this.prisma.refund.count({ where: { status: 'FAILED' } }),
+        this.prisma.refund.aggregate({
+          where: { status: 'COMPLETED' },
+          _sum: { amount: true },
+        }),
+      ]);
+
+    return {
+      refunds: refunds.map((r) => ({
+        ...r,
+        amount: Number(r.amount),
+        booking: {
+          ...r.booking,
+          totalPrice: Number(r.booking.totalPrice),
+        },
+      })),
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+      stats: {
+        pending,
+        completed,
+        failed,
+        totalRefunded: Number(totalRefunded._sum.amount || 0),
+      },
+    };
+  }
+
+  /**
+   * Process a pending/failed refund through Stripe (admin action).
+   */
+  async processAdminRefund(refundId: number) {
+    const refund = await this.prisma.refund.findUnique({
+      where: { id: refundId },
+    });
+
+    if (!refund) {
+      throw new NotFoundException('Refund not found');
+    }
+
+    if (!['PENDING', 'FAILED'].includes(refund.status)) {
+      throw new BadRequestException(
+        'Only PENDING or FAILED refunds can be processed',
+      );
+    }
+
+    await this.paymentsService.processRefund(refundId);
+
+    return this.prisma.refund.findUnique({ where: { id: refundId } });
   }
 
   // --- Private helpers ---
@@ -608,45 +761,6 @@ export class BookingsService {
       canCancel,
       canModify: false, // v1 does not support modification
     };
-  }
-
-  private buildProcessingSteps(
-    booking: { status: string },
-    payment?: { status: string } | null,
-  ) {
-    const paymentDone = payment?.status === 'SUCCESS';
-    const bookingPaid = booking.status === 'PAID';
-    const failed = booking.status === 'CANCELLED' || payment?.status === 'FAILED';
-
-    return [
-      {
-        id: 'payment',
-        label: 'Payment Verified',
-        status: failed
-          ? 'failed'
-          : paymentDone
-            ? 'completed'
-            : ('in_progress' as const),
-      },
-      {
-        id: 'reservation',
-        label: 'Spots Reserved',
-        status: failed
-          ? 'failed'
-          : paymentDone
-            ? 'completed'
-            : ('pending' as const),
-      },
-      {
-        id: 'confirmation',
-        label: 'Booking Confirmed',
-        status: failed
-          ? 'failed'
-          : bookingPaid
-            ? 'completed'
-            : ('pending' as const),
-      },
-    ];
   }
 
   private async getAdminStats() {

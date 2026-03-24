@@ -10,12 +10,15 @@ import { createBooking } from "@/lib/api/bookings";
 import { CartItem } from "./cart-item";
 import { CartSummary } from "./cart-summary";
 import { CartEmpty } from "./cart-empty";
+import { GuestCheckoutForm } from "./guest-checkout-form";
 
 export function CartContent() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showGuestForm, setShowGuestForm] = useState(false);
+  const [pendingCheckout, setPendingCheckout] = useState(false);
 
   const { items, removeItem, clearCart, getSubtotal, getServiceFee, getTotal } =
     useCart();
@@ -24,6 +27,14 @@ export function CartContent() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // After guest registration, Zustand re-renders with new accessToken → trigger checkout
+  useEffect(() => {
+    if (pendingCheckout && accessToken) {
+      setPendingCheckout(false);
+      handleCheckout();
+    }
+  }, [pendingCheckout, accessToken]);
 
   if (!mounted) {
     return (
@@ -38,10 +49,12 @@ export function CartContent() {
   }
 
   const handleCheckout = async () => {
+    console.log("handleCheckout", isAuthenticated(), accessToken);
     if (!isAuthenticated() || !accessToken) {
-      router.push("/login?redirect=/cart");
+      setShowGuestForm(true);
       return;
     }
+    setShowGuestForm(false);
 
     setLoading(true);
     setError(null);
@@ -118,8 +131,8 @@ export function CartContent() {
         </Link>
       </div>
 
-      {/* Price Summary */}
-      <div>
+      {/* Price Summary & Guest Form */}
+      <div className="flex flex-col gap-4">
         <CartSummary
           subtotal={getSubtotal()}
           serviceFee={getServiceFee()}
@@ -127,6 +140,13 @@ export function CartContent() {
           onCheckout={handleCheckout}
           loading={loading}
         />
+
+        {showGuestForm && !isAuthenticated() && (
+          <GuestCheckoutForm
+            onAuthenticated={() => setPendingCheckout(true)}
+            onCancel={() => setShowGuestForm(false)}
+          />
+        )}
       </div>
 
       {/* Error */}

@@ -21,6 +21,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SocialLoginDto } from './dto/social-login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { GuestRegisterDto } from './dto/guest-register.dto';
 import { CheckEmailDto } from './dto/check-email.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -72,6 +73,16 @@ export class AuthController {
   @ApiRegister()
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
+  }
+
+  @Post('guest-register')
+  @HttpCode(HttpStatus.CREATED)
+  @Throttle({ default: { limit: 5, ttl: 60000 } })
+  @ApiOperation({ summary: 'Register a guest user for checkout (email + name only)' })
+  @ApiResponse({ status: 201, description: 'Guest account created, tokens returned' })
+  @ApiResponse({ status: 409, description: 'Email already exists' })
+  async guestRegister(@Body() dto: GuestRegisterDto) {
+    return this.authService.guestRegister(dto);
   }
 
   @Get('check-email')

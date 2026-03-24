@@ -1,0 +1,13 @@
+# Tasks: Remove Booking Processing Page
+
+- [x] **Task 1: Update pay page returnUrl** — In `apps/web/app/(site)/bookings/[id]/pay/page.tsx`, change the `returnUrl` from `` `${window.location.origin}/bookings/processing?booking_id=${id}` `` to `` `${window.location.origin}/bookings/${id}/confirmation` ``. No other changes needed in this file.
+
+- [x] **Task 2: Update Stripe checkout URL patterns** — In `apps/server/src/modules/payments/stripe.service.ts`, method `createCheckoutSession`: change `success_url` to `` `${returnUrl}?payment_status=success` `` and change `cancel_url` to `` `${returnUrl.replace('/confirmation', '')}` ``. Keep `metadata: { bookingId }` unchanged. The `{CHECKOUT_SESSION_ID}` template is no longer needed in the success URL since we use `verifyPayment` instead.
+
+- [x] **Task 3: Add verifyPayment to confirmation page** — In `apps/web/app/(site)/bookings/[id]/confirmation/page.tsx`, add a verification step before fetching booking detail. Add state `verifying: boolean` (default `true`). On mount, call `verifyPayment(Number(id), accessToken)` in a retry loop: max 3 attempts, 2 second delay between retries. After each call, check if `bookingStatus === 'PAID'` — if yes, set `verifying = false` and proceed to `getBookingDetail`. If after 3 retries still not PAID, set `verifying = false` and proceed anyway (the booking detail fetch will show whatever state it's in — could be PENDING with a message). Import `verifyPayment` from `@/lib/api/bookings`. During verification, show the existing skeleton loading UI (no new UI needed). Keep the existing `pendingBookings` cart logic unchanged.
+
+- [x] **Task 4: Delete processing page and components** — Delete `apps/web/app/(site)/bookings/processing/page.tsx` and `apps/web/components/bookings/processing-steps.tsx`. Verify no other files import from these paths.
+
+- [x] **Task 5: Clean up backend buildProcessingSteps** — In `apps/server/src/modules/bookings/bookings.service.ts`: remove the `buildProcessingSteps` private method. In `getBookingStatus`, remove the `steps` field from the return object and remove the call to `buildProcessingSteps`. The method should return `{ bookingId, status, redirectUrl }` only. Keep the `getBookingStatus` endpoint and controller method intact.
+
+- [x] **Task 6: Clean up frontend status types** — In `apps/web/lib/types/booking.ts`, remove the `steps` field from `BookingStatusResponse` interface (keep the rest). In `apps/web/lib/api/bookings.ts`, keep `getBookingStatus` function (it's still a valid endpoint) but it no longer returns steps. Remove any `ProcessingStep` type if it exists in the types file.

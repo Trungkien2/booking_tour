@@ -172,3 +172,84 @@ export async function getAdminBookingDetail(
 
   return response.json();
 }
+
+// ============================================================================
+// ADMIN REFUNDS
+// ============================================================================
+
+export interface AdminRefund {
+  id: number;
+  amount: number;
+  reason: string | null;
+  status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED";
+  gatewayRefundId: string | null;
+  createdAt: string;
+  processedAt: string | null;
+  booking: {
+    id: number;
+    status: string;
+    totalPrice: number;
+    user: { id: number; fullName: string; email: string };
+  };
+  payment: {
+    id: number;
+    provider: string;
+    transactionId: string;
+  };
+}
+
+export interface RefundStats {
+  pending: number;
+  completed: number;
+  failed: number;
+  totalRefunded: number;
+}
+
+export interface AdminRefundsResponse {
+  refunds: AdminRefund[];
+  pagination: BookingPagination;
+  stats: RefundStats;
+}
+
+export async function getAdminRefunds(
+  params: { status?: string; page?: number; limit?: number },
+  token: string,
+): Promise<AdminRefundsResponse> {
+  const queryString = new URLSearchParams(
+    Object.entries(params).filter(([, v]) => v != null && v !== "") as [
+      string,
+      string,
+    ][],
+  ).toString();
+
+  const response = await fetch(
+    `${API_BASE_URL}/api/admin/refunds?${queryString}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch refunds");
+  }
+
+  return response.json();
+}
+
+export async function processAdminRefund(
+  refundId: number,
+  token: string,
+): Promise<AdminRefund> {
+  const response = await fetch(
+    `${API_BASE_URL}/api/admin/refunds/${refundId}/process`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  );
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data.message || "Failed to process refund");
+  }
+
+  return response.json();
+}

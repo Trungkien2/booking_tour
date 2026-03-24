@@ -1,17 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState, useCallback } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/lib/hooks/use-auth";
-import { getBookingDetail } from "@/lib/api/bookings";
+import { getBookingDetail, verifyPayment } from "@/lib/api/bookings";
 import { ConfirmationSummary } from "@/components/bookings/confirmation-summary";
 import { ConfirmationNextSteps } from "@/components/bookings/confirmation-next-steps";
 import type { BookingDetail } from "@/lib/types/booking";
 
+const VERIFY_MAX_RETRIES = 3;
+const VERIFY_RETRY_DELAY = 2000;
+
 export default function BookingConfirmationPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
   const id = params.id;
+  const paymentStatus = searchParams.get("payment_status");
 
   const { accessToken, isAuthenticated } = useAuth();
 
@@ -20,13 +25,34 @@ export default function BookingConfirmationPage() {
   const [error, setError] = useState<string | null>(null);
   const [pendingBookings, setPendingBookings] = useState<number[]>([]);
 
+  const verifyAndFetchBooking = useCallback(async (bookingId: number, token: string) => {
+    // If arriving from Stripe success redirect, verify payment first
+    if (paymentStatus === "success") {
+      for (let attempt = 0; attempt < VERIFY_MAX_RETRIES; attempt++) {
+        try {
+          const result = await verifyPayment(bookingId, token);
+          if (result.bookingStatus === "PAID") break;
+        } catch {
+          // verifyPayment failed, continue to fetch booking detail anyway
+        }
+        if (attempt < VERIFY_MAX_RETRIES - 1) {
+          await new Promise((r) => setTimeout(r, VERIFY_RETRY_DELAY));
+        }
+      }
+    }
+
+    // Fetch booking detail regardless of verification result
+    const data = await getBookingDetail(bookingId, token);
+    return data;
+  }, [paymentStatus]);
+
   useEffect(() => {
     if (!isAuthenticated()) {
       router.push("/login");
       return;
     }
 
-    if (!id) return;
+    if (!id || !accessToken) return;
 
     // Check for remaining cart bookings that need payment
     try {
@@ -39,9 +65,9 @@ export default function BookingConfirmationPage() {
       // ignore parse errors
     }
 
-    const fetchBooking = async () => {
+    const run = async () => {
       try {
-        const data = await getBookingDetail(Number(id), accessToken!);
+        const data = await verifyAndFetchBooking(Number(id), accessToken);
         setBooking(data);
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : "Failed to load booking details.";
@@ -51,8 +77,8 @@ export default function BookingConfirmationPage() {
       }
     };
 
-    fetchBooking();
-  }, [id, accessToken, isAuthenticated, router]);
+    run();
+  }, [id, accessToken, isAuthenticated, router, verifyAndFetchBooking]);
 
   if (loading) {
     return (

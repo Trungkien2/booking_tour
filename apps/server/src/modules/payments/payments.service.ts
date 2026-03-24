@@ -47,6 +47,25 @@ export class PaymentsService {
       throw new BadRequestException('Booking has expired');
     }
 
+    // Reuse existing PENDING payment if available
+    const existingPending = await this.prisma.payment.findFirst({
+      where: { bookingId, status: 'PENDING' },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (existingPending?.checkoutUrl) {
+      this.logger.log(
+        `Reusing existing payment #${existingPending.id} for booking #${bookingId}`,
+      );
+      return { payment: existingPending, checkoutUrl: existingPending.checkoutUrl };
+    }
+
+    // Mark any stale PENDING payments as FAILED before creating a new one
+    await this.prisma.payment.updateMany({
+      where: { bookingId, status: 'PENDING' },
+      data: { status: 'FAILED' },
+    });
+
     // Create Stripe checkout session
     const { sessionId, checkoutUrl } =
       await this.stripeService.createCheckoutSession(booking, returnUrl);
@@ -195,8 +214,8 @@ export class PaymentsService {
       throw new NotFoundException('Refund not found');
     }
 
-    if (refund.status !== 'PENDING') {
-      throw new BadRequestException('Refund is not in PENDING status');
+    if (!['PENDING', 'FAILED'].includes(refund.status)) {
+      throw new BadRequestException('Refund cannot be processed in current status');
     }
 
     try {
@@ -205,8 +224,14 @@ export class PaymentsService {
         data: { status: 'PROCESSING' },
       });
 
-      const stripeRefund = await this.stripeService.createRefund(
+      // Retrieve session to get payment_intent (transactionId is Stripe session ID)
+      const session = await this.stripeService.retrieveSession(
         refund.payment.transactionId,
+      );
+      const paymentIntentId = session.payment_intent as string;
+
+      const stripeRefund = await this.stripeService.createRefund(
+        paymentIntentId,
         Number(refund.amount),
       );
 

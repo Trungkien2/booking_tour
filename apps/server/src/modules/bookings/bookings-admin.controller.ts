@@ -71,3 +71,35 @@ export class BookingsAdminController {
     return this.bookingsService.adminCreateRefund(id, dto);
   }
 }
+
+@ApiTags('admin/refunds')
+@ApiBearerAuth('access-token')
+@Controller('api/admin/refunds')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN')
+export class RefundsAdminController {
+  constructor(private readonly bookingsService: BookingsService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'List all refunds (admin)' })
+  @ApiResponse({ status: 200, description: 'Paginated list of refunds with stats' })
+  async getRefunds(
+    @Query('status') status?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.bookingsService.getAdminRefunds({
+      status,
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
+    });
+  }
+
+  @Post(':id/process')
+  @ApiOperation({ summary: 'Process a pending/failed refund through Stripe' })
+  @ApiResponse({ status: 200, description: 'Refund processed' })
+  @ApiResponse({ status: 404, description: 'Refund not found' })
+  async processRefund(@Param('id', ParseIntPipe) id: number) {
+    return this.bookingsService.processAdminRefund(id);
+  }
+}

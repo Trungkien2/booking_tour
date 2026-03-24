@@ -115,6 +115,40 @@ export async function socialLogin(
 }
 
 // ============================================================================
+// GUEST CHECKOUT
+// ============================================================================
+
+/**
+ * Registers a guest user for checkout (email + name only, no password).
+ * Returns tokens so the user is immediately authenticated.
+ */
+export async function guestRegister(
+  email: string,
+  fullName: string,
+): Promise<LoginResponse> {
+  const response = await fetch(`${API_BASE_URL}/auth/guest-register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, fullName }),
+  });
+
+  if (!response.ok) {
+    let errorMessage = "Guest registration failed.";
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || errorMessage;
+    } catch {
+      if (response.status === 409) {
+        errorMessage = "An account with this email already exists. Please log in.";
+      }
+    }
+    throw new Error(errorMessage);
+  }
+
+  return response.json();
+}
+
+// ============================================================================
 // REGISTRATION
 // ============================================================================
 

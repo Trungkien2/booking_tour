@@ -27,7 +27,7 @@ export default function BookingPayPage() {
       try {
         const returnUrl =
           typeof window !== "undefined"
-            ? `${window.location.origin}/bookings/processing?booking_id=${id}`
+            ? `${window.location.origin}/bookings/${id}/confirmation`
             : "";
         const res = await createPayment(
           Number(id),

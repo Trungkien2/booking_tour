@@ -75,11 +75,6 @@ export interface BookingDetail extends BookingListItem {
 export interface BookingStatusResponse {
   bookingId: number;
   status: BookingStatus;
-  steps: Array<{
-    id: string;
-    label: string;
-    status: 'completed' | 'in_progress' | 'pending' | 'failed';
-  }>;
   redirectUrl: string | null;
 }
 

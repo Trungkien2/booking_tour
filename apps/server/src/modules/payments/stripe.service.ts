@@ -37,8 +37,8 @@ export class StripeService {
         },
       ],
       mode: 'payment',
-      success_url: `${returnUrl}?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.id}`,
-      cancel_url: `${returnUrl}?cancelled=true&booking_id=${booking.id}`,
+      success_url: `${returnUrl}?payment_status=success`,
+      cancel_url: `${returnUrl.replace('/confirmation', '')}`,
       metadata: { bookingId: String(booking.id) },
     });
 

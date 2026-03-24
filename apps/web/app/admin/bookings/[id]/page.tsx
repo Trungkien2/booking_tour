@@ -351,34 +351,47 @@ export default function AdminBookingDetailPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {booking.payments.map((payment) => (
-                      <tr key={payment.id}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          #{payment.id}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
-                          {payment.provider}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono text-xs">
-                          {payment.transactionId}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${paymentStatusStyles[payment.status] || "bg-gray-100 text-gray-800"}`}
-                          >
-                            {payment.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {dateTimeFormatter.format(
-                            new Date(payment.createdAt),
-                          )}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
-                          {currencyFormatter.format(Number(payment.amount))}
-                        </td>
-                      </tr>
-                    ))}
+                    {booking.payments.map((payment, index) => {
+                      const isSuccessful = payment.status === "SUCCESS";
+                      const isFailed = payment.status === "FAILED";
+                      return (
+                        <tr
+                          key={payment.id}
+                          className={
+                            isSuccessful
+                              ? "bg-green-50"
+                              : isFailed
+                                ? "opacity-50"
+                                : ""
+                          }
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            #{payment.id}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                            {payment.provider}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono text-xs">
+                            {payment.transactionId}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${paymentStatusStyles[payment.status] || "bg-gray-100 text-gray-800"}`}
+                            >
+                              {payment.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {dateTimeFormatter.format(
+                              new Date(payment.createdAt),
+                            )}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+                            {currencyFormatter.format(Number(payment.amount))}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

@@ -64,25 +64,14 @@ export function BookingCard({ tour, initialSchedules }: BookingCardProps) {
   const handleBookNow = () => {
     if (!selectedSchedule || !availability?.available) return;
 
-    // Store booking intent
-    const bookingIntent = {
-      tourId: tour.id,
-      tourSlug: tour.slug,
-      tourName: tour.name,
-      scheduleId: selectedSchedule.id,
-      startDate: selectedSchedule.startDate,
-      adults,
-      children,
-      priceBreakdown: availability.priceBreakdown,
-    };
-
-    sessionStorage.setItem("bookingIntent", JSON.stringify(bookingIntent));
-
-    if (isAuthenticated()) {
-      router.push(`/booking/process?schedule=${selectedSchedule.id}`);
-    } else {
+    if (!isAuthenticated()) {
       router.push(`/login?redirect=/tours/${tour.slug}`);
+      return;
     }
+
+    // Add to cart and redirect to cart for immediate checkout
+    handleAddToCart();
+    router.push("/cart");
   };
 
   const handleAddToCart = () => {

@@ -34,6 +34,7 @@ export default function AdminBookingsPage() {
   const [queryParams, setQueryParams] = useState<BookingQueryParams>({
     page: 1,
     limit: 10,
+    sort: "newest",
   });
 
   // Auth guard
